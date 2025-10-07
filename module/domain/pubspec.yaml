@@ -1,0 +1,19 @@
+name: domain
+description: Domain layer with entities, repositories, and use cases
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mocktail: ^1.0.3
+  very_good_analysis: ^6.0.0
+
+flutter:
+  uses-material-design: false
