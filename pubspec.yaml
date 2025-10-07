@@ -11,6 +11,12 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Local modules
+  domain:
+    path: module/domain
+  infrastructure:
+    path: module/infrastructure
+
   # State management
   flutter_bloc: ^8.1.4
   
