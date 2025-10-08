@@ -13,6 +13,7 @@ Required (must be completed)
 	- Presentation >= 50%
 - [ ] I ran `flutter format` on modified files.
 - [ ] I updated or added tests for any new behavior (unit, bloc, widget as appropriate).
+- [ ] If adding test doubles, I followed the [Test Organization Principles](../../module/infrastructure/test/TEST_ORGANIZATION.md) (Common Closure Principle).
 - [ ] I added or updated documentation if public APIs, architecture, or behaviors changed (README/Architecture/CHANGELOG).
 
 Feature-specific checklist

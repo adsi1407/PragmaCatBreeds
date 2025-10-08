@@ -91,6 +91,8 @@ Both script categories enforce **identical coverage thresholds**:
 ## Testing and Coverage
 ----------------------
 
+> 📋 **Test Organization Guidelines**: Before writing tests, review our [Test Organization Principles](module/infrastructure/test/TEST_ORGANIZATION.md) to understand how to structure test doubles and maintain architectural consistency.
+
 ### Running Tests Locally
 
 **Quick commands:**
@@ -175,6 +177,8 @@ Follow Clean Architecture principles:
 - **Domain Layer**: Pure business logic, no external dependencies
 - **Infrastructure Layer**: External integrations (API, cache, database)
 - **Presentation Layer**: UI logic and state management
+
+**Test Organization**: Apply the Common Closure Principle to test doubles - organize mocks by their change frequency and the components they serve. See [Test Organization Principles](module/infrastructure/test/TEST_ORGANIZATION.md) for detailed guidelines.
 
 See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed guidelines.
 

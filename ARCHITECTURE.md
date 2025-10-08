@@ -558,7 +558,10 @@ Stream<CatBreedsState> _debounceSearch(String query) async* {
 
 The application follows a comprehensive testing strategy with **100% coverage** in the domain layer and robust testing patterns throughout all layers.
 
-> 📚 **Detailed Domain Testing Documentation**: For comprehensive domain testing details, patterns, and examples, see [Domain Tests README](module/domain/test/README.md)
+> 📚 **Detailed Testing Documentation**: 
+> - [Domain Tests Documentation](module/domain/test/README.md) - Comprehensive domain testing patterns and examples
+> - [Infrastructure Tests Documentation](module/infrastructure/test/README.md) - Infrastructure testing strategies and coverage
+> - [Test Organization Principles](module/infrastructure/test/TEST_ORGANIZATION.md) - Common Closure Principle and test doubles organization
 
 ### 1. Unit Tests - Domain Layer
 
@@ -577,6 +580,31 @@ module/domain/test/
 │           └── mock_cat_breed_repository.dart
 └── README.md                             # Comprehensive testing documentation
 ```
+
+### 2. Unit Tests - Infrastructure Layer
+
+**Architecture & Coverage:**
+```
+module/infrastructure/test/
+├── src/cat_breed/
+│   ├── api/
+│   │   ├── cat_breed_api_test.dart                    # API tests (23 cases)
+│   │   └── network/
+│   │       ├── dto/
+│   │       │   ├── builders/                          # Test data builders
+│   │       │   ├── cat_breed_dto_test.dart            # DTO tests (11 cases)
+│   │       │   └── cat_breed_image_dto_test.dart      # Image DTO tests (19 cases)
+│   │       └── translator/
+│   │           └── cat_breed_translator_test.dart     # Translation tests (36 cases)
+│   ├── cache/
+│   │   ├── cache_entry_test.dart                      # TTL tests (17 cases)
+│   │   └── cat_breed_cache_test.dart                  # Cache tests (36 cases)
+│   └── cat_breed_repository_proxy_test.dart          # Proxy tests (22 cases)
+└── docs/
+    └── TESTING.md                                     # Infrastructure testing documentation
+```
+
+**Total Infrastructure Coverage: 163 tests**
 
 **Key Testing Patterns:**
 
