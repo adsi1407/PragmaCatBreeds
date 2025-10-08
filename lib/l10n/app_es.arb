@@ -38,5 +38,13 @@
   "networkError": "Error de conexión de red. Por favor, verifica tu conexión a internet.",
   "unknownError": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
   "refreshData": "Actualizar Datos",
-  "clearSearch": "Limpiar Búsqueda"
+  "clearSearch": "Limpiar Búsqueda",
+  "welcomeLoading": "¡Bienvenido! Cargando razas de gatos...",
+  "noBreedsAvailable": "No hay razas de gatos disponibles",
+  "clearSearchButton": "Limpiar búsqueda",
+  "errorGeneric": "¡Ups! Algo salió mal",
+  "tryAgainButton": "Intentar de nuevo",
+  "loadingFailed": "Error al cargar las razas de gatos",
+  "searchFailed": "Error al buscar razas de gatos",
+  "noCharacteristics": "No hay información de características disponible"
 }

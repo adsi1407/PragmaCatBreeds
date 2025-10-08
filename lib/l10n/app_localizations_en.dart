@@ -127,4 +127,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clearSearch => 'Clear Search';
+
+  @override
+  String get welcomeLoading => 'Welcome! Loading cat breeds...';
+
+  @override
+  String get noBreedsAvailable => 'No cat breeds available';
+
+  @override
+  String get clearSearchButton => 'Clear search';
+
+  @override
+  String get errorGeneric => 'Oops! Something went wrong';
+
+  @override
+  String get tryAgainButton => 'Try again';
+
+  @override
+  String get loadingFailed => 'Failed to load cat breeds';
+
+  @override
+  String get searchFailed => 'Failed to search cat breeds';
+
+  @override
+  String get noCharacteristics => 'No characteristic information available';
 }

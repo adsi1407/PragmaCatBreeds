@@ -331,6 +331,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear Search'**
   String get clearSearch;
+
+  /// Initial loading message
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome! Loading cat breeds...'**
+  String get welcomeLoading;
+
+  /// Message when no breeds are available
+  ///
+  /// In en, this message translates to:
+  /// **'No cat breeds available'**
+  String get noBreedsAvailable;
+
+  /// Text for clear search button
+  ///
+  /// In en, this message translates to:
+  /// **'Clear search'**
+  String get clearSearchButton;
+
+  /// Generic error message
+  ///
+  /// In en, this message translates to:
+  /// **'Oops! Something went wrong'**
+  String get errorGeneric;
+
+  /// Button text to try again
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get tryAgainButton;
+
+  /// Error message when loading fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load cat breeds'**
+  String get loadingFailed;
+
+  /// Error message when search fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to search cat breeds'**
+  String get searchFailed;
+
+  /// Message when breed characteristics are not available
+  ///
+  /// In en, this message translates to:
+  /// **'No characteristic information available'**
+  String get noCharacteristics;
 }
 
 class _AppLocalizationsDelegate

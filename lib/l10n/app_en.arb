@@ -162,5 +162,37 @@
   "clearSearch": "Clear Search",
   "@clearSearch": {
     "description": "Button text to clear search field"
+  },
+  "welcomeLoading": "Welcome! Loading cat breeds...",
+  "@welcomeLoading": {
+    "description": "Initial loading message"
+  },
+  "noBreedsAvailable": "No cat breeds available",
+  "@noBreedsAvailable": {
+    "description": "Message when no breeds are available"
+  },
+  "clearSearchButton": "Clear search",
+  "@clearSearchButton": {
+    "description": "Text for clear search button"
+  },
+  "errorGeneric": "Oops! Something went wrong",
+  "@errorGeneric": {
+    "description": "Generic error message"
+  },
+  "tryAgainButton": "Try again",
+  "@tryAgainButton": {
+    "description": "Button text to try again"
+  },
+  "loadingFailed": "Failed to load cat breeds",
+  "@loadingFailed": {
+    "description": "Error message when loading fails"
+  },
+  "searchFailed": "Failed to search cat breeds",
+  "@searchFailed": {
+    "description": "Error message when search fails"
+  },
+  "noCharacteristics": "No characteristic information available",
+  "@noCharacteristics": {
+    "description": "Message when breed characteristics are not available"
   }
 }

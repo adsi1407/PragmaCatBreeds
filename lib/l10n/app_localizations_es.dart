@@ -129,4 +129,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get clearSearch => 'Limpiar Búsqueda';
+
+  @override
+  String get welcomeLoading => '¡Bienvenido! Cargando razas de gatos...';
+
+  @override
+  String get noBreedsAvailable => 'No hay razas de gatos disponibles';
+
+  @override
+  String get clearSearchButton => 'Limpiar búsqueda';
+
+  @override
+  String get errorGeneric => '¡Ups! Algo salió mal';
+
+  @override
+  String get tryAgainButton => 'Intentar de nuevo';
+
+  @override
+  String get loadingFailed => 'Error al cargar las razas de gatos';
+
+  @override
+  String get searchFailed => 'Error al buscar razas de gatos';
+
+  @override
+  String get noCharacteristics =>
+      'No hay información de características disponible';
 }
