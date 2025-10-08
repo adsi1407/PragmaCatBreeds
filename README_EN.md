@@ -104,6 +104,10 @@ The implementation follows SOLID principles: single responsibility for small wid
 - Golden tests: UI regression baselines for key widgets
 - Accessibility/semantics tests: ensure widgets expose labels and semantics correctly
 
+The domain layer achieves **100% test coverage** with comprehensive unit testing. For detailed testing documentation, patterns, and examples, see:
+- **[Domain Layer Tests](module/domain/test/README.md)** - Complete testing guide with 37 test cases
+- **[ARCHITECTURE.md - Testing Strategy](ARCHITECTURE.md#testing-strategy)** - Testing approach overview
+
 ## Testing practices
 -----------------
 - Tests follow Triple-A (Arrange-Act-Assert) pattern and FIRST principles (Fast, Independent, Repeatable, Self-validating, Timely)

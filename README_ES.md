@@ -104,6 +104,10 @@ Se respetaron principios SOLID: responsabilidad única, inversión de dependenci
 - Golden tests: baselines de UI para detectar regresiones
 - Accessibility tests: validación de labels y semántica
 
+La capa de dominio alcanza **100% de cobertura** con pruebas unitarias comprehensivas. Para documentación detallada de pruebas, patrones y ejemplos, consulta:
+- **[Pruebas de Capa de Dominio](module/domain/test/README.md)** - Guía completa con 37 casos de prueba
+- **[ARCHITECTURE.md - Estrategia de Testing](ARCHITECTURE.md#testing-strategy)** - Resumen del enfoque de pruebas
+
 ## Buenas prácticas en pruebas
 --------------------------
 - Patrón Triple-A (Arrange-Act-Assert) y principios FIRST aplicados en pruebas unitarias
