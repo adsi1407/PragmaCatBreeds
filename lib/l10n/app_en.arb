@@ -1,0 +1,166 @@
+{
+  "@@locale": "en",
+  "@@x-template": true,
+  "appTitle": "Cat Breeds",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "homeTitle": "Cat Breeds",
+  "@homeTitle": {
+    "description": "Title for the home screen"
+  },
+  "searchHint": "Search cat breeds...",
+  "@searchHint": {
+    "description": "Hint text for the search input"
+  },
+  "searchBreeds": "Search breeds",
+  "@searchBreeds": {
+    "description": "Label for search functionality"
+  },
+  "loadingBreeds": "Loading cat breeds...",
+  "@loadingBreeds": {
+    "description": "Loading message when fetching breeds"
+  },
+  "errorLoadingBreeds": "Error loading cat breeds",
+  "@errorLoadingBreeds": {
+    "description": "Error message when breeds fail to load"
+  },
+  "tryAgain": "Try Again",
+  "@tryAgain": {
+    "description": "Button text to retry an action"
+  },
+  "noBreedsFound": "No cat breeds found",
+  "@noBreedsFound": {
+    "description": "Message when no breeds match the search"
+  },
+  "noResultsFor": "No results for \"{query}\"",
+  "@noResultsFor": {
+    "description": "Message when search returns no results",
+    "placeholders": {
+      "query": {
+        "type": "String",
+        "description": "The search query that returned no results"
+      }
+    }
+  },
+  "breedDetails": "Breed Details",
+  "@breedDetails": {
+    "description": "Title for the breed details screen"
+  },
+  "origin": "Origin",
+  "@origin": {
+    "description": "Label for breed origin"
+  },
+  "temperament": "Temperament",
+  "@temperament": {
+    "description": "Label for breed temperament"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Label for breed description"
+  },
+  "characteristics": "Characteristics",
+  "@characteristics": {
+    "description": "Title for breed characteristics section"
+  },
+  "energyLevel": "Energy Level",
+  "@energyLevel": {
+    "description": "Label for energy level characteristic"
+  },
+  "affectionLevel": "Affection Level",
+  "@affectionLevel": {
+    "description": "Label for affection level characteristic"
+  },
+  "childFriendly": "Child Friendly",
+  "@childFriendly": {
+    "description": "Label for child friendly rating"
+  },
+  "dogFriendly": "Dog Friendly",
+  "@dogFriendly": {
+    "description": "Label for dog friendly rating"
+  },
+  "strangerFriendly": "Stranger Friendly",
+  "@strangerFriendly": {
+    "description": "Label for stranger friendly rating"
+  },
+  "groomingNeeds": "Grooming Needs",
+  "@groomingNeeds": {
+    "description": "Label for grooming needs rating"
+  },
+  "sheddingLevel": "Shedding Level",
+  "@sheddingLevel": {
+    "description": "Label for shedding level rating"
+  },
+  "healthIssues": "Health Issues",
+  "@healthIssues": {
+    "description": "Label for health issues rating"
+  },
+  "intelligence": "Intelligence",
+  "@intelligence": {
+    "description": "Label for intelligence rating"
+  },
+  "socialNeeds": "Social Needs",
+  "@socialNeeds": {
+    "description": "Label for social needs rating"
+  },
+  "vocalisation": "Vocalisation",
+  "@vocalisation": {
+    "description": "Label for vocalisation rating"
+  },
+  "experimental": "Experimental",
+  "@experimental": {
+    "description": "Label for experimental breed status"
+  },
+  "hairless": "Hairless",
+  "@hairless": {
+    "description": "Label for hairless breed characteristic"
+  },
+  "natural": "Natural",
+  "@natural": {
+    "description": "Label for natural breed characteristic"
+  },
+  "rare": "Rare",
+  "@rare": {
+    "description": "Label for rare breed characteristic"
+  },
+  "rex": "Rex",
+  "@rex": {
+    "description": "Label for rex breed characteristic"
+  },
+  "suppressedTail": "Suppressed Tail",
+  "@suppressedTail": {
+    "description": "Label for suppressed tail characteristic"
+  },
+  "shortLegs": "Short Legs",
+  "@shortLegs": {
+    "description": "Label for short legs characteristic"
+  },
+  "hypoallergenic": "Hypoallergenic",
+  "@hypoallergenic": {
+    "description": "Label for hypoallergenic characteristic"
+  },
+  "adaptability": "Adaptability",
+  "@adaptability": {
+    "description": "Label for adaptability rating"
+  },
+  "welcomeMessage": "Welcome! Discover amazing cat breeds.",
+  "@welcomeMessage": {
+    "description": "Welcome message shown initially"
+  },
+  "networkError": "Network connection error. Please check your internet connection.",
+  "@networkError": {
+    "description": "Error message for network issues"
+  },
+  "unknownError": "An unexpected error occurred. Please try again.",
+  "@unknownError": {
+    "description": "Generic error message"
+  },
+  "refreshData": "Refresh Data",
+  "@refreshData": {
+    "description": "Button text to refresh data"
+  },
+  "clearSearch": "Clear Search",
+  "@clearSearch": {
+    "description": "Button text to clear search field"
+  }
+}

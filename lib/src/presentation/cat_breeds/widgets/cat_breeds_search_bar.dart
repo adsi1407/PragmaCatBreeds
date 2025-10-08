@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 
 /// Search bar widget for filtering cat breeds
 class CatBreedsSearchBar extends StatefulWidget {
@@ -28,6 +29,8 @@ class _CatBreedsSearchBarState extends State<CatBreedsSearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -43,7 +46,7 @@ class _CatBreedsSearchBarState extends State<CatBreedsSearchBar> {
       child: TextField(
         controller: _controller,
         decoration: InputDecoration(
-          hintText: 'Search cat breeds...',
+          hintText: l10n.searchHint,
           prefixIcon: const Icon(Icons.search),
           suffixIcon: _controller.text.isNotEmpty
               ? IconButton(

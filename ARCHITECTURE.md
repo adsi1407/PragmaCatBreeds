@@ -594,6 +594,82 @@ Architecture supports multiple platforms:
 - GraphQL implementation
 - Micro-frontend architecture for web
 
+## Internationalization (i18n)
+
+The application supports multiple languages through Flutter's internationalization framework:
+
+### Configuration
+
+The i18n system is configured via `l10n.yaml`:
+
+```yaml
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+```
+
+### Supported Languages
+
+- **English (en)**: Default language, defined in `app_en.arb`
+- **Spanish (es)**: Secondary language, defined in `app_es.arb`
+
+### ARB Files Structure
+
+ARB (Application Resource Bundle) files contain translation keys with metadata:
+
+```json
+{
+  "@@locale": "en",
+  "appTitle": "Cat Breeds",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "searchHint": "Search cat breeds...",
+  "@searchHint": {
+    "description": "Placeholder text for the search input field"
+  }
+}
+```
+
+### Usage in Code
+
+```dart
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
+
+// In build method
+final l10n = AppLocalizations.of(context)!;
+Text(l10n.appTitle)
+```
+
+### Adding New Languages
+
+1. Create new ARB file: `lib/l10n/app_{locale}.arb`
+2. Add locale to `supportedLocales` in `main.dart`
+3. Run `flutter gen-l10n` to generate localization files
+
+### Text Formatting
+
+For dynamic content, use placeholders in ARB files:
+
+```json
+{
+  "noResultsFor": "No results for \"{query}\"",
+  "@noResultsFor": {
+    "description": "Message shown when no search results are found",
+    "placeholders": {
+      "query": {
+        "type": "String"
+      }
+    }
+  }
+}
+```
+
+Usage in code:
+```dart
+Text(l10n.noResultsFor(searchQuery))
+```
+
 ## Conclusion
 
 The Cat Breeds application demonstrates a robust implementation of Clean Architecture principles in Flutter, providing:

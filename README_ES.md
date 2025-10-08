@@ -116,9 +116,71 @@ Se respetaron principios SOLID: responsabilidad única, inversión de dependenci
 - Widgets pequeños y estilos reutilizables
 - Análisis estático (linting) con `very_good_analysis` recomendado
 
-## Localización
-------------
-- Strings localizadas con `gen_l10n` (archivos ARB en `lib/l10n`) y uso de clases generadas.
+## Internacionalización (i18n) 🌍
+--------------------------------
+
+La aplicación soporta múltiples idiomas mediante el framework de internacionalización de Flutter:
+
+### Idiomas Soportados
+
+- **Inglés (en)**: Idioma predeterminado
+- **Español (es)**: Idioma secundario
+
+### Configuración
+
+El sistema i18n se configura mediante `l10n.yaml`:
+
+```yaml
+arb-dir: lib/l10n
+template-arb-file: app_en.arb
+output-localization-file: app_localizations.dart
+```
+
+### Estructura de Archivos ARB
+
+Las cadenas de localización se definen en archivos ARB (Application Resource Bundle):
+
+- **Inglés**: `lib/l10n/app_en.arb`
+- **Español**: `lib/l10n/app_es.arb`
+
+Ejemplo de estructura ARB:
+```json
+{
+  "@@locale": "es",
+  "appTitle": "Razas de Gatos",
+  "@appTitle": {
+    "description": "El título de la aplicación"
+  },
+  "searchHint": "Buscar razas de gatos..."
+}
+```
+
+### Uso en Código
+
+```dart
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
+
+// En el método build
+final l10n = AppLocalizations.of(context)!;
+Text(l10n.appTitle)
+```
+
+### Agregar Nuevas Traducciones
+
+1. **Editar archivos ARB** con nuevas claves
+2. **Generar archivos de localización**:
+   ```bash
+   flutter gen-l10n
+   ```
+3. **Usar nuevas cadenas** en tus widgets
+
+### Agregar Nuevos Idiomas
+
+1. Crear nuevo archivo ARB: `lib/l10n/app_{locale}.arb`
+2. Agregar locale a `supportedLocales` en `main.dart`
+3. Ejecutar `flutter gen-l10n` para generar archivos de localización
+
+Para implementación detallada, ver [ARCHITECTURE.md](ARCHITECTURE.md#internationalization-i18n).
 
 ## Retry interceptor (DioRetryInterceptor)
 -------------------------------------

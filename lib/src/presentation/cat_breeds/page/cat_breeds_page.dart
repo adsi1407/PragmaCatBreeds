@@ -5,6 +5,7 @@ import 'package:pragma_cat_breeds/src/dependency_injection/dependency_injection.
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/widgets/cat_breeds_list.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/widgets/cat_breeds_search_bar.dart';
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 
 /// Main page for displaying and searching cat breeds
 class CatBreedsPage extends StatelessWidget {
@@ -28,9 +29,11 @@ class CatBreedsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cat Breeds'),
+        title: Text(l10n.homeTitle),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         elevation: 0,
       ),
