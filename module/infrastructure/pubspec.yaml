@@ -1,6 +1,7 @@
 name: infrastructure
 description: Infrastructure layer with API clients, repositories implementations, and caching
 version: 1.0.0+1
+publish_to: none
 
 environment:
   sdk: ^3.8.1

@@ -31,13 +31,13 @@ Future<int> main(List<String> args) async {
       final parsed = jsonDecode(l);
       parsedAnything = true;
       if (parsed is Map && parsed['issues'] is List) {
-        for (final it in parsed['issues']) {
+        for (final it in (parsed['issues'] as List)) {
           if (it is Map<String, dynamic>) issues.add(it);
         }
       } else if (parsed is List) {
         for (final item in parsed) {
           if (item is Map && item['issues'] is List) {
-            for (final it in item['issues']) {
+            for (final it in (item['issues'] as List)) {
               if (it is Map<String, dynamic>) issues.add(it);
             }
           }
