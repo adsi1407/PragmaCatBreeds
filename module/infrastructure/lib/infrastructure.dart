@@ -1,9 +1,9 @@
+// Infrastructure Module Exports
+// Only essential public API components are exported
+
+// Dependency Injection
 export 'dependency_injection/infrastructure_module.dart';
-export 'src/cat_breed/cat_breed_api.dart';
-export 'src/cat_breed/cat_breed_cache.dart';
-export 'src/cat_breed/cat_breed_repository_api.dart';
+export 'dependency_injection/infrastructure_module.module.dart';
+
+// Main Repository Implementation
 export 'src/cat_breed/cat_breed_repository_proxy.dart';
-export 'src/cat_breed/network/dio_retry_interceptor.dart';
-export 'src/cat_breed/network/dto/cat_breed_dto.dart';
-export 'src/cat_breed/network/dto/cat_breed_image_dto.dart';
-export 'src/cat_breed/network/translator/cat_breed_translator.dart';
