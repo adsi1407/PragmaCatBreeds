@@ -1,33 +1,75 @@
-# Contributing and local CI helpers
+# Contributing Guide
 
-This document explains how to run the project locally, run tests, and reproduce the CI steps on a Windows machine using the included PowerShell helpers.
+This document explains how to contribute to the project. For basic installation and running the app, see [README_EN.md](README_EN.md) or [README_ES.md](README_ES.md).
 
-Prerequisites
--------------
-- Flutter SDK (stable channel) installed and available on PATH
-- Android SDK (or Xcode for macOS/iOS) if you plan to run platform-specific builds
-- PowerShell (Windows) — the helper scripts are PowerShell scripts
+## Development Prerequisites
+----------------------------
+**Beyond basic Flutter setup**, contributors need:
+- Git for version control
+- PowerShell (for Windows-specific development scripts)
+- IDE with Flutter support (VS Code recommended)
+- Understanding of Clean Architecture principles
 
-Quick commands
---------------
-From the repo root:
+## Development Environment Setup
+-------------------------------
+1. **Follow basic installation** from [README_EN.md](README_EN.md#installation)
 
-PowerShell:
+2. **Additional development tools:**
+   ```bash
+   # Enable development scripts
+   chmod +x scripts/*.sh  # Linux/macOS
+   
+   # Set PowerShell execution policy (Windows)
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+   ```
 
-```powershell
-# Install dependencies
-flutter pub get
+3. **Verify development setup:**
+   ```bash
+   flutter doctor
+   flutter analyze
+   flutter test
+   dart format --output=none --set-exit-if-changed .
+   ```
 
-# Run the app
-flutter run
+4. **Optional: Setup IDE extensions**
+   - Flutter extension
+   - Dart extension  
+   - GitLens (for better git integration)
 
-# Run analyzer
-flutter analyze
+## Pull Request Process
+----------------------
+Choose the appropriate PR template when creating a PR:
+
+- **Feature**: [feature.md](.github/PULL_REQUEST_TEMPLATE/feature.md) - For new features
+- **Bug Fix**: [bugfix.md](.github/PULL_REQUEST_TEMPLATE/bugfix.md) - For bug fixes  
+- **Deploy**: [deploy.md](.github/PULL_REQUEST_TEMPLATE/deploy.md) - For deployment changes
+- **Release**: [release.md](.github/PULL_REQUEST_TEMPLATE/release.md) - For releases
+
+When creating a PR, GitHub will prompt you to select the appropriate template. Each template includes a comprehensive checklist covering tests, code quality, coverage requirements, and architecture compliance.
+
+## Development Tools and Scripts
+-------------------------------
+
+### Windows-specific Tools
+- `tool/scripts/run_tests_windows.ps1` - Run tests per module with coverage
+- `tool/ci/check_coverage.dart` - Coverage validation
+- `tool/ci/analyze_check.dart` - Code analysis validation
+
+## Testing and Coverage
+----------------------
+
+### Running Tests Locally
+
+**Quick commands:**
+```bash
+flutter test                    # Run all tests
+flutter test --coverage        # Run tests with coverage
+flutter analyze                # Code analysis
+dart format .                   # Format code
 ```
 
-Run tests and coverage (helper)
---------------------------------
-Use the Windows helper to run tests per module and generate coverage files with the same names the CI expects.
+### Windows Helper Script
+Use the PowerShell helper to run tests per module and generate coverage files matching CI expectations:
 
 From the repo root (PowerShell):
 
@@ -57,7 +99,53 @@ What the helper script does
 
 When tests fail the script will continue (it mirrors CI behavior) but you should inspect output and the generated coverage files.
 
-Local CI notes
+## Coding Standards
+------------------
+- Follow [Dart/Flutter style guide](https://dart.dev/guides/language/effective-dart/style)
+- Use meaningful variable and function names
+- Add documentation for public APIs
+- Follow Clean Architecture layer boundaries
+- Write tests for new functionality
+- Maintain minimum 80% code coverage
+
+## Commit Message Format
+-----------------------
+Use [Conventional Commits](https://www.conventionalcommits.org/) format:
+
+```
+type(scope): description
+
+[optional body]
+
+[optional footer]
+```
+
+**Types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `refactor`: Code refactoring
+- `test`: Adding or updating tests
+- `chore`: Maintenance tasks
+
+**Examples:**
+```
+feat(search): add debouncing to cat breed search
+fix(cache): resolve memory leak in image caching
+docs(readme): update installation instructions
+```
+
+## Architecture Guidelines
+--------------------------
+Follow Clean Architecture principles:
+
+- **Domain Layer**: Pure business logic, no external dependencies
+- **Infrastructure Layer**: External integrations (API, cache, database)
+- **Presentation Layer**: UI logic and state management
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed guidelines.
+
+## CI and Local Development Notes
 --------------
 - CI thresholds are in `.github/workflows/ci.yml` as environment variables. You can inspect or update them in that file.
 - The helper scripts aim to mimic the CI test/coverage step on Windows and avoid shell glob expansion issues.
