@@ -116,8 +116,8 @@ abstract class CatBreedRepository {
 ```
 
 **Use Cases:**
-- `GetCatBreedsUseCase`: Retrieves all cat breeds with business rules applied
-- `SearchCatBreedsUseCase`: Searches cat breeds with validation and filtering
+- `GetCatBreedsUseCase`: Simple delegation to repository to retrieve all cat breeds
+- `SearchCatBreedsUseCase`: Pure pass-through to repository search functionality
 
 ### 2. Infrastructure Layer (`module/infrastructure/`)
 
@@ -497,19 +497,14 @@ try {
 ### 2. Business Logic Errors
 
 ```dart
+// Use cases are now simplified - pure delegation to repository
 Future<List<CatBreed>> call() async {
-  try {
-    final breeds = await _repository.getCatBreeds();
-    
-    if (breeds.isEmpty) {
-      throw BusinessException('No cat breeds available');
-    }
-    
-    return breeds.where((breed) => breed.isValid).toList();
-  } catch (e) {
-    throw BusinessException('Failed to get cat breeds: $e');
-  }
+  return await _repository.getCatBreeds();
 }
+
+// Error handling is done at the presentation layer (BLoC)
+// This follows Clean Architecture principles where domain 
+// layer contains pure business logic without error handling
 ```
 
 ### 3. UI Error States
