@@ -14,12 +14,12 @@ Required (must be completed)
 - [ ] I ran `flutter format` on modified files.
 - [ ] I updated or added tests for any new behavior (unit, bloc, widget as appropriate).
 - [ ] I followed the test organization guidelines: [Domain](../../module/domain/test/TEST_ORGANIZATION.md) | [Infrastructure](../../module/infrastructure/test/TEST_ORGANIZATION.md).
-- [ ] I added or updated documentation if public APIs, architecture, or behaviors changed (README/Architecture/CHANGELOG).
+- [ ] I added or updated documentation if public APIs, architecture, or behaviors changed (README/Architecture/[CHANGELOG](../../CHANGELOG.md)).
 
 Release-specific checklist
 -------------------------
 - [ ] Bumped version in `pubspec.yaml` and relevant modules.
-- [ ] Updated `CHANGELOG.md` with summary of changes.
+- [ ] Updated [`CHANGELOG.md`](../../CHANGELOG.md) with summary of changes.
 - [ ] Verified CI passing for all modules (analyzer, tests, coverage).
 - [ ] Included migration steps if required.
 

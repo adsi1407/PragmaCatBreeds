@@ -16,7 +16,7 @@ Required (must be completed)
 - [ ] If adding test doubles, I followed the appropriate Test Organization Principles:
   - [Domain Test Organization](../../module/domain/test/TEST_ORGANIZATION.md) for business logic tests
   - [Infrastructure Test Organization](../../module/infrastructure/test/TEST_ORGANIZATION.md) for technical component tests
-- [ ] I added or updated documentation if public APIs, architecture, or behaviors changed (README/Architecture/CHANGELOG).
+- [ ] I added or updated documentation if public APIs, architecture, or behaviors changed (README/Architecture/[CHANGELOG](../../CHANGELOG.md)).
 
 Feature-specific checklist
 -------------------------
