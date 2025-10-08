@@ -1,59 +1,25 @@
-# App de Razas de Gatos 🐱
+# Cat Breeds App 🐱 - Español
 
+## Resumen
+-------
 Una aplicación Flutter que muestra información sobre diferentes razas de gatos, construida con principios de Arquitectura Limpia y siguiendo las mejores prácticas de la industria.
 
-[![Flutter Version](https://img.shields.io/badge/Flutter-3.8+-blue.svg)](https://flutter.dev/)
-[![Dart Version](https://img.shields.io/badge/Dart-3.0+-blue.svg)](https://dart.dev/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-[🇺🇸 English Version](README.md)
-
-## Características ✨
-
+## Requerimientos iniciales del reto ✨
+--------------------------------
 - **Explorar Razas de Gatos**: Ve una lista completa de razas de gatos con información detallada
 - **Funcionalidad de Búsqueda**: Búsqueda en tiempo real con debouncing para rendimiento óptimo
 - **Información Detallada**: Perfiles completos de razas incluyendo características físicas, temperamento y calificaciones
-- **Soporte Offline**: Cache inteligente para mejor experiencia de usuario
-- **Arquitectura Limpia**: Base de código modular, testeable y mantenible
-- **Diseño Material 3**: UI moderna siguiendo las últimas guías de diseño de Google
 
-## Capturas de Pantalla 📸
+## Versión de Flutter y requisitos
+------------------------------
+- Canal: stable
+- Versión probada: Flutter 3.32.x y Dart 3.8.x (ver `pubspec.yaml`)
+- Requisitos para abrir y ejecutar:
+  - Flutter SDK instalado y en PATH
+  - SDK de Android (o Xcode para iOS)
+  - Ejecutar `flutter pub get` desde la raíz del repositorio
 
-| Lista de Razas | Detalles de Raza | Función de Búsqueda |
-|----------------|------------------|---------------------|
-| _Próximamente_ | _Próximamente_   | _Próximamente_      |
-
-## Arquitectura 🏗️
-
-Este proyecto sigue los principios de **Arquitectura Limpia** con clara separación de responsabilidades:
-
-```
-lib/
-├── src/
-│   ├── presentation/     # Capa de UI (Páginas, Widgets, BLoCs)
-│   └── dependency_injection/ # Configuración de DI
-module/
-├── domain/              # Capa de Lógica de Negocio
-│   ├── entities/        # Entidades centrales de negocio
-│   ├── repositories/    # Interfaces abstractas de repositorio
-│   └── use_cases/       # Casos de uso de negocio
-└── infrastructure/      # Capa de Datos
-    ├── repositories/    # Implementaciones de repositorio
-    ├── datasources/     # Fuentes de datos externas (API, Cache)
-    └── models/          # DTOs y modelos de datos
-```
-
-Para documentación detallada de arquitectura, ver [ARCHITECTURE.md](ARCHITECTURE.md).
-
-## Comenzando 🚀
-
-### Prerrequisitos
-
-- Flutter SDK 3.8 o superior
-- Dart 3.0 o superior
-- Un IDE con soporte para Flutter (VS Code, Android Studio, IntelliJ)
-
-### Instalación
+## Instalación
 
 1. **Clonar el repositorio**
    ```bash
@@ -74,107 +40,115 @@ Para documentación detallada de arquitectura, ver [ARCHITECTURE.md](ARCHITECTUR
    flutter run
    ```
 
-### Scripts Disponibles 🛠️
+## Arquitectura 🏗️
 
-```bash
-# Ejecutar la aplicación
-flutter run
+**Por qué Clean Architecture**
+--------------------------
+Se aplicó Clean Architecture para separar responsabilidades y mostrar:
+- Capas independientes (domain, infrastructure, presentation)
+- Casos de uso y entidades desacopladas de frameworks
+- Código testeable y con buena mantenibilidad
 
-# Ejecutar tests
-flutter test
-
-# Ejecutar tests de integración
-flutter test test/integration_test.dart
-
-# Generar cobertura de tests
-./scripts/test_coverage.sh
-
-# Analizar calidad de código
-flutter analyze
-
-# Formatear código
-dart format .
-
-# Limpiar y reconstruir
-flutter clean && flutter pub get
-```
-
-## Estructura del Proyecto 📁
+Este proyecto sigue los principios de **Arquitectura Limpia** con clara separación de responsabilidades:
 
 ```
-pragma_cat_breeds/
-├── lib/
-│   ├── main.dart                    # Punto de entrada de la aplicación
-│   └── src/
-│       ├── dependency_injection/   # Configuración de DI
-│       └── presentation/           # Componentes de UI
-│           ├── cat_breeds/         # Feature de razas de gatos
-│           │   ├── bloc/           # Gestión de estado
-│           │   ├── pages/          # Widgets de pantalla
-│           │   └── widgets/        # Componentes UI reutilizables
-│           └── cat_breed_detail/   # Feature de detalle de raza
-├── module/
-│   ├── domain/                     # Lógica de negocio
-│   │   ├── lib/
-│   │   │   └── src/cat_breed/     # Dominio de raza de gato
-│   │   └── pubspec.yaml
-│   └── infrastructure/            # Capa de datos
-│       ├── lib/
-│       │   └── src/cat_breed/     # Fuentes de datos de raza de gato
-│       └── pubspec.yaml
-├── test/                          # Archivos de test
-├── scripts/                       # Scripts de desarrollo
-└── docs/                         # Documentación
+lib/
+├── src/
+│   ├── presentation/     # Capa de UI (Páginas, Widgets, BLoCs)
+│   └── dependency_injection/ # Configuración de DI
+module/
+├── domain/              # Capa de Lógica de Negocio
+│   ├── entities/        # Entidades centrales de negocio
+│   ├── repositories/    # Interfaces abstractas de repositorio
+│   └── use_cases/       # Casos de uso de negocio
+└── infrastructure/      # Capa de Datos
+    ├── repositories/    # Implementaciones de repositorio
+    ├── datasources/     # Fuentes de datos externas (API, Cache)
+    └── models/          # DTOs y modelos de datos
 ```
 
-## Integración con API 🌐
+**Modularización por paquetes**
+---------------------------
+La base de código está modularizada para limitar librerías por paquete:
+- `module/domain` – entidades de dominio, interfaces de repositorio y casos de uso
+- `module/infrastructure` – implementaciones, API, cache, BD y DAOs
+- App raíz – capa de presentación, composición DI y wiring
 
-Esta aplicación se integra con [The Cat API](https://thecatapi.com/) para obtener información de razas de gatos:
+Para documentación detallada de arquitectura, ver [ARCHITECTURE.md](ARCHITECTURE.md).
 
-- **URL Base**: `https://api.thecatapi.com/v1/`
-- **Endpoints Utilizados**:
-  - `GET /breeds` - Obtener todas las razas de gatos
-  - `GET /breeds/search?q={query}` - Buscar razas de gatos
+## Patrones de diseño implementados
+--------------------------------
+- BLoC (flutter_bloc) para gestión de estado
+- Inyección de dependencias con `get_it` + `injectable`
+- Patrón Repository para abstracción de fuentes de datos
+- Traductores/mappers para transformar DTOs <-> entidades de dominio
+- Proxy para capas de cache/API
+- DAO (Drift) para persistencia local
 
-## Gestión de Estado 🔄
+## Principios SOLID
+----------------
+Se respetaron principios SOLID: responsabilidad única, inversión de dependencias y otros para mantener el código limpio.
 
-La aplicación usa el patrón **BLoC (Business Logic Component)** para la gestión de estado:
+## Mejoras de rendimiento en widgets ⚡
+---------------------------------
+- Uso de constructores const cuando es posible
+- Widgets pequeños para reducir áreas de rebuild
+- `cached_network_image` para imágenes remotas
+- Evitar trabajo pesado en `build` y mover cálculos costosos fuera del árbol de widgets
 
-- **Events**: Acciones del usuario y triggers externos
-- **States**: Estados de representación de UI
-- **BLoC**: Lógica de negocio y transiciones de estado
+## Pruebas realizadas
+------------------
+- Unit tests: dominio y casos de uso
+- Widget tests: renderizado, interacciones y semántica
+- Integration tests: flujos end-to-end
+- Golden tests: baselines de UI para detectar regresiones
+- Accessibility tests: validación de labels y semántica
 
-### BLoCs Principales
+## Buenas prácticas en pruebas
+--------------------------
+- Patrón Triple-A (Arrange-Act-Assert) y principios FIRST aplicados en pruebas unitarias
+- Uso de mocks y fakes para aislar unidades bajo prueba
+- Inclusión de `localizationsDelegates` en tests para aserciones robustas ante locales
 
-- `CatBreedsBloc`: Gestiona la lista de razas de gatos y funcionalidad de búsqueda
+## Buenas prácticas de código
+-------------------------
+- Nombres claros para archivos, clases y tests
+- Widgets pequeños y estilos reutilizables
+- Análisis estático (linting) con `very_good_analysis` recomendado
 
-## Estrategia de Testing 🧪
+## Localización
+------------
+- Strings localizadas con `gen_l10n` (archivos ARB en `lib/l10n`) y uso de clases generadas.
 
-### Tipos de Test
+## Retry interceptor (DioRetryInterceptor)
+-------------------------------------
+- Propósito: un interceptor ligero de Dio que reintenta peticiones GET/HEAD en errores de servidor (5xx) usando backoff exponencial.
+- Ubicación: `module/infrastructure/lib/src/product/network/dio_retry_interceptor.dart`.
 
-- **Tests Unitarios**: Lógica de negocio y casos de uso
-- **Tests de Widget**: Componentes UI e interacciones
-- **Tests de Integración**: Funcionalidad de extremo a extremo
+## Pipeline de CI
+-------------
+- GitHub Actions configurado para ejecutar pruebas, análisis y comprobar cobertura por módulo.
+- Scripts custom en `tool/ci/` para validar cobertura y análisis.
 
-### Objetivos de Cobertura
+## Releases
+--------
+Este repositorio crea GitHub Releases automáticamente cuando se publica una etiqueta que coincida con `v*` (por ejemplo `v1.2.3`). El workflow está definido en `.github/workflows/release.yml` y creará una release subiendo un archivo zip del repositorio como un asset.
 
-- Lógica de Negocio: 100%
-- Componentes UI: 90%
-- Integración: Flujos principales de usuario
+Para desencadenar una release localmente:
 
-Ejecutar tests con:
-```bash
-flutter test                    # Tests unitarios y de widget
-flutter test --coverage        # Con reporte de cobertura
-./scripts/test_coverage.sh      # Generar cobertura detallada
-```
+1. Crea y push una etiqueta:
 
-## Consideraciones de Rendimiento ⚡
+  git tag v1.2.3; git push origin v1.2.3
 
-- **Caching**: TTL de 5 minutos para respuestas de API
-- **Debouncing de Búsqueda**: Delay de 300ms para UX óptima
-- **Carga de Imágenes**: Imágenes de red con cache y placeholders
-- **Gestión de Memoria**: Disposición adecuada de recursos
+2. El workflow de GitHub Actions se ejecutará y creará la release.
+
+## Seguridad / Escaneo de secretos
+--------------------------------
+Este repositorio ejecuta un workflow automatizado de escaneo de secretos usando gitleaks.
+
+- El workflow se encuentra en `.github/workflows/gitleaks.yml` y se ejecuta en pull requests, en pushes a `main` y semanalmente por cron.
+- Cuando gitleaks detecta posibles secretos genera un artefacto `gitleaks-report.json` y el job falla para ayudar a prevenir merges accidentales.
+- Para reducir falsos positivos puedes añadir un archivo de baseline llamado `.gitleaks.baseline.json` en la raíz del repositorio.
 
 ## Contribuir 🤝
 
@@ -248,7 +222,3 @@ Este proyecto está licenciado bajo la Licencia MIT - ver el archivo [LICENSE](L
 - **Proyecto**: Pragma Cat Breeds
 - **Documentación**: [ARCHITECTURE.md](ARCHITECTURE.md)
 - **Issues**: Por favor usar GitHub Issues para reportes de bugs y solicitudes de features
-
----
-
-Hecho con ❤️ usando Flutter y principios de Arquitectura Limpia.
