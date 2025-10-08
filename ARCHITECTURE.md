@@ -121,39 +121,76 @@ abstract class CatBreedRepository {
 
 ### 2. Infrastructure Layer (`module/infrastructure/`)
 
-Handles external dependencies and data sources.
+Handles external dependencies and data sources. **Recently optimized for better separation of concerns and cleaner architecture.**
 
 ```
 module/infrastructure/lib/src/cat_breed/
-├── cat_breed_api.dart           # HTTP API client
-├── cat_breed_cache.dart         # In-memory caching
-├── cat_breed_repository_api.dart # Repository implementation for API
-├── cat_breed_repository_proxy.dart # Repository proxy with caching
-├── network/
-│   ├── dto/                     # Data Transfer Objects
-│   │   ├── cat_breed_dto.dart
-│   │   └── cat_breed_image_dto.dart
-│   ├── translator/
-│   │   └── cat_breed_translator.dart # DTO to Entity translation
-│   └── dio_retry_interceptor.dart    # HTTP retry logic
+├── cat_breed_repository_proxy.dart # Main entry point - Repository proxy with caching
+├── api/                         # API-related components
+│   ├── cat_breed_api.dart           # HTTP API client (simplified exception handling)
+│   ├── cat_breed_repository_api.dart # Repository implementation for API
+│   └── network/                     # Network utilities and DTOs
+│       ├── dto/                     # Pure Data Transfer Objects
+│       │   ├── cat_breed_dto.dart       # Pure DTO without logic
+│       │   └── cat_breed_image_dto.dart # Pure DTO without logic
+│       ├── translator/
+│       │   └── cat_breed_translator.dart # JSON serialization + DTO to Entity translation
+│       └── dio_retry_interceptor.dart    # HTTP retry logic
+├── cache/                       # Cache-related components
+│   └── cat_breed_cache.dart         # In-memory caching
 └── dependency_injection/
-    └── infrastructure_module.dart    # DI configuration
+    └── infrastructure_module.dart    # DI configuration with injectable
 ```
+
+#### Recent Optimizations:
+
+1. **Pure DTOs**: Removed business logic from DTOs, moved to translator
+2. **Exception Transparency**: Removed exception wrapping to let them bubble up naturally
+3. **Better Organization**: Grouped API and cache components into separate folders
+4. **Cleaner Dependencies**: API client now properly receives translator via DI
 
 #### Responsibilities:
 - Implement repository interfaces
-- Handle HTTP requests and responses
-- Manage data caching
-- Transform external data to domain entities
+- Handle HTTP requests and responses with transparent exception propagation
+- Manage data caching with proxy pattern
+- Transform JSON data to DTOs and domain entities
 - Handle network errors and retries
 
 #### Key Components:
 
-**API Client:**
+**API Client (Simplified):**
 ```dart
 class CatBreedApi {
-  Future<List<CatBreedDto>> getCatBreeds();
-  Future<List<CatBreedDto>> searchCatBreeds(String query);
+  // No try-catch wrapping - exceptions propagate naturally
+  Future<List<CatBreedDto>> getCatBreeds() async {
+    final response = await _dio.get<List<dynamic>>('/breeds');
+    return _translator.fromJsonList(response.data!);
+  }
+}
+```
+
+**Pure DTOs:**
+```dart
+// Pure data class without JSON logic
+class CatBreedDto {
+  const CatBreedDto({this.id, this.name, ...});
+  
+  final String? id;
+  final String? name;
+  // No fromJson/toJson methods - handled by translator
+}
+```
+
+**Translator with All Logic:**
+```dart
+class CatBreedTranslator {
+  // Handles JSON serialization/deserialization
+  CatBreedDto fromJson(Map<String, dynamic> json);
+  List<CatBreedDto> fromJsonList(List<dynamic> jsonList);
+  
+  // Handles DTO to domain entity conversion
+  CatBreed fromDto(CatBreedDto dto);
+  List<CatBreed> fromDtoList(List<CatBreedDto> dtos);
 }
 ```
 
@@ -166,6 +203,7 @@ class CatBreedApi {
 ```dart
 class CatBreedRepositoryProxy implements CatBreedRepository {
   // Combines API and cache for optimal performance
+  // Clean exception propagation without wrapping
 }
 ```
 
@@ -252,6 +290,101 @@ sequenceDiagram
     end
 ```
 
+## Recent Architecture Optimizations
+
+The infrastructure layer underwent significant improvements to follow clean architecture principles more strictly and improve maintainability:
+
+### 1. DTO Purification
+**Before**: DTOs contained business logic and JSON serialization methods
+```dart
+class CatBreedDto {
+  factory CatBreedDto.fromJson(Map<String, dynamic> json) { ... }
+  Map<String, dynamic> toJson() { ... }
+  static bool? _parseRare(dynamic value) { ... } // Business logic in DTO
+}
+```
+
+**After**: Pure data classes following the DTO pattern
+```dart
+class CatBreedDto {
+  const CatBreedDto({this.id, this.name, ...});
+  final String? id;
+  final String? name;
+  // No methods - pure data transfer object
+}
+```
+
+### 2. Translator Responsibility Expansion
+**Enhancement**: Moved all serialization and parsing logic to the translator
+```dart
+class CatBreedTranslator {
+  // JSON handling (moved from DTOs)
+  CatBreedDto fromJson(Map<String, dynamic> json);
+  List<CatBreedDto> fromJsonList(List<dynamic> jsonList);
+  
+  // Domain conversion (existing)
+  CatBreed fromDto(CatBreedDto dto);
+  List<CatBreed> fromDtoList(List<CatBreedDto> dtos);
+  
+  // Special parsing logic (moved from DTOs)
+  static bool? _parseRare(dynamic value);
+}
+```
+
+### 3. Exception Transparency
+**Before**: API and repository layers wrapped exceptions
+```dart
+Future<List<CatBreed>> getCatBreeds() async {
+  try {
+    final dtos = await _api.getCatBreeds();
+    return _translator.fromDtoList(dtos);
+  } catch (e) {
+    throw Exception('Failed to fetch cat breeds: $e'); // Wrapping
+  }
+}
+```
+
+**After**: Clean exception propagation
+```dart
+Future<List<CatBreed>> getCatBreeds() async {
+  final dtos = await _api.getCatBreeds();
+  return _translator.fromDtoList(dtos);
+  // Let exceptions bubble up naturally
+}
+```
+
+### 4. Improved Organization
+**New Structure**: Better separation of concerns
+```
+src/cat_breed/
+├── cat_breed_repository_proxy.dart # Main entry point (moved to root for better visibility)
+├── api/           # All API-related components
+│   ├── network/   # DTOs, translators, interceptors
+│   └── *.dart     # API clients and repositories
+└── cache/         # Cache utilities only
+```
+
+### 5. Repository Proxy as Entry Point
+**Enhancement**: Moved CatBreedRepositoryProxy to root level
+- **Reason**: As the main entry point to the infrastructure layer, it deserves prominent placement
+- **Benefit**: Better discoverability and clearer architecture intention
+- **Pattern**: Entry point components at module root, supporting components in subfolders
+
+### 6. Dependency Injection Enhancement
+**Improvement**: API client now properly receives dependencies
+```dart
+@lazySingleton
+CatBreedApi catBreedApi(Dio dio, CatBreedTranslator translator) => 
+    CatBreedApi(dio, translator);
+```
+
+**Benefits of These Optimizations:**
+- **Cleaner Code**: Pure DTOs and focused responsibilities
+- **Better Testability**: Clear separation makes mocking easier
+- **Exception Clarity**: Natural error propagation for better debugging
+- **Maintainability**: Organized structure and single responsibility
+- **DI Best Practices**: Proper dependency injection throughout
+
 ## Design Patterns
 
 ### 1. Repository Pattern
@@ -281,45 +414,96 @@ sequenceDiagram
 
 ## Dependency Injection
 
-### Configuration
+### Modern Micro-Package Architecture
 
-The application uses **GetIt** as a service locator:
+The application now uses **Injectable** with a micro-package pattern for automatic dependency injection and code generation:
+
+#### Main Application DI Setup
 
 ```dart
-Future<void> configureDependencies() async {
-  // Infrastructure dependencies
-  getIt.registerLazySingleton<DioRetryInterceptor>(() => DioRetryInterceptor());
-  getIt.registerLazySingleton<Dio>(() => _configureDio());
-  getIt.registerLazySingleton<CatBreedApi>(() => CatBreedApi(getIt<Dio>()));
-  getIt.registerLazySingleton<CatBreedCache>(() => CatBreedCache());
-  
-  // Repository chain
-  getIt.registerLazySingleton<CatBreedRepositoryApi>(
-    () => CatBreedRepositoryApi(getIt<CatBreedApi>(), getIt<CatBreedTranslator>()),
-  );
-  getIt.registerLazySingleton<CatBreedRepository>(
-    () => CatBreedRepositoryProxy(getIt<CatBreedRepositoryApi>(), getIt<CatBreedCache>()),
-  );
-  
-  // Use cases
-  getIt.registerLazySingleton<GetCatBreedsUseCase>(
-    () => GetCatBreedsUseCase(getIt<CatBreedRepository>()),
-  );
-  
-  // BLoCs (Factory for fresh instances)
-  getIt.registerFactory<CatBreedsBloc>(
-    () => CatBreedsBloc(
-      getIt<GetCatBreedsUseCase>(),
-      getIt<SearchCatBreedsUseCase>(),
-    ),
-  );
+@InjectableInit(
+  externalPackageModulesAfter: [
+    ExternalModule(InfrastructurePackageModule),
+  ],
+)
+Future<void> configureDependencies() => getIt.init();
+```
+
+#### Infrastructure Micro-Package
+
+The infrastructure module is configured as a self-contained micro-package:
+
+```dart
+@InjectableInit(
+  initializerName: 'initInfrastructureModule',
+  preferRelativeImports: false,
+  asExtension: false,
+  generateForDir: ['lib'],
+  usesNullSafety: true,
+)
+@MicroPackageModule()
+abstract class InfrastructureModule {
+  // Module definitions...
+}
+
+@InjectableInit.microPackage()
+void initInfrastructure() {}
+```
+
+#### Auto-Generated Dependencies
+
+The code generator creates all dependency registrations automatically:
+
+```dart
+// Auto-generated infrastructure.module.dart
+class InfrastructurePackageModule extends MicroPackageModule {
+  @override
+  Future<void> init(GetItHelper gh) async {
+    final infrastructureModule = _$InfrastructureModule();
+    
+    // All dependencies registered automatically
+    gh.lazySingleton<DioRetryInterceptor>(() => infrastructureModule.dioRetryInterceptor());
+    gh.lazySingleton<CatBreedTranslator>(() => infrastructureModule.catBreedTranslator());
+    gh.lazySingleton<CatBreedCache>(() => infrastructureModule.catBreedCache());
+    
+    await gh.lazySingletonAsync<Dio>(
+      () => infrastructureModule.dio(gh<DioRetryInterceptor>()),
+      preResolve: true,
+    );
+    
+    // Complete dependency chain auto-wired
+    gh.lazySingleton<CatBreedRepository>(() => infrastructureModule.catBreedRepository(
+      gh<CatBreedRepositoryApi>(), gh<CatBreedCache>()));
+  }
 }
 ```
 
+#### Benefits of Micro-Package Pattern
+
+1. **Code Generation**: All dependency registration is automatic
+2. **Type Safety**: Compile-time validation of dependencies  
+3. **Modularity**: Clear separation between infrastructure and presentation
+4. **Maintainability**: No manual dependency registration code
+5. **Scalability**: Easy to add new micro-packages for features
+
+### 📖 Detailed Documentation
+
+For comprehensive examples and implementation details:
+
+- **[Dependency Injection Examples](module/infrastructure/DEPENDENCY_INJECTION_EXAMPLES.md)**: Complete examples of micro-package pattern implementation with before/after comparisons and testing strategies
+- **[Infrastructure Implementation](module/infrastructure/INFRASTRUCTURE_IMPLEMENTATION.md)**: Detailed documentation of the infrastructure layer design, patterns used, and architectural decisions
+
 ### Scope Management
 
-- **Singleton**: Repositories, API clients, caches
-- **Factory**: BLoCs, UI components that need fresh state
+- **@lazySingleton**: Repositories, API clients, caches, use cases
+- **@injectable**: BLoCs (factory scope for fresh instances)
+- **@preResolve**: Async dependencies like Dio configuration
+
+### Dependency Resolution Order
+
+1. **Infrastructure Micro-Package**: All data layer dependencies
+2. **Presentation Layer**: BLoCs and UI components with auto-injection
+3. **External Modules**: Additional micro-packages as needed
 
 ## State Management
 
