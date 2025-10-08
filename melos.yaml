@@ -1,0 +1,30 @@
+name: home_center_products
+packages:
+  - './'
+  - 'module/domain'
+  - 'module/infrastructure'
+
+scripts:
+  bootstrap:
+    run: dart run melos bootstrap
+  fpubget:
+    description: "Run flutter pub get in all packages"
+    run: dart run melos exec -c 1 -- flutter pub get
+  test:
+    description: "Run tests in all packages"
+    run: dart run melos exec -c 1 -- flutter test
+  format:
+    description: "Format all packages"
+    run: dart run melos exec -c 1 -- flutter format .
+  analyze:
+    description: "Run analyzer in all packages"
+    run: dart run melos exec -c 1 -- flutter analyze
+  update-deps:
+    description: "Helper: run 'melos exec -- pub upgrade' to update dependencies across packages"
+    run: dart run melos exec -c 1 -- dart pub upgrade
+  coverage:
+    description: "Run coverage for all packages (quick)"
+    run: dart run melos exec -c 1 -- bash -lc 'flutter test --coverage || true'
+  release-helper:
+    description: "Prepare release artifacts using melos (example)"
+    run: dart run melos exec -c 1 -- bash -lc './tool/scripts/prepare_release.sh || true'
