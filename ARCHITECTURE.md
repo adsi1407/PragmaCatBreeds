@@ -1,10 +1,11 @@
 # Architecture Documentation
 
-This document provides a comprehensive overview of the Cat Breeds application architecture, design decisions, and implementation details.
+This document describes the architecture, package layout, libraries, design patterns, testing strategy, CI expectations, and how the implementation maps to the original technical challenge.
 
 ## Table of Contents
 
 - [Overview](#overview)
+- [Project Package Layout](#project-package-layout)
 - [Clean Architecture Principles](#clean-architecture-principles)
 - [Layer Structure](#layer-structure)
 - [Data Flow](#data-flow)
@@ -24,6 +25,34 @@ The Cat Breeds application follows **Clean Architecture** principles as defined 
 - **Independent of UI**: UI can change without affecting business logic
 - **Independent of Database**: Data sources can be swapped without affecting business rules
 - **Independent of External Agencies**: Business rules don't know about external interfaces
+
+## Project Package Layout 📁
+
+```
+pragma_cat_breeds/
+├── lib/
+│   ├── main.dart                    # Application entry point
+│   └── src/
+│       ├── dependency_injection/   # DI setup
+│       └── presentation/           # UI components
+│           ├── cat_breeds/         # Cat breeds feature
+│           │   ├── bloc/           # State management
+│           │   ├── pages/          # Screen widgets
+│           │   └── widgets/        # Reusable UI components
+│           └── cat_breed_detail/   # Breed detail feature
+├── module/
+│   ├── domain/                     # Business logic
+│   │   ├── lib/
+│   │   │   └── src/cat_breed/     # Cat breed domain
+│   │   └── pubspec.yaml
+│   └── infrastructure/            # Data layer
+│       ├── lib/
+│       │   └── src/cat_breed/     # Cat breed data sources
+│       └── pubspec.yaml
+├── test/                          # Test files
+├── scripts/                       # Development scripts
+└── docs/                         # Documentation
+```
 
 ## Clean Architecture Principles
 
