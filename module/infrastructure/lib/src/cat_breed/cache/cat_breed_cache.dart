@@ -1,4 +1,5 @@
 import 'package:domain/domain.dart';
+import 'package:infrastructure/src/cat_breed/cache/cache_entry.dart';
 
 /// In-memory cache for cat breeds with TTL (Time To Live) support.
 /// 
@@ -13,7 +14,7 @@ class CatBreedCache {
   final Duration defaultTtl;
   
   /// Internal cache storage
-  final Map<String, _CacheEntry<List<CatBreed>>> _cache = {};
+  final Map<String, CacheEntry<List<CatBreed>>> _cache = {};
 
   /// Retrieves cached cat breeds for a given key.
   /// 
@@ -43,7 +44,7 @@ class CatBreedCache {
   /// [ttl] - Time-to-live for this entry (optional, uses default if not provided)
   void put(String key, List<CatBreed> value, {Duration? ttl}) {
     final expiration = DateTime.now().add(ttl ?? defaultTtl);
-    _cache[key] = _CacheEntry(value, expiration);
+    _cache[key] = CacheEntry(value, expiration);
   }
 
   /// Removes a specific entry from the cache.
@@ -71,14 +72,4 @@ class CatBreedCache {
   bool containsKey(String key) {
     return get(key) != null;
   }
-}
-
-/// Internal cache entry with expiration time.
-class _CacheEntry<T> {
-  const _CacheEntry(this.value, this.expiration);
-
-  final T value;
-  final DateTime expiration;
-
-  bool get isExpired => DateTime.now().isAfter(expiration);
 }
