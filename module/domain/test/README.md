@@ -258,3 +258,9 @@ The "T" in FIRST encompasses two complementary aspects:
 - Performance testing for large datasets
 - Mutation testing to verify test quality
 - Automated test generation for new entities
+
+---
+
+For detailed information about domain test organization principles and Clean Architecture compliance, see [Test Organization Principles](TEST_ORGANIZATION.md).
+
+> 📚 **Related Documentation**: [Infrastructure Tests](../../infrastructure/test/README.md) | [Architecture Overview](../../../ARCHITECTURE.md) | [Test Organization Principles](TEST_ORGANIZATION.md)

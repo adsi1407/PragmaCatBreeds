@@ -169,4 +169,4 @@ As the project grows, consider:
 > - [INFRASTRUCTURE_IMPLEMENTATION.md](../INFRASTRUCTURE_IMPLEMENTATION.md#testability) - Implementation details
 > - [Feature PR Template](../../../.github/PULL_REQUEST_TEMPLATE/feature.md) - Code review checklist
 > 
-> **Related Documentation**: [Infrastructure Tests](README.md) | [Domain Tests](../../domain/test/README.md) | [Architecture Overview](../../../ARCHITECTURE.md)
+> **Related Documentation**: [Infrastructure Tests](README.md) | [Domain Test Organization](../../domain/test/TEST_ORGANIZATION.md) | [Domain Tests](../../domain/test/README.md) | [Architecture Overview](../../../ARCHITECTURE.md)

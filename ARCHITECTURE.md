@@ -560,8 +560,9 @@ The application follows a comprehensive testing strategy with **100% coverage** 
 
 > 📚 **Detailed Testing Documentation**: 
 > - [Domain Tests Documentation](module/domain/test/README.md) - Comprehensive domain testing patterns and examples
+> - [Domain Test Organization](module/domain/test/TEST_ORGANIZATION.md) - Clean Architecture compliance and business logic focus
 > - [Infrastructure Tests Documentation](module/infrastructure/test/README.md) - Infrastructure testing strategies and coverage
-> - [Test Organization Principles](module/infrastructure/test/TEST_ORGANIZATION.md) - Common Closure Principle and test doubles organization
+> - [Infrastructure Test Organization](module/infrastructure/test/TEST_ORGANIZATION.md) - Common Closure Principle and test doubles organization
 
 ### 1. Unit Tests - Domain Layer
 
