@@ -306,6 +306,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.2"
+  injectable_generator:
+    dependency: "direct dev"
+    description:
+      name: injectable_generator
+      sha256: beac1179932b589ae1bc530c7f7dc4dedec4674d84aa452efa24f30b34495e00
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.9.0"
   io:
     dependency: transitive
     description:

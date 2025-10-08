@@ -1,13 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:domain/domain.dart';
-import 'package:injectable/injectable.dart';
-
-import 'package:infrastructure/src/cat_breed/cat_breed_api.dart';
-import 'package:infrastructure/src/cat_breed/cat_breed_cache.dart';
-import 'package:infrastructure/src/cat_breed/cat_breed_repository_api.dart';
+import 'package:infrastructure/src/cat_breed/api/cat_breed_api.dart';
+import 'package:infrastructure/src/cat_breed/api/cat_breed_repository_api.dart';
+import 'package:infrastructure/src/cat_breed/api/network/dio_retry_interceptor.dart';
+import 'package:infrastructure/src/cat_breed/api/network/translator/cat_breed_translator.dart';
+import 'package:infrastructure/src/cat_breed/cache/cat_breed_cache.dart';
 import 'package:infrastructure/src/cat_breed/cat_breed_repository_proxy.dart';
-import 'package:infrastructure/src/cat_breed/network/dio_retry_interceptor.dart';
-import 'package:infrastructure/src/cat_breed/network/translator/cat_breed_translator.dart';
+import 'package:injectable/injectable.dart';
 
 /// Infrastructure module for dependency injection.
 /// 
@@ -40,7 +39,7 @@ abstract class InfrastructureModule {
 
   /// Provides the Cat Breed API client.
   @lazySingleton
-  CatBreedApi catBreedApi(Dio dio) => CatBreedApi(dio);
+  CatBreedApi catBreedApi(Dio dio, CatBreedTranslator translator) => CatBreedApi(dio, translator);
 
   /// Provides the Cat Breed translator.
   @lazySingleton
@@ -76,3 +75,10 @@ abstract class InfrastructureModule {
   SearchCatBreedsUseCase searchCatBreedsUseCase(CatBreedRepository repository) =>
       SearchCatBreedsUseCase(repository);
 }
+
+/// Initializes the infrastructure micro-package dependencies.
+/// 
+/// This function is called by the code generator to properly register
+/// all infrastructure dependencies as a micro-package.
+@InjectableInit.microPackage()
+void initInfrastructure() {}
