@@ -1,4 +1,4 @@
-import 'cat_breed_image_dto.dart';
+import 'package:infrastructure/src/cat_breed/network/dto/cat_breed_image_dto.dart';
 
 /// Data Transfer Object for cat breed from The Cat API.
 class CatBreedDto {

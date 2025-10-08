@@ -3,7 +3,7 @@ import 'package:domain/domain.dart';
 import 'package:get_it/get_it.dart';
 import 'package:infrastructure/infrastructure.dart';
 
-import '../presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
 
 /// Service locator instance
 final getIt = GetIt.instance;
@@ -14,7 +14,7 @@ final getIt = GetIt.instance;
 /// following the Clean Architecture pattern.
 Future<void> configureDependencies() async {
   // Infrastructure dependencies
-  getIt.registerLazySingleton<DioRetryInterceptor>(() => DioRetryInterceptor());
+  getIt.registerLazySingleton<DioRetryInterceptor>(DioRetryInterceptor.new);
   
   final dio = Dio();
   dio.options
@@ -24,9 +24,9 @@ Future<void> configureDependencies() async {
   dio.interceptors.add(getIt<DioRetryInterceptor>());
   getIt.registerLazySingleton<Dio>(() => dio);
   
-  getIt.registerLazySingleton<CatBreedTranslator>(() => CatBreedTranslator());
+  getIt.registerLazySingleton<CatBreedTranslator>(CatBreedTranslator.new);
   getIt.registerLazySingleton<CatBreedApi>(() => CatBreedApi(getIt<Dio>()));
-  getIt.registerLazySingleton<CatBreedCache>(() => CatBreedCache());
+  getIt.registerLazySingleton<CatBreedCache>(CatBreedCache.new);
   
   getIt.registerLazySingleton<CatBreedRepositoryApi>(
     () => CatBreedRepositoryApi(getIt<CatBreedApi>(), getIt<CatBreedTranslator>()),

@@ -1,5 +1,5 @@
-import '../entity/cat_breed.dart';
-import '../repository/cat_breed_repository.dart';
+import 'package:domain/src/cat_breed/entity/cat_breed.dart';
+import 'package:domain/src/cat_breed/repository/cat_breed_repository.dart';
 
 /// Use case for retrieving all cat breeds.
 /// 

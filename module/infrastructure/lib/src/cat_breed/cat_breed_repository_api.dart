@@ -1,6 +1,6 @@
 import 'package:domain/domain.dart';
-import 'cat_breed_api.dart';
-import 'network/translator/cat_breed_translator.dart';
+import 'package:infrastructure/src/cat_breed/cat_breed_api.dart';
+import 'package:infrastructure/src/cat_breed/network/translator/cat_breed_translator.dart';
 
 /// Implementation of [CatBreedRepository] that fetches data from The Cat API.
 /// 

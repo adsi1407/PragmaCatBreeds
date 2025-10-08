@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/breed_characteristics_widget.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breed_detail/widgets/breed_characteristics_widget.dart';
 
 /// Detail page for displaying comprehensive information about a cat breed
 class CatBreedDetailPage extends StatelessWidget {
@@ -43,7 +43,7 @@ class CatBreedDetailPage extends StatelessWidget {
                   ? CachedNetworkImage(
                       imageUrl: breed.imageUrl!,
                       fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
+                      placeholder: (context, url) => ColoredBox(
                         color: Theme.of(context).colorScheme.surfaceContainer,
                         child: Icon(
                           Icons.pets,
@@ -51,7 +51,7 @@ class CatBreedDetailPage extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
-                      errorWidget: (context, url, error) => Container(
+                      errorWidget: (context, url, error) => ColoredBox(
                         color: Theme.of(context).colorScheme.surfaceContainer,
                         child: Icon(
                           Icons.pets,
@@ -60,7 +60,7 @@ class CatBreedDetailPage extends StatelessWidget {
                         ),
                       ),
                     )
-                  : Container(
+                  : ColoredBox(
                       color: Theme.of(context).colorScheme.surfaceContainer,
                       child: Icon(
                         Icons.pets,

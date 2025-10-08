@@ -1,9 +1,9 @@
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 
-import 'src/dependency_injection/dependency_injection.dart';
-import 'src/presentation/cat_breed_detail/page/cat_breed_detail_page.dart';
-import 'src/presentation/cat_breeds/page/cat_breeds_page.dart';
+import 'package:pragma_cat_breeds/src/dependency_injection/dependency_injection.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breed_detail/page/cat_breed_detail_page.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/page/cat_breeds_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

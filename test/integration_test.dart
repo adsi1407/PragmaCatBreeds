@@ -1,6 +1,6 @@
+import 'package:domain/domain.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pragma_cat_breeds/src/dependency_injection/dependency_injection.dart';
-import 'package:domain/domain.dart';
 
 void main() {
   group('Cat Breeds Application Integration Tests', () {

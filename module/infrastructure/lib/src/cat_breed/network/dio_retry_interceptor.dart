@@ -31,7 +31,7 @@ class DioRetryInterceptor extends Interceptor {
   }
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
     if (!_shouldRetry(err)) {
       handler.next(err);
       return;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/cat_breeds_bloc.dart';
-import 'cat_breed_list_item.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/widgets/cat_breed_list_item.dart';
 
 /// Widget that displays the list of cat breeds
 class CatBreedsList extends StatelessWidget {

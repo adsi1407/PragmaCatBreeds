@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 
-import '../src/cat_breed/cat_breed_api.dart';
-import '../src/cat_breed/cat_breed_cache.dart';
-import '../src/cat_breed/cat_breed_repository_api.dart';
-import '../src/cat_breed/cat_breed_repository_proxy.dart';
-import '../src/cat_breed/network/dio_retry_interceptor.dart';
-import '../src/cat_breed/network/translator/cat_breed_translator.dart';
+import 'package:infrastructure/src/cat_breed/cat_breed_api.dart';
+import 'package:infrastructure/src/cat_breed/cat_breed_cache.dart';
+import 'package:infrastructure/src/cat_breed/cat_breed_repository_api.dart';
+import 'package:infrastructure/src/cat_breed/cat_breed_repository_proxy.dart';
+import 'package:infrastructure/src/cat_breed/network/dio_retry_interceptor.dart';
+import 'package:infrastructure/src/cat_breed/network/translator/cat_breed_translator.dart';
 
 /// Infrastructure module for dependency injection.
 /// 

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'network/dto/cat_breed_dto.dart';
+import 'package:infrastructure/src/cat_breed/network/dto/cat_breed_dto.dart';
 
 /// API client for The Cat API.
 /// 

@@ -38,7 +38,7 @@ class CatBreedListItem extends StatelessWidget {
                       ? CachedNetworkImage(
                           imageUrl: breed.imageUrl!,
                           fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
+                          placeholder: (context, url) => ColoredBox(
                             color: Theme.of(context)
                                 .colorScheme
                                 .surfaceContainerHighest,
@@ -50,7 +50,7 @@ class CatBreedListItem extends StatelessWidget {
                                   .onSurfaceVariant,
                             ),
                           ),
-                          errorWidget: (context, url, error) => Container(
+                          errorWidget: (context, url, error) => ColoredBox(
                             color: Theme.of(context)
                                 .colorScheme
                                 .surfaceContainerHighest,
@@ -63,7 +63,7 @@ class CatBreedListItem extends StatelessWidget {
                             ),
                           ),
                         )
-                      : Container(
+                      : ColoredBox(
                           color: Theme.of(context)
                               .colorScheme
                               .surfaceContainerHighest,

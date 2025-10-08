@@ -1,4 +1,4 @@
-import '../entity/cat_breed.dart';
+import 'package:domain/src/cat_breed/entity/cat_breed.dart';
 
 /// Abstract repository interface for cat breed operations.
 /// 

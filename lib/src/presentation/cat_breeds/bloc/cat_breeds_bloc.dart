@@ -39,7 +39,7 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
       
       emit(CatBreedsLoaded(breeds: breeds));
     } catch (e) {
-      emit(CatBreedsError('Failed to load cat breeds: ${e.toString()}'));
+      emit(CatBreedsError('Failed to load cat breeds: ${e}'));
     }
   }
 
@@ -57,8 +57,6 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
     if (query.isEmpty) {
       emit(CatBreedsLoaded(
         breeds: _allBreeds,
-        isSearching: false,
-        searchQuery: '',
       ));
       return;
     }
@@ -79,11 +77,10 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
         
         emit(CatBreedsLoaded(
           breeds: results,
-          isSearching: false,
           searchQuery: query,
         ));
       } catch (e) {
-        emit(CatBreedsError('Failed to search cat breeds: ${e.toString()}'));
+        emit(CatBreedsError('Failed to search cat breeds: ${e}'));
       }
     });
   }
@@ -97,8 +94,6 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
     
     emit(CatBreedsLoaded(
       breeds: _allBreeds,
-      isSearching: false,
-      searchQuery: '',
     ));
   }
 

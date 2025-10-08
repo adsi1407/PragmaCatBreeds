@@ -1,5 +1,5 @@
 import 'package:domain/domain.dart';
-import '../dto/cat_breed_dto.dart';
+import 'package:infrastructure/src/cat_breed/network/dto/cat_breed_dto.dart';
 
 /// Translator class to convert between DTOs and domain entities.
 /// 

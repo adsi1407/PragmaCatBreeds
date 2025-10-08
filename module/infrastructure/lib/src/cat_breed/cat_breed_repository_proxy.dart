@@ -1,5 +1,5 @@
 import 'package:domain/domain.dart';
-import 'cat_breed_cache.dart';
+import 'package:infrastructure/src/cat_breed/cat_breed_cache.dart';
 
 /// Proxy implementation of [CatBreedRepository] that adds caching functionality.
 /// 
