@@ -18,7 +18,7 @@ dependencies:
     path: module/infrastructure
 
   # State management
-  flutter_bloc: ^8.1.4
+  flutter_bloc: ^9.1.1
   equatable: ^2.0.5
   
   # Dependency injection
@@ -42,7 +42,7 @@ dev_dependencies:
   
   # Testing
   mocktail: ^1.0.3
-  bloc_test: ^9.1.5
+  bloc_test: ^10.0.0
   
   # Code generation
   injectable_generator: ^2.4.1
