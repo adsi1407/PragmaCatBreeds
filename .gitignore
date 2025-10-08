@@ -44,28 +44,20 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Coverage files
+# Coverage outputs
 coverage/
+**/coverage/
+**/lcov.info
 *.lcov
+coverage*.lcov
 
-# Generated files
-*.g.dart
-*.freezed.dart
-*.gr.dart
-
-# Environment files
-.env
-.env.local
-.env.development
-.env.production
-
-# API keys (if stored in files)
-**/secrets/
-**/keys/
-
-# Build artifacts
+# Ignore per-package/tooling artifacts across repository (match modules and subpackages)
+**/.dart_tool/
 **/build/
-**/generated/
+**/packages/
+**/pubspec.lock
+**/.packages
+**/.pub-cache/
 
-# IDE
-.vscode/settings.json
+# Generated/localization outputs
+**/gen_l10n/
