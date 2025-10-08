@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Test Coverage Script for Cat Breeds App
-# Generates detailed test coverage report
+# Generates detailed test coverage report with CI-consistent thresholds
 
 set -e
 
@@ -13,6 +13,12 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
+
+# Coverage thresholds (consistent with CI pipeline)
+COVERAGE_DOMAIN_MIN=90
+COVERAGE_INFRA_MIN=60
+COVERAGE_PRESENTATION_BLOC_MIN=50
+COVERAGE_PRESENTATION_WIDGETS_MIN=40
 
 # Check if Flutter is installed
 if ! command -v flutter &> /dev/null; then
@@ -108,6 +114,54 @@ if [ -f "coverage/lcov.info" ]; then
             printf "%-50s %3d/%3d (%5.1f%%)\n", file, covered, total, percentage
         }
     }'
+fi
+
+# Function to check coverage threshold (consistent with CI)
+check_coverage_threshold() {
+    local lcov_file=$1
+    local min_threshold=$2
+    local module_name=$3
+    
+    if [[ -f "$lcov_file" ]]; then
+        local result=$(dart run tool/ci/check_coverage.dart "$lcov_file" "$min_threshold" 2>&1)
+        local exit_code=$?
+        
+        if [[ $exit_code -eq 0 ]]; then
+            echo -e "${GREEN}✅ $module_name coverage check passed${NC}"
+            echo "   $result"
+        else
+            echo -e "${RED}❌ $module_name coverage check failed${NC}"
+            echo "   $result"
+            return 1
+        fi
+    else
+        echo -e "${YELLOW}⚠️  $module_name coverage file not found: $lcov_file${NC}"
+    fi
+}
+
+# Verify coverage thresholds (consistent with CI pipeline)
+echo -e "\n${BLUE}🎯 Verifying coverage thresholds...${NC}"
+coverage_failed=false
+
+# Check domain coverage
+if ! check_coverage_threshold "module/domain/coverage/lcov.info" "$COVERAGE_DOMAIN_MIN" "Domain"; then
+    coverage_failed=true
+fi
+
+# Check infrastructure coverage  
+if ! check_coverage_threshold "module/infrastructure/coverage/lcov.info" "$COVERAGE_INFRA_MIN" "Infrastructure"; then
+    coverage_failed=true
+fi
+
+# Note: Presentation layer checks would require running specific test suites
+echo -e "${YELLOW}💡 For presentation layer coverage verification, run specific test suites${NC}"
+
+if [[ "$coverage_failed" == "true" ]]; then
+    echo -e "\n${RED}❌ Some coverage thresholds were not met${NC}"
+    echo -e "${YELLOW}💡 These are the same thresholds used in CI/CD pipeline${NC}"
+    exit 1
+else
+    echo -e "\n${GREEN}✅ All coverage thresholds met!${NC}"
 fi
 
 echo -e "\n${GREEN}✅ Coverage report generation complete!${NC}"

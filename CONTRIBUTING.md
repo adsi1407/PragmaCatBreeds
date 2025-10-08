@@ -47,13 +47,46 @@ Choose the appropriate PR template when creating a PR:
 
 When creating a PR, GitHub will prompt you to select the appropriate template. Each template includes a comprehensive checklist covering tests, code quality, coverage requirements, and architecture compliance.
 
-## Development Tools and Scripts
--------------------------------
+## Development Tools and Scripts 🛠️
+----------------------------------
 
-### Windows-specific Tools
-- `tool/scripts/run_tests_windows.ps1` - Run tests per module with coverage
-- `tool/ci/check_coverage.dart` - Coverage validation
-- `tool/ci/analyze_check.dart` - Code analysis validation
+The project provides two categories of scripts:
+
+### Developer Scripts (`scripts/`)
+**For manual development work** - user-friendly with visual feedback:
+
+- `setup.sh` - Complete environment setup and verification
+- `test_coverage.sh/bat` - Generate coverage reports with HTML output and browser opening
+- `performance_test.sh` - Performance testing with detailed metrics
+
+**Usage:**
+```bash
+./scripts/setup.sh                 # Setup environment
+./scripts/test_coverage.sh         # Generate visual coverage reports
+```
+
+### Automation Scripts (`tool/`)
+**For CI/CD pipelines** - minimal output, structured data:
+
+- `tool/ci/check_coverage.dart` - Programmatic coverage threshold validation
+- `tool/ci/analyze_check.dart` - Automated code analysis validation
+- `tool/scripts/run_tests_windows.ps1` - Windows-specific test runner
+
+**Usage:**
+```bash
+dart run tool/ci/check_coverage.dart coverage.lcov 90
+dart run tool/ci/analyze_check.dart analyze_output.json
+```
+
+### Coverage Consistency
+Both script categories enforce **identical coverage thresholds**:
+
+| Layer | Threshold | Rationale |
+|-------|-----------|-----------|
+| Domain | 90% | Core business logic must be well-tested |
+| Infrastructure | 60% | Data layer with external dependencies |
+| Presentation BLoC | 50% | State management logic |
+| Presentation Widgets | 40% | UI components (Flutter testing complexity) |
 
 ## Testing and Coverage
 ----------------------

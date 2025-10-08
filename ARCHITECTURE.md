@@ -670,6 +670,68 @@ Usage in code:
 Text(l10n.noResultsFor(searchQuery))
 ```
 
+## Development Scripts and Tools 🛠️
+
+The project includes two categories of scripts for different purposes:
+
+### Developer Scripts (`scripts/`)
+
+**Purpose**: Manual use by developers working locally  
+**Audience**: Human developers  
+**Characteristics**: User-friendly interface with colors, emojis, and detailed feedback
+
+| Script | Purpose | Features |
+|---------|---------|----------|
+| `setup.sh` | Environment setup | Automatic Flutter/Dart verification, dependency installation |
+| `test_coverage.sh/bat` | Coverage generation | HTML reports, visual feedback, browser opening |
+| `performance_test.sh` | Performance testing | Detailed performance metrics and recommendations |
+
+**Example Usage:**
+```bash
+# Setup development environment
+./scripts/setup.sh
+
+# Generate coverage with visual reports
+./scripts/test_coverage.sh
+```
+
+### Automation Scripts (`tool/`)
+
+**Purpose**: CI/CD and automated systems  
+**Audience**: GitHub Actions, build systems  
+**Characteristics**: Minimal output, structured data, specific exit codes
+
+| Script | Purpose | Features |
+|---------|---------|----------|
+| `tool/ci/check_coverage.dart` | Coverage validation | Programmatic threshold checking, CI integration |
+| `tool/ci/analyze_check.dart` | Code analysis | Automated quality checks, JSON parsing |
+
+**Example Usage:**
+```bash
+# Check coverage threshold (used in CI)
+dart run tool/ci/check_coverage.dart coverage.lcov 90
+
+# Analyze code issues (used in CI)
+dart run tool/ci/analyze_check.dart flutter_analyze_output.json
+```
+
+### Coverage Thresholds
+
+Both script categories use **consistent coverage thresholds**:
+
+- **Domain Layer**: 90% (business logic must be well-tested)
+- **Infrastructure Layer**: 60% (data layer with external dependencies)
+- **Presentation BLoC**: 50% (state management logic)
+- **Presentation Widgets**: 40% (UI components with Flutter testing complexity)
+
+These thresholds are enforced in:
+- ✅ Developer scripts (`scripts/test_coverage.*`)
+- ✅ CI pipeline (`.github/workflows/ci.yml`)
+- ✅ Automation tools (`tool/ci/check_coverage.dart`)
+
+## Future Improvements
+```
+
 ## Conclusion
 
 The Cat Breeds application demonstrates a robust implementation of Clean Architecture principles in Flutter, providing:

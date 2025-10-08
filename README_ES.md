@@ -110,6 +110,40 @@ Se respetaron principios SOLID: responsabilidad única, inversión de dependenci
 - Uso de mocks y fakes para aislar unidades bajo prueba
 - Inclusión de `localizationsDelegates` en tests para aserciones robustas ante locales
 
+## Scripts de Desarrollo 🛠️
+--------------------------
+
+El proyecto incluye dos tipos de scripts para diferentes casos de uso:
+
+### Scripts de Desarrollador (`scripts/`)
+**Para uso manual por desarrolladores** - interfaz amigable con retroalimentación visual:
+
+```bash
+# Configurar entorno de desarrollo
+./scripts/setup.sh
+
+# Generar reportes de cobertura con salida HTML
+./scripts/test_coverage.sh      # Linux/macOS
+./scripts/test_coverage.bat     # Windows
+
+# Ejecutar pruebas de rendimiento
+./scripts/performance_test.sh
+```
+
+### Scripts de Automatización (`tool/`)
+**Para CI/CD y automatización** - salida mínima, datos estructurados:
+
+```bash
+# Verificar umbral de cobertura (usado en CI)
+dart run tool/ci/check_coverage.dart coverage.lcov 90
+
+# Analizar problemas de código (usado en CI)
+dart run tool/ci/analyze_check.dart analyze_output.json
+```
+
+Ambos tipos de scripts usan **umbrales de cobertura consistentes**:
+- Dominio: 90% | Infraestructura: 60% | Presentation BLoC: 50% | Widgets: 40%
+
 ## Buenas prácticas de código
 -------------------------
 - Nombres claros para archivos, clases y tests

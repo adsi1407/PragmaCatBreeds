@@ -110,6 +110,40 @@ The implementation follows SOLID principles: single responsibility for small wid
 - Mocks and fakes are used to isolate units under test
 - Tests include localization delegates to make assertions locale-aware and robust
 
+## Development Scripts 🛠️
+-----------------------
+
+The project includes two types of scripts for different use cases:
+
+### Developer Scripts (`scripts/`)
+**For manual use by developers** - user-friendly with visual feedback:
+
+```bash
+# Setup development environment
+./scripts/setup.sh
+
+# Generate coverage reports with HTML output
+./scripts/test_coverage.sh      # Linux/macOS
+./scripts/test_coverage.bat     # Windows
+
+# Run performance tests
+./scripts/performance_test.sh
+```
+
+### Automation Scripts (`tool/`)
+**For CI/CD and automation** - minimal output, structured data:
+
+```bash
+# Check coverage threshold (used in CI)
+dart run tool/ci/check_coverage.dart coverage.lcov 90
+
+# Analyze code issues (used in CI)
+dart run tool/ci/analyze_check.dart analyze_output.json
+```
+
+Both script types use **consistent coverage thresholds**:
+- Domain: 90% | Infrastructure: 60% | Presentation BLoC: 50% | Widgets: 40%
+
 ## Code style and maintainability
 -----------------------------
 - Clear naming conventions for files, classes and tests
