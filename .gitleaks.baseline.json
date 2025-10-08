@@ -1,0 +1,20 @@
+{
+  "version": "2",
+  "allowlist": [
+    {
+      "description": "Example: CI helper script uses a fake token for local testing",
+      "path": "tool/scripts/run_tests_windows.ps1",
+      "rule": "generic-api-key",
+      "expiration": null,
+      "commit": null
+    },
+    {
+      "description": "Example: Known developer test key (NOT a real key) — replace or remove in real projects",
+      "path": "docs/sample-keys/README.md",
+      "rule": "aws-access-key-id",
+      "expiration": null,
+      "commit": null
+    }
+  ],
+  "notes": "This is a minimal example baseline for gitleaks. Generate a baseline locally with: gitleaks detect --source . --report-format json --report-path gitleaks-report.json --baseline-path .gitleaks.baseline.json. Do NOT commit real secrets to the baseline."
+}
