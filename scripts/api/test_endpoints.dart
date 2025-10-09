@@ -2,10 +2,11 @@
 /// API Testing Script for Cat Breeds Endpoints
 /// 
 /// This script tests the Cat API endpoints used by the application
-/// and displays the responses in a readable format.
+/// and displays the responses in a readable format including full JSON.
 /// 
 /// Usage: dart run scripts/api/test_endpoints.dart
 
+import 'dart:convert';
 import 'package:dio/dio.dart';
 
 void main() async {
@@ -30,6 +31,19 @@ void main() async {
   await testInvalidEndpoint(dio);
 }
 
+/// Helper function to print formatted JSON
+void printJsonResponse(String title, dynamic data) {
+  print('📄 $title:');
+  print('${'-' * (title.length + 3)}');
+  try {
+    final jsonString = const JsonEncoder.withIndent('  ').convert(data);
+    print(jsonString);
+  } catch (e) {
+    print('⚠️  Could not format as JSON: $data');
+  }
+  print('');
+}
+
 /// Test GET /breeds endpoint
 Future<void> testGetAllBreeds(Dio dio) async {
   print('📡 Testing GET /breeds');
@@ -37,25 +51,21 @@ Future<void> testGetAllBreeds(Dio dio) async {
   
   try {
     final stopwatch = Stopwatch()..start();
-    final response = await dio.get<List<dynamic>>('/breeds?limit=5'); // Limit for readability
+    final response = await dio.get<List<dynamic>>('/breeds?limit=3'); // Limit for readability
     stopwatch.stop();
     
     print('✅ Status: ${response.statusCode}');
     print('⏱️  Response Time: ${stopwatch.elapsedMilliseconds}ms');
     final data = response.data ?? [];
     print('📊 Results Count: ${data.length}');
-    print('🔍 Sample Results:');
     
-    final maxResults = data.length >= 3 ? 3 : data.length;
-    for (int i = 0; i < maxResults; i++) {
+    // Print JSON response
+    printJsonResponse('JSON Response', data);
+    
+    print('🔍 Summary:');
+    for (int i = 0; i < data.length; i++) {
       final breed = data[i] as Map<String, dynamic>;
-      print('   ${i + 1}. ${breed['name']} (${breed['id']})');
-      print('      Origin: ${breed['origin'] ?? 'Unknown'}');
-      final description = breed['description'] as String?;
-      final shortDesc = description != null && description.length > 60 
-          ? description.substring(0, 60) 
-          : description ?? 'No description';
-      print('      Description: $shortDesc...');
+      print('   ${i + 1}. ${breed['name']} (${breed['id']}) - ${breed['origin'] ?? 'Unknown'}');
     }
     
     print('\n📝 Headers:');
@@ -85,13 +95,14 @@ Future<void> testSearchBreeds(Dio dio, String searchTerm) async {
     final data = response.data ?? [];
     print('📊 Results Found: ${data.length}');
     
+    // Print JSON response
+    printJsonResponse('JSON Response', data);
+    
     if (data.isNotEmpty) {
-      print('🐱 Matching Breeds:');
+      print('🐱 Summary:');
       for (final item in data) {
         final breed = item as Map<String, dynamic>;
-        print('   • ${breed['name']} (${breed['id']})');
-        print('     Temperament: ${breed['temperament'] ?? 'Unknown'}');
-        print('     Life Span: ${breed['life_span'] ?? 'Unknown'} years');
+        print('   • ${breed['name']} (${breed['id']}) - ${breed['temperament'] ?? 'Unknown'}');
       }
     } else {
       print('🚫 No breeds found matching "$searchTerm"');
@@ -117,8 +128,12 @@ Future<void> testGetBreedById(Dio dio, String breedId) async {
     print('✅ Status: ${response.statusCode}');
     print('⏱️  Response Time: ${stopwatch.elapsedMilliseconds}ms');
     final data = response.data;
+    
     if (data != null) {
-      print('🐱 Breed Details:');
+      // Print JSON response
+      printJsonResponse('JSON Response', data);
+      
+      print('🐱 Breed Summary:');
       print('   • Name: ${data['name']}');
       print('   • ID: ${data['id']}');
       print('   • Origin: ${data['origin'] ?? 'Unknown'}');
@@ -167,6 +182,17 @@ Future<void> testImageUrl(Dio dio, String imageId) async {
     
     print('✅ Image is accessible and valid');
     
+    // Test also getting image metadata via API
+    try {
+      print('\n🔍 Testing Image Metadata via API:');
+      final metaResponse = await dio.get<Map<String, dynamic>>('/images/$imageId');
+      if (metaResponse.data != null) {
+        printJsonResponse('Image Metadata JSON', metaResponse.data);
+      }
+    } catch (metaError) {
+      print('⚠️  Image metadata not available via API: $metaError');
+    }
+    
   } catch (e) {
     print('❌ Error accessing image: $e');
   }
@@ -182,16 +208,24 @@ Future<void> testInvalidEndpoint(Dio dio) async {
   try {
     final response = await dio.get<dynamic>('/invalid-endpoint');
     print('⚠️  Unexpected success: ${response.statusCode}');
+    if (response.data != null) {
+      printJsonResponse('Unexpected Response JSON', response.data);
+    }
   } catch (e) {
     if (e is DioException) {
       print('✅ Expected error caught:');
       print('   Status Code: ${e.response?.statusCode}');
       print('   Error Type: ${e.type}');
       print('   Message: ${e.message}');
+      
+      if (e.response?.data != null) {
+        printJsonResponse('Error Response JSON', e.response!.data);
+      }
     } else {
       print('❌ Unexpected error: $e');
     }
   }
   
   print('\n' + '='*50 + '\n');
+  print('🎉 Testing completed! All endpoints have been tested.');
 }
