@@ -135,16 +135,23 @@ testWidgets('darkTheme', (tester) async {
 MissingPluginException: No implementation found for method getTemporaryDirectory
 ```
 
-**Solution**: Mock platform plugins in `setUpAll()`:
+**Solution**: Use minimal plugin mocks in `setUpAll()`:
 ```dart
-setUpAll(() {
-  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-      .setMockMethodCallHandler(
-    const MethodChannel('plugins.flutter.io/path_provider'),
-    (methodCall) async => '/tmp',
-  );
-});
+// Import the minimal mock helper
+import '../../shared/test_doubles/widget_test_plugin_mocks.dart';
+
+void main() {
+  setUpAll(() {
+    WidgetTestPluginMocks.setUp(); // Sets up only path_provider mock
+  });
+  
+  tearDownAll(() {
+    WidgetTestPluginMocks.tearDown(); // Optional cleanup
+  });
+}
 ```
+
+**Why this happens**: `CachedNetworkImage` requires `path_provider` for cache storage, but plugins aren't available in unit tests.
 
 ### **Issue**: Multiple ScrollView widgets found
 ```
