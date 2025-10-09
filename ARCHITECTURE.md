@@ -237,6 +237,16 @@ lib/src/presentation/
 - Manage UI state
 - Navigate between screens
 
+#### Recent UI/UX Improvements:
+- **Enhanced Image Loading**: Implemented API image attachment parameter (`attach_image=1`) for consistent image availability in breed listings
+- **Optimized Detail Layout**: Restructured `cat_breed_detail_page.dart` from SliverAppBar-based layout to Column-based layout with:
+  - Fixed image container at 50% screen height for consistent visual hierarchy
+  - Scrollable content area for breed information
+  - Positioned AppBar with transparent background and breed name display
+- **Consistent Theming**: Applied primary color scheme to AppBar across the application for visual consistency
+- **Accessibility Enhancements**: Improved text contrast and navigation by displaying breed name in detail page AppBar
+- **Performance Optimizations**: Efficient image loading and responsive design implementation
+
 ## Data Flow
 
 ### 1. User Interaction Flow

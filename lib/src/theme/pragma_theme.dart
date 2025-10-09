@@ -13,17 +13,20 @@ class PragmaTheme {
       fontFamily: _fontFamily,
       
       // App Bar Theme
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 1,
-        backgroundColor: Colors.transparent,
-        foregroundColor: PragmaColors.gray900,
-        titleTextStyle: TextStyle(
+        backgroundColor: PragmaColors.lightColorScheme.primary,
+        foregroundColor: Colors.white,
+        titleTextStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          color: PragmaColors.gray900,
+          color: Colors.white,
           fontFamily: _fontFamily,
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
       ),
       
@@ -142,17 +145,20 @@ class PragmaTheme {
       fontFamily: _fontFamily,
       
       // App Bar Theme
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         centerTitle: true,
         elevation: 0,
         scrolledUnderElevation: 1,
-        backgroundColor: Colors.transparent,
+        backgroundColor: PragmaColors.darkColorScheme.primary,
         foregroundColor: Colors.white,
-        titleTextStyle: TextStyle(
+        titleTextStyle: const TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.w600,
           color: Colors.white,
           fontFamily: _fontFamily,
+        ),
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
       ),
       

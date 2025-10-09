@@ -6,9 +6,15 @@ A Flutter application that displays information about different cat breeds, buil
 
 ## Features ✨
 
-- **Browse Cat Breeds**: View a comprehensive list of cat breeds with detailed information
-- **Search Functionality**: Real-time search with debouncing for optimal performance
-- **Detailed Information**: Complete breed profiles including physical traits, temperament, and ratings
+- **Browse Cat Breeds**: View a comprehensive list of cat breeds with detailed information and high-quality images
+- **Search Functionality**: Real-time search with debouncing for optimal performance (English language support)
+- **Detailed Information**: Complete breed profiles with fixed image layout (50% screen height) and scrollable content
+- **Enhanced UI/UX**: 
+  - Optimized image loading with API image attachment
+  - Consistent AppBar theming with primary color scheme
+  - Improved text contrast and accessibility
+  - Breed name display in detail page AppBar for better navigation
+- **Performance Optimized**: Efficient image loading and responsive design
 
 ## Environment & Flutter version
 -----------------------------

@@ -114,7 +114,7 @@ void main() {
       await tester.pumpAndSettle();
       
       // Scroll down to show characteristics section
-      await tester.drag(find.byType(CustomScrollView), const Offset(0, -300));
+      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -300));
       await tester.pumpAndSettle();
 
       // Assert

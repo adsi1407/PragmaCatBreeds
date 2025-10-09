@@ -28,14 +28,16 @@ class BreedCharacteristicsWidget extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          children: characteristics
-              .map((characteristic) => _buildCharacteristicRow(
-                    context,
-                    characteristic.name,
-                    characteristic.value,
-                  ))
-              .toList(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: characteristics
+                .map((characteristic) => _buildCharacteristicRow(
+                      context,
+                      characteristic.name,
+                      characteristic.value,
+                    ))
+                .toList(),
+          ),
         ),
       ),
     );
