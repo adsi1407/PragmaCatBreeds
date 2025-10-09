@@ -16,18 +16,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Multi-language support (English/Spanish)
 - Dark/Light theme support
 - Offline-first architecture with local caching
+- Enhanced image loading with API image attachment parameter
+- Breed name display in detail page AppBar for better navigation
+- Consistent AppBar theming with primary color scheme
+- Image URL construction from reference_image_id for improved image loading
+- Cat emoji icon in splash screen for better brand representation
+- Improved accessibility labels and semantic information
+- Better error handling and empty state management
 
 ### Changed
-- N/A
+- Restructured cat breed detail page layout from SliverAppBar to Column-based design
+- Implemented fixed image container at 50% screen height for consistent visual hierarchy
+- Updated API integration to include image attachment parameter for better image availability
+- Improved text contrast and accessibility across the application
+- Enhanced AppBar text visibility with white color and shadow effects
+- Updated splash screen icon from generic paw to cat emoji
+- Fixed timer disposal in splash screen to prevent memory leaks
+- Improved test coverage and reliability for UI changes
+- Enhanced search functionality with proper debouncing and state management
+
+### Fixed
+- Timer disposal issues in splash screen causing test failures
+- Text visibility problems in detail page AppBar overlay
+- Widget overflow issues in breed characteristics display
+- API image loading by implementing reference_image_id fallback
+- Test suite failures related to UI structure changes
+- Accessibility compliance issues with proper semantic labels
+- Search functionality timing and state management issues
 
 ### Deprecated
 - N/A
 
 ### Removed
-- N/A
+- Duplicate breed name title overlay on detail page images (now shown in AppBar)
 
 ### Fixed
-- N/A
+- Missing images in breed list by adding attach_image=1 API parameter
+- Inconsistent AppBar theming across the application
+- Text contrast issues with white-on-white text display
+- Detail page layout issues with scrollable content and image positioning
 
 ### Security
 - N/A
