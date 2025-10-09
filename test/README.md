@@ -1,6 +1,19 @@
-# Testing D```
+# Testing D``````
 test/
 ├── TEST_ORGANIZATION.md                    # Testing organization principles (READ THIS FIRST!)
+├── presentation/                           # UI and presentation layer tests
+│   └── cat_breeds/
+│       ├── widgets/
+│       │   ├── goldens/                   # Golden files for visual regression
+│       │   └── cat_breed_list_item_golden_test.dart
+│       ├── test_doubles/                  # Feature-specific mocks
+│       ├── cat_breeds_bloc_test.dart      # BLoC state management tests
+│       └── cat_breeds_page_test.dart      # Widget and UI tests
+├── smoke/                                 # Basic smoke tests
+├── theme/                                 # Theme and styling tests
+├── integration_test.dart                  # End-to-end integration tests
+└── GOLDEN_TESTS.md                       # Golden tests workflow and guidelines
+```EST_ORGANIZATION.md                    # Testing organization principles (READ THIS FIRST!)
 ├── presentation/                           # UI and presentation layer testsentation
 
 This directory contains all tests for the Cat Breeds application, following Clean Architecture principles and comprehensive testing strategies.
@@ -43,12 +56,43 @@ flutter test
 
 # Run specific test suites
 flutter test test/presentation/
-flutter test test/accessibility_tests/
-flutter test test/golden_tests/
+flutter test test/smoke/
 
 # Run with coverage
 flutter test --coverage
+
+# Golden Tests - Visual Regression Testing
+flutter test --update-goldens                    # Generate/update golden files
+flutter test test/presentation/**/*_golden_test.dart  # Run only golden tests
 ```
+
+## 🎨 Golden Tests Workflow
+
+Golden tests ensure UI components render consistently. **Important**: Golden files must be committed to version control.
+
+### When to Update Golden Files
+- Adding new UI components with golden tests
+- Intentionally changing existing UI appearance
+- After theme or styling updates
+
+### Commands
+```bash
+# Generate golden files for all tests
+flutter test --update-goldens
+
+# Generate for specific widget
+flutter test --update-goldens test/presentation/cat_breeds/widgets/cat_breed_list_item_golden_test.dart
+
+# Verify golden tests pass
+flutter test test/presentation/**/*_golden_test.dart
+```
+
+### Pull Request Requirements
+- [ ] Golden files (.png) must be committed if UI changes
+- [ ] All golden tests must pass in CI
+- [ ] Include screenshots in PR description for visual review
+
+See **[GOLDEN_TESTS.md](GOLDEN_TESTS.md)** for detailed workflow.
 
 ## 📚 Additional Resources
 

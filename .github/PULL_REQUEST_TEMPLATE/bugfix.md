@@ -13,6 +13,10 @@ Required (must be completed)
 	- Presentation >= 50%
 - [ ] I ran `flutter format` on modified files.
 - [ ] I updated or added tests for any new behavior (unit, bloc, widget as appropriate).
+- [ ] **Golden Tests**: If the fix affects UI components:
+  - [ ] Updated golden files with `flutter test --update-goldens` if visual changes are expected
+  - [ ] Verified all golden tests pass after the fix
+  - [ ] Committed updated golden files if UI changes are intentional
 - [ ] I followed the test organization guidelines: [Domain](../../module/domain/test/TEST_ORGANIZATION.md) | [Infrastructure](../../module/infrastructure/test/TEST_ORGANIZATION.md).
 - [ ] I added or updated documentation if public APIs, architecture, or behaviors changed (README/Architecture/[CHANGELOG](../../CHANGELOG.md)).
 
