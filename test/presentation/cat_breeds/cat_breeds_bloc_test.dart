@@ -14,6 +14,7 @@ void main() {
     late MockGetCatBreedsUseCase mockGetCatBreedsUseCase;
     late MockSearchCatBreedsUseCase mockSearchCatBreedsUseCase;
 
+    // Test Data
     const tCatBreeds = <CatBreed>[
       CatBreed(
         id: '1',
@@ -39,8 +40,11 @@ void main() {
         wikipediaUrl: 'https://wikipedia.org/siamese',
       ),
     ];
+    const tSearchQuery = 'Siamese';
+    const tErrorMessage = 'Server error';
 
     setUp(() {
+      // Arrange
       mockGetCatBreedsUseCase = MockGetCatBreedsUseCase();
       mockSearchCatBreedsUseCase = MockSearchCatBreedsUseCase();
       
@@ -54,89 +58,236 @@ void main() {
       catBreedsBloc.close();
     });
 
-    test('initial state should be CatBreedsInitial', () {
-      expect(catBreedsBloc.state, equals(const CatBreedsInitial()));
+    group('Initial State', () {
+      test('blocCreation | initialInstantiation | emitsInitialState', () {
+        // Assert
+        expect(catBreedsBloc.state, equals(const CatBreedsInitial()));
+      });
     });
 
-    group('CatBreedsLoadRequested', () {
-      blocTest<CatBreedsBloc, CatBreedsState>(
-        'emits [CatBreedsLoading, CatBreedsLoaded] when loading is successful',
-        build: () {
-          when(() => mockGetCatBreedsUseCase.call())
-              .thenAnswer((_) async => tCatBreeds);
-          return catBreedsBloc;
-        },
-        act: (bloc) => bloc.add(const CatBreedsLoadRequested()),
-        expect: () => [
-          const CatBreedsLoading(),
-          const CatBreedsLoaded(breeds: tCatBreeds),
-        ],
-        verify: (_) {
-          verify(() => mockGetCatBreedsUseCase.call()).called(1);
-        },
-      );
+    group('CatBreedsLoadRequested Event', () {
+      group('Successful Load Scenarios', () {
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'useCaseReturnsBreeds | loadRequestedEvent | emitsLoadingThenLoadedStates',
+          build: () {
+            // Arrange
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenAnswer((_) async => tCatBreeds);
+            return catBreedsBloc;
+          },
+          act: (bloc) {
+            // Act
+            bloc.add(const CatBreedsLoadRequested());
+          },
+          expect: () => [
+            // Assert
+            const CatBreedsLoading(),
+            const CatBreedsLoaded(breeds: tCatBreeds),
+          ],
+          verify: (_) {
+            verify(() => mockGetCatBreedsUseCase.call()).called(1);
+          },
+        );
 
-      blocTest<CatBreedsBloc, CatBreedsState>(
-        'emits [CatBreedsLoading, CatBreedsError] when loading fails',
-        build: () {
-          when(() => mockGetCatBreedsUseCase.call())
-              .thenThrow(Exception('Server error'));
-          return catBreedsBloc;
-        },
-        act: (bloc) => bloc.add(const CatBreedsLoadRequested()),
-        expect: () => [
-          const CatBreedsLoading(),
-          const CatBreedsError('Failed to load cat breeds: Exception: Server error'),
-        ],
-        verify: (_) {
-          verify(() => mockGetCatBreedsUseCase.call()).called(1);
-        },
-      );
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'useCaseReturnsEmptyList | loadRequestedEvent | emitsLoadingThenLoadedWithEmptyList',
+          build: () {
+            // Arrange
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenAnswer((_) async => const <CatBreed>[]);
+            return catBreedsBloc;
+          },
+          act: (bloc) {
+            // Act
+            bloc.add(const CatBreedsLoadRequested());
+          },
+          expect: () => [
+            // Assert
+            const CatBreedsLoading(),
+            const CatBreedsLoaded(breeds: <CatBreed>[]),
+          ],
+          verify: (_) {
+            verify(() => mockGetCatBreedsUseCase.call()).called(1);
+          },
+        );
+      });
+
+      group('Error Scenarios', () {
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'useCaseThrowsException | loadRequestedEvent | emitsLoadingThenErrorState',
+          build: () {
+            // Arrange
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenThrow(Exception(tErrorMessage));
+            return catBreedsBloc;
+          },
+          act: (bloc) {
+            // Act
+            bloc.add(const CatBreedsLoadRequested());
+          },
+          expect: () => [
+            // Assert
+            const CatBreedsLoading(),
+            const CatBreedsError('Failed to load cat breeds: Exception: $tErrorMessage'),
+          ],
+          verify: (_) {
+            verify(() => mockGetCatBreedsUseCase.call()).called(1);
+          },
+        );
+      });
     });
 
-    group('CatBreedsSearchRequested', () {
-      blocTest<CatBreedsBloc, CatBreedsState>(
-        'emits loading and loaded states when search is performed',
-        build: () {
+    group('CatBreedsSearchRequested Event', () {
+      group('Successful Search Scenarios', () {
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'useCaseReturnsFilteredResults | searchRequestedEvent | emitsSearchingState',
+          build: () {
+            // Arrange
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenAnswer((_) async => tCatBreeds);
+            when(() => mockSearchCatBreedsUseCase.call(tSearchQuery))
+                .thenAnswer((_) async => [tCatBreeds.first]);
+            return catBreedsBloc;
+          },
+          act: (bloc) {
+            // Act
+            bloc.add(const CatBreedsLoadRequested());
+            bloc.add(const CatBreedsSearchRequested(tSearchQuery));
+          },
+          expect: () => [
+            // Assert
+            const CatBreedsLoading(),
+            const CatBreedsLoaded(breeds: tCatBreeds),
+            CatBreedsLoaded(
+              breeds: tCatBreeds,
+              isSearching: true,
+              searchQuery: tSearchQuery,
+            ),
+          ],
+        );
+
+        test('emptyQueryProvided | searchRequestedEvent | showsAllBreedsWithoutSearching', () async {
+          // Arrange
           when(() => mockGetCatBreedsUseCase.call())
               .thenAnswer((_) async => tCatBreeds);
-          when(() => mockSearchCatBreedsUseCase.call('Siamese'))
-              .thenAnswer((_) async => [tCatBreeds.first]);
-          return catBreedsBloc;
-        },
-        act: (bloc) {
-          bloc.add(const CatBreedsLoadRequested());
-          bloc.add(const CatBreedsSearchRequested('Siamese'));
-        },
-        wait: const Duration(milliseconds: 500),
-        expect: () => [
-          const CatBreedsLoading(),
-          const CatBreedsLoaded(breeds: tCatBreeds),
-          CatBreedsLoaded(
+          
+          // First load the breeds to populate internal _allBreeds
+          catBreedsBloc.add(const CatBreedsLoadRequested());
+          await expectLater(
+            catBreedsBloc.stream,
+            emitsInOrder([
+              const CatBreedsLoading(),
+              const CatBreedsLoaded(breeds: tCatBreeds),
+            ]),
+          );
+
+          // Act - search with empty query
+          catBreedsBloc.add(const CatBreedsSearchRequested(''));
+
+          // Assert
+          await expectLater(
+            catBreedsBloc.stream,
+            emits(const CatBreedsLoaded(
+              breeds: tCatBreeds,
+              isSearching: false,
+              searchQuery: '',
+            )),
+          );
+
+          verifyNever(() => mockSearchCatBreedsUseCase.call(any()));
+        });
+      });
+
+      group('Error Scenarios', () {
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'useCaseThrowsException | searchRequestedEvent | emitsInitialSearchingState',
+          build: () {
+            // Arrange
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenAnswer((_) async => tCatBreeds);
+            when(() => mockSearchCatBreedsUseCase.call(tSearchQuery))
+                .thenThrow(Exception(tErrorMessage));
+            return catBreedsBloc;
+          },
+          act: (bloc) {
+            // Act
+            bloc.add(const CatBreedsLoadRequested());
+            bloc.add(const CatBreedsSearchRequested(tSearchQuery));
+          },
+          wait: const Duration(milliseconds: 600),
+          expect: () => [
+            // Assert
+            const CatBreedsLoading(),
+            const CatBreedsLoaded(breeds: tCatBreeds),
+            CatBreedsLoaded(
+              breeds: tCatBreeds,
+              isSearching: true,
+              searchQuery: tSearchQuery,
+            ),
+          ],
+        );
+      });
+    });
+
+    group('CatBreedsSearchCleared Event', () {
+      group('Successful Clear Scenarios', () {
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'validSearchStateExists | searchClearedEvent | emitsLoadedStateWithAllBreeds',
+          build: () {
+            // Arrange
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenAnswer((_) async => tCatBreeds);
+            return catBreedsBloc;
+          },
+          seed: () => CatBreedsLoaded(
             breeds: [tCatBreeds.first],
             isSearching: true,
-            searchQuery: 'Siamese',
+            searchQuery: tSearchQuery,
           ),
-        ],
-      );
-    });
+          act: (bloc) {
+            // Act
+            bloc.add(const CatBreedsSearchCleared());
+          },
+          expect: () => [
+            // Assert
+            const CatBreedsLoading(),
+            const CatBreedsLoaded(
+              breeds: tCatBreeds,
+              isSearching: false,
+              searchQuery: '',
+            ),
+          ],
+          verify: (_) {
+            verify(() => mockGetCatBreedsUseCase.call()).called(1);
+          },
+        );
+      });
 
-    group('CatBreedsSearchCleared', () {
-      blocTest<CatBreedsBloc, CatBreedsState>(
-        'shows all cat breeds when SearchCleared is added after loading',
-        build: () {
-          when(() => mockGetCatBreedsUseCase.call())
-              .thenAnswer((_) async => tCatBreeds);
-          return catBreedsBloc;
-        },
-        act: (bloc) {
-          bloc.add(const CatBreedsLoadRequested());
-        },
-        expect: () => [
-          const CatBreedsLoading(),
-          const CatBreedsLoaded(breeds: tCatBreeds),
-        ],
-      );
+      group('Error Scenarios', () {
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'useCaseThrowsException | searchClearedEvent | emitsErrorState',
+          build: () {
+            // Arrange
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenThrow(Exception(tErrorMessage));
+            return catBreedsBloc;
+          },
+          seed: () => CatBreedsLoaded(
+            breeds: [tCatBreeds.first],
+            isSearching: true,
+            searchQuery: tSearchQuery,
+          ),
+          act: (bloc) {
+            // Act
+            bloc.add(const CatBreedsSearchCleared());
+          },
+          expect: () => [
+            // Assert
+            const CatBreedsLoading(),
+            const CatBreedsError('Failed to clear search: Exception: $tErrorMessage'),
+          ],
+        );
+      });
     });
   });
 }
