@@ -986,6 +986,14 @@ These thresholds are enforced in:
 - ✅ CI pipeline (`.github/workflows/ci.yml`)
 - ✅ Automation tools (`tool/ci/check_coverage.dart`)
 
+## Related Documentation
+
+📚 **Additional Technical Documentation:**
+- [Presentation Layer Architecture](docs/PRESENTATION_ARCHITECTURE.md) - Detailed presentation layer patterns
+- [Performance Optimization Guide](docs/PERFORMANCE.md) - Performance best practices and benchmarks
+- [Contributing Guidelines](CONTRIBUTING.md) - Development workflow and standards
+- [Change History](CHANGELOG.md) - Project evolution and updates
+
 ## Future Improvements
 ```
 
