@@ -1,11 +1,31 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_breeds_event.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_breeds_state.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/page/cat_breeds_page.dart';
 import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
-import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
+
+class MockCatBreedsBloc extends MockBloc<CatBreedsEvent, CatBreedsState> 
+    implements CatBreedsBloc {}
 
 void main() {
   group('CatBreedsPage Accessibility Tests', () {
+    late MockCatBreedsBloc mockCatBreedsBloc;
+
+    setUp(() {
+      mockCatBreedsBloc = MockCatBreedsBloc();
+      when(() => mockCatBreedsBloc.state).thenReturn(const CatBreedsInitial());
+      GetIt.instance.registerSingleton<CatBreedsBloc>(mockCatBreedsBloc);
+    });
+
+    tearDown(() {
+      GetIt.instance.reset();
+    });
     
     testWidgets('pageProvided | fullPageRender | meetsAccessibilityGuidelines', (WidgetTester tester) async {
       // Arrange

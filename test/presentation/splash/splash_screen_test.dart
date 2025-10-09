@@ -1,13 +1,33 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_breeds_event.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_breeds_state.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/page/cat_breeds_page.dart';
 import 'package:pragma_cat_breeds/src/presentation/splash/splash_screen.dart';
-import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
 import 'package:pragma_cat_breeds/src/theme/pragma_colors.dart';
+import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
+
+class MockCatBreedsBloc extends MockBloc<CatBreedsEvent, CatBreedsState> 
+    implements CatBreedsBloc {}
 
 void main() {
   group('SplashScreen', () {
+    late MockCatBreedsBloc mockCatBreedsBloc;
+
+    setUp(() {
+      mockCatBreedsBloc = MockCatBreedsBloc();
+      when(() => mockCatBreedsBloc.state).thenReturn(const CatBreedsInitial());
+      GetIt.instance.registerSingleton<CatBreedsBloc>(mockCatBreedsBloc);
+    });
+
+    tearDown(() {
+      GetIt.instance.reset();
+    });
     Widget createWidgetUnderTest() {
       return MaterialApp(
         theme: PragmaTheme.lightTheme,
@@ -25,13 +45,13 @@ void main() {
     testWidgets('should display Pragma logo', (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.byIcon(Icons.pets), findsOneWidget);
+      expect(find.textContaining('🐱'), findsOneWidget);
     });
 
     testWidgets('should display welcome loading text', (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.textContaining('Welcome'), findsOneWidget);
+      expect(find.textContaining('Loading cat breeds'), findsOneWidget);
     });
 
     testWidgets('should display Powered by Pragma text', (WidgetTester tester) async {
@@ -54,7 +74,7 @@ void main() {
       expect(scaffoldFinder, findsOneWidget);
 
       final scaffold = tester.widget<Scaffold>(scaffoldFinder);
-      expect(scaffold.backgroundColor, equals(PragmaColors.gray50));
+      expect(scaffold.backgroundColor, equals(PragmaColors.lightColorScheme.surface));
     });
 
     testWidgets('should have animation controller', (WidgetTester tester) async {
@@ -102,8 +122,9 @@ void main() {
       expect(find.byType(SplashScreen), findsOneWidget);
       expect(find.byType(CatBreedsPage), findsNothing);
 
-      // Wait for the navigation timeout (3 seconds)
-      await tester.pump(const Duration(seconds: 4));
+      // Wait for the navigation timeout (3 seconds) and settle animations
+      await tester.pump(const Duration(seconds: 3));
+      await tester.pumpAndSettle();
 
       // Should navigate to CatBreedsPage
       expect(find.byType(CatBreedsPage), findsOneWidget);

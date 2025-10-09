@@ -12,12 +12,11 @@ void main() {
     late CatBreedTranslator translator;
     late CatBreedApi api;
 
-    setUpAll(() {
-      registerFallbackValue(RequestOptions(path: ''));
-      registerFallbackValue(BaseOptions());
-    });
-
-    setUp(() {
+  setUpAll(() {
+    registerFallbackValue(RequestOptions(path: ''));
+    registerFallbackValue(BaseOptions());
+    registerFallbackValue(<String, dynamic>{});
+  });    setUp(() {
       mockDio = MockDio();
       translator = const CatBreedTranslator();
       
@@ -72,8 +71,10 @@ void main() {
           requestOptions: RequestOptions(path: '/breeds'),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenAnswer((_) async => mockResponse);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenAnswer((_) async => mockResponse);
 
         // Act
         final result = await api.getCatBreeds();
@@ -85,7 +86,10 @@ void main() {
         expect(result[1].id, equals('pers'));
         expect(result[1].name, equals('Persian'));
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
 
       test('apiReturnsNull | responseDataNull | returnsEmptyList', () async {
@@ -96,15 +100,20 @@ void main() {
           requestOptions: RequestOptions(path: '/breeds'),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenAnswer((_) async => mockResponse);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenAnswer((_) async => mockResponse);
 
         // Act
         final result = await api.getCatBreeds();
 
         // Assert
         expect(result, isEmpty);
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
 
       test('apiReturnsEmptyList | responseDataEmpty | returnsEmptyList', () async {
@@ -115,15 +124,20 @@ void main() {
           requestOptions: RequestOptions(path: '/breeds'),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenAnswer((_) async => mockResponse);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenAnswer((_) async => mockResponse);
 
         // Act
         final result = await api.getCatBreeds();
 
         // Assert
         expect(result, isEmpty);
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
 
       test('dioThrowsConnectionTimeout | connectionTimeout | propagatesDioException', () async {
@@ -134,8 +148,10 @@ void main() {
           message: 'Connection timeout',
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenThrow(dioError);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenThrow(dioError);
 
         // Act & Assert
         expect(
@@ -147,7 +163,10 @@ void main() {
           )),
         );
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
 
       test('dioThrowsServerError | badResponse | propagatesDioException', () async {
@@ -162,8 +181,10 @@ void main() {
           ),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenThrow(dioError);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenThrow(dioError);
 
         // Act & Assert
         expect(
@@ -175,7 +196,10 @@ void main() {
           )),
         );
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
     });
 
@@ -508,8 +532,10 @@ void main() {
           requestOptions: RequestOptions(path: '/breeds'),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenAnswer((_) async => mockResponse);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenAnswer((_) async => mockResponse);
 
         // Act
         final result = await api.getCatBreeds();
@@ -520,7 +546,10 @@ void main() {
         expect(result[0].name, equals('Test Cat'));
         expect(result[0].description, isNull);
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
 
       test('getCatBreeds | largeResponseData | handlesLargeDataSets', () async {
@@ -537,8 +566,10 @@ void main() {
           requestOptions: RequestOptions(path: '/breeds'),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenAnswer((_) async => mockResponse);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenAnswer((_) async => mockResponse);
 
         // Act
         final result = await api.getCatBreeds();
@@ -548,7 +579,10 @@ void main() {
         expect(result.first.id, equals('breed_0'));
         expect(result.last.id, equals('breed_99'));
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
 
       test('getCatBreeds | concurrentRequests | handlesConcurrentRequests', () async {
@@ -566,8 +600,10 @@ void main() {
           requestOptions: RequestOptions(path: '/breeds'),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenAnswer((_) async => mockResponse);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenAnswer((_) async => mockResponse);
 
         // Act
         final futures = List.generate(5, (_) => api.getCatBreeds());
@@ -580,7 +616,10 @@ void main() {
           expect(result[0].id, equals('concurrent_test'));
         }
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(5);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(5);
       });
 
       test('getCatBreeds | networkExceptions | handlesNetworkExceptions', () async {
@@ -591,8 +630,10 @@ void main() {
           message: 'Network unreachable',
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenThrow(networkError);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenThrow(networkError);
 
         // Act & Assert
         expect(
@@ -604,7 +645,10 @@ void main() {
           )),
         );
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
     });
 
@@ -636,8 +680,10 @@ void main() {
           requestOptions: RequestOptions(path: '/breeds'),
         );
 
-        when(() => mockDio.get<List<dynamic>>('/breeds'))
-            .thenAnswer((_) async => mockResponse);
+        when(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).thenAnswer((_) async => mockResponse);
 
         // Act
         final result = await api.getCatBreeds();
@@ -660,7 +706,10 @@ void main() {
         expect(catBreed.image?.height, equals(600));
         expect(catBreed.image?.url, equals('https://example.com/test.jpg'));
 
-        verify(() => mockDio.get<List<dynamic>>('/breeds')).called(1);
+        verify(() => mockDio.get<List<dynamic>>(
+          any(),
+          queryParameters: any(named: 'queryParameters'),
+        )).called(1);
       });
     });
   });

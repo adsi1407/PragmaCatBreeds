@@ -68,7 +68,7 @@ void main() {
       final handle = tester.ensureSemantics();
       
       // Verify that the page has navigation elements
-      expect(find.byType(CustomScrollView), findsOneWidget);
+      expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
       
       // Verify that the page has proper semantic labels
       expect(find.byType(Scaffold), findsOneWidget);
@@ -88,7 +88,7 @@ void main() {
       final handle = tester.ensureSemantics();
       
       // Verify scrollable content is accessible
-      expect(find.byType(CustomScrollView), findsOneWidget);
+      expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
       
       // Verify breed name is properly labeled
       final appBarTextFinder = find.text(tCatBreed.name);

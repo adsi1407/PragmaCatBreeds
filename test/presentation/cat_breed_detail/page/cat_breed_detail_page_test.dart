@@ -65,21 +65,21 @@ void main() {
     }
 
     group('Widget Structure', () {
-      testWidgets('breedProvided | pageRender | displaysScaffoldWithCustomScrollView', (tester) async {
+      testWidgets('breedProvided | pageRender | displaysScaffoldWithScrollableContent', (tester) async {
         // Arrange
         await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 
         // Act & Assert
         expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.byType(CustomScrollView), findsOneWidget);
+        expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
       });
 
-      testWidgets('breedProvided | pageRender | displaysSliverAppBarWithBreedName', (tester) async {
+      testWidgets('breedProvided | pageRender | displaysAppBarWithBreedName', (tester) async {
         // Arrange
         await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 
         // Act & Assert
-        expect(find.byType(SliverAppBar), findsOneWidget);
+        expect(find.byType(AppBar), findsOneWidget);
         expect(find.text('Siamese'), findsOneWidget);
       });
     });
@@ -126,12 +126,12 @@ void main() {
         await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 
         // Act
-        final scrollViewFinder = find.byType(CustomScrollView);
+        final scrollViewFinder = find.byType(SingleChildScrollView).first;
         await tester.drag(scrollViewFinder, const Offset(0, -100));
         await tester.pump();
 
         // Assert
-        expect(scrollViewFinder, findsOneWidget);
+        expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
       });
     });
 

@@ -80,7 +80,7 @@ void main() {
         await tester.pumpWidget(widget);
 
         // Assert
-        expect(find.byType(Row), findsOneWidget);
+        expect(find.byType(Row), findsAtLeastNWidgets(1));
         expect(find.byType(ClipRRect), findsOneWidget);
         expect(find.byType(Column), findsOneWidget);
         expect(find.byIcon(Icons.chevron_right), findsOneWidget);

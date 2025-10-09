@@ -1,7 +1,7 @@
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
@@ -17,6 +17,13 @@ void main() {
 
     setUp(() {
       mockCatBreedsBloc = MockCatBreedsBloc();
+      // Register the mock bloc in GetIt for the test
+      GetIt.instance.registerSingleton<CatBreedsBloc>(mockCatBreedsBloc);
+    });
+
+    tearDown(() {
+      // Clean up GetIt after each test
+      GetIt.instance.reset();
     });
 
     Widget createWidgetUnderTest() {
@@ -29,10 +36,10 @@ void main() {
           Locale('en'),
           Locale('es'),
         ],
-        home: BlocProvider<CatBreedsBloc>(
-          create: (_) => mockCatBreedsBloc,
-          child: const CatBreedsPage(),
-        ),
+        home: const CatBreedsPage(),
+        routes: {
+          '/cat-breed-detail': (context) => const Scaffold(body: Text('Detail Page')),
+        },
       );
     }
 
@@ -146,6 +153,9 @@ void main() {
       const searchQuery = 'Siamese';
       await tester.enterText(find.byType(TextField), searchQuery);
       
+      // Wait for debounce timer (300ms)
+      await tester.pump(const Duration(milliseconds: 350));
+      
       verify(() => mockCatBreedsBloc.add(CatBreedsSearchRequested(searchQuery)))
           .called(1);
     });
@@ -161,6 +171,10 @@ void main() {
       
       await tester.pumpWidget(createWidgetUnderTest());
       
+      // Enter text to make the clear button visible
+      await tester.enterText(find.byType(TextField), 'Siamese');
+      await tester.pump();
+      
       expect(find.byIcon(Icons.clear), findsOneWidget);
     });
 
@@ -174,6 +188,10 @@ void main() {
           ));
       
       await tester.pumpWidget(createWidgetUnderTest());
+      
+      // First enter text to make the clear button visible
+      await tester.enterText(find.byType(TextField), 'Siamese');
+      await tester.pump();
       
       await tester.tap(find.byIcon(Icons.clear));
       
@@ -221,7 +239,7 @@ void main() {
       
       await tester.pumpWidget(createWidgetUnderTest());
       
-      expect(find.textContaining('No breeds found'), findsOneWidget);
+      expect(find.textContaining('No results for'), findsOneWidget);
     });
 
     testWidgets('should add LoadRequested event on init', (WidgetTester tester) async {
