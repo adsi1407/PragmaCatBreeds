@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:domain/domain.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-
-part 'cat_breeds_event.dart';
-part 'cat_breeds_state.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_breeds_event.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_breeds_state.dart';
 
 /// BLoC for managing cat breeds list and search functionality
 @injectable
@@ -39,7 +37,7 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
       
       emit(CatBreedsLoaded(breeds: breeds));
     } catch (e) {
-      emit(CatBreedsError('Failed to load cat breeds: ${e}'));
+      emit(CatBreedsError('Failed to load cat breeds: $e'));
     }
   }
 
@@ -80,7 +78,7 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
           searchQuery: query,
         ));
       } catch (e) {
-        emit(CatBreedsError('Failed to search cat breeds: ${e}'));
+        emit(CatBreedsError('Failed to search cat breeds: $e'));
       }
     });
   }
