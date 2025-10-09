@@ -1,14 +1,55 @@
 # Test Organization Principles - Presentation Layer
 
-> 📋 **Quick Reference**: This document outlines the organizational principles applied to presentation layer test structures for consistent and maintainable test architecture following Clean Architecture.
+> 📋 **Quick Reference**: This document outlines the organizational principles applied to presentation layer test structures for consistent and maintainable test architecture following Clean Architecture with tag-based execution strategy.
 
 ## Overview
 
-The presentation layer test organization follows **Clean Architecture** principles and extends the patterns established in the domain and infrastructure layers. The organization emphasizes component cohesion and clear separation of UI testing concerns.
+The presentation layer test organization follows **Clean Architecture** principles and extends the patterns established in the domain and infrastructure layers. The organization emphasizes component cohesion, clear separation of UI testing concerns, and **tag-based test execution** for granular CI/CD control.
 
 > 📚 **Related Documentation**: 
 > - [Domain Test Organization](../module/domain/test/TEST_ORGANIZATION.md) - Business logic test organization principles
 > - [Infrastructure Test Organization](../module/infrastructure/test/TEST_ORGANIZATION.md) - Infrastructure layer test organization patterns
+> - [Accessibility Tests](ACCESSIBILITY_TESTS.md) - Accessibility testing guidelines and tag usage
+
+## 🏷️ Tag-Based Test Organization Strategy
+
+### Available Tags
+
+| Tag | Purpose | CI Execution | Example Files |
+|-----|---------|-------------|---------------|
+| `@Tags(['bloc'])` | BLoC/State management tests | Dedicated step | `cat_breeds_bloc_test.dart` |
+| `@Tags(['golden'])` | Golden/visual regression tests | Excluded from CI | `*_golden_test.dart` |
+| `@Tags(['accessibility'])` | Accessibility compliance tests | Dedicated step | `*_accessibility_test.dart` |
+| `@Tags(['integration'])` | End-to-end integration tests | Dedicated step | `cat_breeds_integration_test.dart` |
+
+### Tag Usage Guidelines
+
+#### ✅ Correct Tag Implementation:
+```dart
+@Tags(['bloc'])
+library;
+
+import 'package:flutter_test/flutter_test.dart';
+// ... other imports
+
+void main() {
+  group('CatBreedsBloc', () {
+    // BLoC-specific tests
+  });
+}
+```
+
+#### ✅ CI Tag Execution Strategy:
+```yaml
+# Run only BLoC tests
+flutter test --tags=bloc
+
+# Run widgets excluding BLoC, golden, and accessibility tests  
+flutter test test/presentation/**/widgets --exclude-tags=golden,accessibility,bloc
+
+# Run only accessibility tests
+flutter test --tags=accessibility
+```
 
 ## Core Principles for Presentation Layer
 

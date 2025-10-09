@@ -88,36 +88,49 @@ void main() {
 ```
 
 ### **Available Tags**
-- **`golden`**: Visual regression tests (excluded from CI due to environment differences)
+- **`bloc`**: BLoC/State management tests (dedicated CI step for state validation)
+- **`golden`**: Visual regression tests (excluded from CI due to environment differences)  
 - **`accessibility`**: Semantic and accessibility tests (dedicated CI step for focused execution)
+- **`integration`**: End-to-end integration tests (dedicated CI step for full system validation)
 
 ### **Tag Usage**
 ```bash
-# Run all tests EXCEPT golden and accessibility tests (CI widget/page behavior)
-flutter test --exclude-tags=golden,accessibility
+# Run all tests EXCEPT golden, accessibility, and bloc tests (CI widget/page behavior)
+flutter test --exclude-tags=golden,accessibility,bloc
+
+# Run ONLY BLoC tests (CI dedicated step)
+flutter test --tags=bloc
 
 # Run ONLY accessibility tests (CI dedicated step)
 flutter test --tags=accessibility
+
+# Run ONLY integration tests (CI dedicated step)  
+flutter test --tags=integration
 
 # Run ONLY golden tests (local development)
 flutter test --tags=golden
 
 # Run specific combinations
-flutter test test/presentation/ --exclude-tags=golden,accessibility
+flutter test test/presentation/ --exclude-tags=golden,accessibility,bloc
 ```
 
 ### **CI Execution Strategy**
 Tests are organized by tags to enable **granular CI execution**:
 
-- **Widget Tests**: `--exclude-tags=golden,accessibility` (focuses on pure widget functionality)  
-- **Page Tests**: `--exclude-tags=golden,accessibility` (focuses on page-level integration)
+- **BLoC Tests**: `--tags=bloc` (dedicated step for state management validation)
+- **Widget Tests**: `--exclude-tags=golden,accessibility,bloc` (focuses on pure widget functionality)  
+- **Page Tests**: `--exclude-tags=golden,accessibility,bloc` (focuses on page-level integration)
 - **Accessibility Tests**: `--tags=accessibility` (dedicated step for semantic validation)
+- **Integration Tests**: `--tags=integration` (dedicated step for end-to-end testing)
+- **Smoke/Theme Tests**: Direct directory execution (basic functionality validation)
 - **Golden Tests**: Excluded from CI, run locally only
 
 ### **Why This Separation?**
+- **BLoC isolation**: State management tests get dedicated execution and coverage tracking
 - **Golden tests excluded**: Environment differences cause pixel variations between CI and local
 - **Accessibility isolated**: Dedicated step ensures semantic tests get proper focus and reporting
-- **Clean separation**: Widget/page tests focus on functionality without visual/accessibility concerns
+- **Integration separated**: End-to-end tests run independently for better debugging
+- **Clean separation**: Widget/page tests focus on functionality without cross-cutting concerns
 - **Maintainable**: Adding new tests only requires proper tagging, no CI configuration changes
 
 **Local development**: All tests can be run together or by specific tags
