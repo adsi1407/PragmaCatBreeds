@@ -12,11 +12,11 @@ Este proyecto implementa una **estrategia de cobertura granular y realista** don
 
 ### 🔧 **Checkers Específicos**
 
-| Checker | Archivos Medidos | Archivos Excluidos | Umbral |
-|---------|------------------|-------------------|---------|
+| Checker | Files Measured | Files Excluded | Threshold |
+|---------|----------------|-----------------|-----------|
 | **BLoC** | `/bloc/`, `_bloc.dart`, `/events/`, `/states/` | UI, APIs, main.dart, DI | 50% |
-| **Domain** | `/domain/`, `/entities/`, `/use_cases/`, `/repositories/` | UI, infrastructure, APIs | 90% |
-| **Infrastructure** | `/infrastructure/`, `/api/`, `/dto/`, `_repository_impl.dart` | UI, domain, main.dart | 60% |
+| **Domain** | Entire `module/domain/` module | Generated files (.g.dart) | 90% |
+| **Infrastructure** | Entire `module/infrastructure/` module | Generated files (.g.dart) | 60% |
 | **Widgets** | `/widgets/`, `_widget.dart` | Pages, BLoCs, APIs, domain | 40% |
 | **Pages** | `/page/`, `/pages/`, `_page.dart` | Widgets, BLoCs, APIs, domain | 40% |
 
@@ -25,20 +25,19 @@ Este proyecto implementa una **estrategia de cobertura granular y realista** don
 ```bash
 tool/ci/
 ├── check_bloc_coverage.dart          # BLoC-specific coverage
-├── check_domain_coverage.dart        # Domain layer coverage  
-├── check_infrastructure_coverage.dart # Infrastructure layer coverage
 ├── check_widgets_coverage.dart       # Widget-specific coverage
 ├── check_pages_coverage.dart         # Page-specific coverage
-└── check_coverage.dart              # Generic fallback (deprecated)
+└── check_coverage.dart              # Generic checker (domain, infrastructure)
 ```
 
 ## 🔍 **Filosofía de Medición**
 
-### ✅ **Principios:**
-1. **Realismo**: Solo medir archivos que el test puede alcanzar
-2. **Especificidad**: Cada tipo de test tiene su dominio
-3. **Exclusión inteligente**: Automáticamente excluye archivos irrelevantes
-4. **Umbrales apropiados**: Diferentes expectativas por tipo
+### ✅ **Principles:**
+1. **Realism**: Only measure files that tests can actually reach
+2. **Specificity**: Presentation tests have specific checkers  
+3. **Modular simplicity**: Separate modules (domain/infrastructure) use generic checker
+4. **Intelligent exclusion**: Automatically excludes irrelevant files
+5. **Appropriate thresholds**: Different expectations per type
 
 ### 🎯 **Ejemplos Prácticos:**
 
@@ -55,58 +54,77 @@ lib/src/dependency_injection/dependency_injection.dart
 lib/src/presentation/cat_breeds/page/cat_breeds_page.dart
 ```
 
-#### **Domain Tests**
+#### **Domain Tests (module/domain/)**
 ```dart
-// ✅ Medido
+// ✅ Measured - ENTIRE MODULE
 module/domain/lib/src/entities/cat_breed.dart
 module/domain/lib/src/use_cases/get_cat_breeds_use_case.dart
 module/domain/lib/src/repositories/cat_breed_repository.dart
 
-// ❌ Excluido
-lib/src/presentation/               # UI layer
-module/infrastructure/             # Implementation details
+// ❌ Automatically excluded
+module/domain/lib/src/*.g.dart         # Generated files
+```
+
+#### **Infrastructure Tests (module/infrastructure/)**
+```dart
+// ✅ Measured - ENTIRE MODULE  
+module/infrastructure/lib/src/cat_breed/api/cat_breed_api.dart
+module/infrastructure/lib/src/cat_breed/dto/cat_breed_dto.dart
+module/infrastructure/lib/src/cat_breed/repository/cat_breed_repository_impl.dart
+
+// ❌ Automatically excluded
+module/infrastructure/lib/src/*.g.dart # Generated files
 ```
 
 ## 🚀 **Uso en CI/CD**
 
 ### **GitHub Actions Workflow:**
 ```yaml
-# BLoC Coverage
+# BLoC Coverage (specific)
 - run: flutter test --coverage --tags=bloc
 - run: dart run tool/ci/check_bloc_coverage.dart coverage-bloc.lcov 50
 
-# Domain Coverage  
+# Domain Coverage (generic - entire module)
 - run: flutter test --coverage
-- run: dart run tool/ci/check_domain_coverage.dart coverage-domain.lcov 90
+- run: dart run tool/ci/check_coverage.dart coverage-domain.lcov 90
 
-# Infrastructure Coverage
+# Infrastructure Coverage (generic - entire module)
 - run: flutter test --coverage
-- run: dart run tool/ci/check_infrastructure_coverage.dart coverage-infra.lcov 60
+- run: dart run tool/ci/check_coverage.dart coverage-infra.lcov 60
+
+# Widget Coverage (specific)
+- run: flutter test --coverage --exclude-tags=golden,accessibility,bloc
+- run: dart run tool/ci/check_widgets_coverage.dart coverage-widgets.lcov 40
 ```
 
-### **Comandos Locales:**
+### **Local Commands:**
 ```bash
-# Test individual coverage
+# Test BLoC coverage (specific)
 flutter test --coverage --tags=bloc
 dart run tool/ci/check_bloc_coverage.dart coverage/lcov.info 50
 
-# Test all types
-flutter test --coverage
-dart run tool/ci/check_domain_coverage.dart coverage/lcov.info 90
-dart run tool/ci/check_infrastructure_coverage.dart coverage/lcov.info 60
+# Test Domain coverage (generic - entire module)
+cd module/domain && flutter test --coverage
+dart run ../../tool/ci/check_coverage.dart coverage/lcov.info 90
+
+# Test Infrastructure coverage (generic - entire module)
+cd module/infrastructure && flutter test --coverage  
+dart run ../../tool/ci/check_coverage.dart coverage/lcov.info 60
+
+# Test Widget coverage (specific)
+flutter test --coverage test/presentation/**/widgets --exclude-tags=golden,accessibility,bloc
 dart run tool/ci/check_widgets_coverage.dart coverage/lcov.info 40
-dart run tool/ci/check_pages_coverage.dart coverage/lcov.info 40
 ```
 
-## 🎯 **Umbrales y Justificación**
+## 🎯 **Thresholds and Justification**
 
-| Layer | Umbral | Justificación |
-|-------|--------|---------------|
-| **Domain** | 90% | Lógica de negocio crítica, fácil de testear |
-| **Infrastructure** | 60% | APIs externas, I/O, más complejo |
-| **BLoC** | 50% | Lógica de presentación, dependencias externas |
-| **Widgets** | 40% | UI compleja, dependencias de Flutter |
-| **Pages** | 40% | Integración completa, navegación |
+| Layer | Threshold | Justification |
+|-------|-----------|---------------|
+| **Domain** | 90% | Critical business logic, isolated module, easy to test |
+| **Infrastructure** | 60% | External APIs, I/O operations, isolated module but more complex |
+| **BLoC** | 50% | Presentation logic, external dependencies, specific filtering |
+| **Widgets** | 40% | Complex UI, Flutter dependencies, specific filtering |
+| **Pages** | 40% | Full integration, navigation, specific filtering |
 
 ## 📈 **Beneficios Obtenidos**
 

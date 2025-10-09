@@ -95,7 +95,7 @@ jobs:
         # the generated lcov file resolve correctly.
         working-directory: module
         run: |
-          dart run ../tool/ci/check_domain_coverage.dart coverage-domain.lcov ${{ env.COVERAGE_DOMAIN_MIN }}
+          dart run ../tool/ci/check_coverage.dart coverage-domain.lcov ${{ env.COVERAGE_DOMAIN_MIN }}
 
       - name: Upload domain coverage
         uses: actions/upload-artifact@v4
@@ -115,7 +115,7 @@ jobs:
         # resolved consistently and the generated lcov file is found.
         working-directory: module
         run: |
-          dart run ../tool/ci/check_infrastructure_coverage.dart coverage-infra.lcov ${{ env.COVERAGE_INFRA_MIN }}
+          dart run ../tool/ci/check_coverage.dart coverage-infra.lcov ${{ env.COVERAGE_INFRA_MIN }}
 
       - name: Upload infrastructure coverage
         uses: actions/upload-artifact@v4
