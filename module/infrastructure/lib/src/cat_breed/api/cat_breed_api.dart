@@ -18,12 +18,43 @@ class CatBreedApi {
   final Dio _dio;
   final CatBreedTranslator _translator;
   
-  // Obtener API key de environment variable en build-time
-  // Usar: flutter run --dart-define=CAT_API_KEY=your_key_here
-  static const String _apiKey = String.fromEnvironment(
-    'CAT_API_KEY',
-    defaultValue: 'live_BDQqVqUXMRfcVj7C8WJIUJpgHLVt8KHhO6WZdQoWZoS2nVUBGPGdKNO2S1ZhxA', // Fallback para desarrollo
-  );
+  // Configuración de API key basada en environment
+  static const bool _isDevelopment = bool.fromEnvironment('DEVELOPMENT', defaultValue: true);
+  static const String _productionApiKey = String.fromEnvironment('CAT_API_KEY');
+  static const String _developmentApiKey = 'live_BDQqVqUXMRfcVj7C8WJIUJpgHLVt8KHhO6WZdQoWZoS2nVUBGPGdKNO2S1ZhxA';
+  
+  /// Obtiene la API key según el environment
+  /// 
+  /// **Desarrollo**: Usa key hardcodeada para conveniencia
+  /// **Producción**: Requiere CAT_API_KEY en environment variables
+  /// 
+  /// **Uso en desarrollo**:
+  /// ```bash
+  /// flutter run
+  /// # o explícitamente:
+  /// flutter run --dart-define=DEVELOPMENT=true
+  /// ```
+  /// 
+  /// **Uso en producción**:
+  /// ```bash
+  /// flutter build apk --dart-define=DEVELOPMENT=false --dart-define=CAT_API_KEY=your_production_key
+  /// # En CI/CD:
+  /// flutter build apk --dart-define=DEVELOPMENT=false --dart-define=CAT_API_KEY=${{ secrets.CAT_API_KEY }}
+  /// ```
+  static String get _apiKey {
+    if (_isDevelopment) {
+      return _developmentApiKey;
+    }
+    
+    if (_productionApiKey.isEmpty) {
+      throw Exception(
+        'CAT_API_KEY not found in production environment. '
+        'Use: flutter build --dart-define=DEVELOPMENT=false --dart-define=CAT_API_KEY=your_key'
+      );
+    }
+    
+    return _productionApiKey;
+  }
 
   /// Retrieves all cat breeds from The Cat API.
   /// 
