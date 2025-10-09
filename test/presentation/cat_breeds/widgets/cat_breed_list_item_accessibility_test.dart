@@ -4,7 +4,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/widgets/cat_breed_list_item.dart';
 import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
 
+import '../../shared/test_doubles/widget_test_plugin_mocks.dart';
+
 void main() {
+  setUpAll(() {
+    WidgetTestPluginMocks.setUp();
+  });
+  
+  tearDownAll(() {
+    WidgetTestPluginMocks.tearDown();
+  });
+
   group('CatBreedListItem Accessibility Tests', () {
     
     testWidgets('breedProvided | widgetRender | meetsAccessibilityGuidelines', (WidgetTester tester) async {
