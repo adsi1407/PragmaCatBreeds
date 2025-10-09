@@ -131,7 +131,7 @@ jobs:
 
       - name: Check presentation bloc coverage
         run: |
-          dart run tool/ci/check_coverage.dart coverage-presentation-bloc.lcov ${{ env.COVERAGE_PRESENTATION_BLOC_MIN }}
+          dart run tool/ci/check_bloc_coverage.dart coverage-presentation-bloc.lcov ${{ env.COVERAGE_PRESENTATION_BLOC_MIN }}
 
       - name: Upload presentation bloc coverage
         uses: actions/upload-artifact@v4
