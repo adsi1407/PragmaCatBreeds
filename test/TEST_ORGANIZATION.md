@@ -251,6 +251,54 @@ test/presentation/
 4. **Consistent Naming**: All test methods follow 'condition | action | result' domain pattern
 5. **Feature Isolation**: Changes to one feature don't affect other features' test structure
 
+## 🏷️ Test Tag Organization
+
+### **Tag-Based Test Categories**
+
+Tests are categorized using `@Tags` annotations for **granular execution control**:
+
+```dart
+// Golden tests - visual regression
+@Tags(['golden'])
+library;
+
+// Accessibility tests - semantic validation  
+@Tags(['accessibility'])
+library;
+
+// Regular tests - no tags (default execution)
+```
+
+### **Benefits of Tag Organization**
+
+1. **CI Optimization**: Different test types can run in separate CI steps
+2. **Development Workflow**: Developers can run specific test categories locally
+3. **Maintenance**: No need to update CI configuration when adding new tests
+4. **Performance**: Excludes expensive tests (golden, accessibility) from regular test runs
+
+### **Tag Usage Patterns**
+
+```bash
+# Development - run core functionality tests only
+flutter test --exclude-tags=golden,accessibility
+
+# Visual validation - run only golden tests
+flutter test --tags=golden
+
+# Accessibility validation - run only semantic tests  
+flutter test --tags=accessibility
+
+# CI widget tests - exclude visual and accessibility concerns
+flutter test test/presentation/**/widgets --exclude-tags=golden,accessibility
+```
+
+### **When to Use Tags**
+
+- ✅ **Golden tests**: Always tag for CI exclusion due to environment differences
+- ✅ **Accessibility tests**: Tag for dedicated CI step and focused execution
+- ❌ **Regular widget/unit tests**: No tags needed - should be fast and reliable
+- ❌ **Integration tests**: No tags needed - core functionality validation
+
 ## References
 
 - [Domain Test Organization](../module/domain/test/TEST_ORGANIZATION.md) - Business logic patterns

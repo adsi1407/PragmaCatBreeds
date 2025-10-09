@@ -5,8 +5,10 @@ This directory contains all tests for the Cat Breeds application, following Clea
 ## 📋 Quick References
 
 - **[TEST_ORGANIZATION.md](TEST_ORGANIZATION.md)** - **Essential organization principles for presentation layer tests**
-- **[GOLDEN_TESTS.md](GOLDEN_TESTS.md)** - **Golden tests workflow and guidelines**
+- **[GOLDEN_TESTS.md](GOLDEN_TESTS.md)** - **Golden tests workflow and guidelines**  
+- **[ACCESSIBILITY_TESTS.md](ACCESSIBILITY_TESTS.md)** - **Semantic and accessibility testing guide**
 - **[Shared Test Doubles](presentation/shared/test_doubles/README.md)** - **Minimal plugin mocks for widget testing**
+- **[Test Tags Section](#-test-tags-and-ci-exclusions)** - **Tag-based test execution and CI strategy**
 - **[ARCHITECTURE.md](../ARCHITECTURE.md#testing-strategy)** - Overall testing strategy and architecture
 
 ## 📁 Test Structure
@@ -87,27 +89,39 @@ void main() {
 
 ### **Available Tags**
 - **`golden`**: Visual regression tests (excluded from CI due to environment differences)
+- **`accessibility`**: Semantic and accessibility tests (dedicated CI step for focused execution)
 
 ### **Tag Usage**
 ```bash
-# Run all tests EXCEPT golden tests (CI behavior)
-flutter test --exclude-tags=golden
+# Run all tests EXCEPT golden and accessibility tests (CI widget/page behavior)
+flutter test --exclude-tags=golden,accessibility
+
+# Run ONLY accessibility tests (CI dedicated step)
+flutter test --tags=accessibility
 
 # Run ONLY golden tests (local development)
 flutter test --tags=golden
 
-# Run specific tagged tests
-flutter test test/presentation/ --exclude-tags=golden
+# Run specific combinations
+flutter test test/presentation/ --exclude-tags=golden,accessibility
 ```
 
-### **CI Exclusions**
-Golden tests are **automatically excluded** from CI pipelines because:
-- **Environment differences**: Linux CI vs Windows/macOS local development
-- **Font rendering**: Different systems produce slightly different pixel outputs
-- **Performance**: Reduces CI execution time and prevents false failures
+### **CI Execution Strategy**
+Tests are organized by tags to enable **granular CI execution**:
 
-**Local development**: Use `flutter test --update-goldens` to manage visual baselines
-**CI pipeline**: Automatically excludes golden tests to prevent pixel-diff failures
+- **Widget Tests**: `--exclude-tags=golden,accessibility` (focuses on pure widget functionality)  
+- **Page Tests**: `--exclude-tags=golden,accessibility` (focuses on page-level integration)
+- **Accessibility Tests**: `--tags=accessibility` (dedicated step for semantic validation)
+- **Golden Tests**: Excluded from CI, run locally only
+
+### **Why This Separation?**
+- **Golden tests excluded**: Environment differences cause pixel variations between CI and local
+- **Accessibility isolated**: Dedicated step ensures semantic tests get proper focus and reporting
+- **Clean separation**: Widget/page tests focus on functionality without visual/accessibility concerns
+- **Maintainable**: Adding new tests only requires proper tagging, no CI configuration changes
+
+**Local development**: All tests can be run together or by specific tags
+**CI pipeline**: Organized execution with clear separation of concerns
 
 ## 🚀 Running Tests
 
@@ -115,15 +129,23 @@ Golden tests are **automatically excluded** from CI pipelines because:
 # Run all tests
 flutter test
 
-# Run specific test suites
+# Run specific test suites by directory
 flutter test test/presentation/
 flutter test test/smoke/
+
+# Run tests by tags
+flutter test --tags=accessibility              # Only accessibility tests
+flutter test --tags=golden                     # Only golden tests  
+flutter test --exclude-tags=golden,accessibility # Exclude visual/accessibility tests
 
 # Run with coverage
 flutter test --coverage
 
+# Combine directory and tag filtering
+flutter test test/presentation/ --exclude-tags=golden,accessibility
+
 # Golden Tests - Visual Regression Testing
-flutter test --update-goldens                    # Generate/update golden files
+flutter test --update-goldens                  # Generate/update golden files
 flutter test test/presentation/**/*_golden_test.dart  # Run only golden tests
 ```
 
