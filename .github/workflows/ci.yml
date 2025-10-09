@@ -160,12 +160,7 @@ jobs:
       - name: Run semantic/accessibility tests
         run: |
           flutter pub get
-          flutter test \
-            test/presentation/cat_breeds/page/cat_breeds_page_accessibility_test.dart \
-            test/presentation/cat_breeds/widgets/cat_breed_list_item_accessibility_test.dart \
-            test/presentation/cat_breed_detail/page/cat_breed_detail_page_accessibility_test.dart \
-            test/presentation/cat_breed_detail/widgets/breed_characteristics_widget_accessibility_test.dart \
-            -r expanded
+          flutter test test/presentation/**/*accessibility*.dart -r expanded
 
       - name: Static analysis - flutter analyze
         run: |
