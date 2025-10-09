@@ -18,6 +18,7 @@ env:
   COVERAGE_INFRA_MIN: '60'
   COVERAGE_PRESENTATION_BLOC_MIN: '50'
   COVERAGE_PRESENTATION_WIDGETS_MIN: '40'
+  COVERAGE_PRESENTATION_PAGES_MIN: '40'
 
 jobs:
   build-and-test:
@@ -72,9 +73,13 @@ jobs:
       - name: Flutter pub get (root)
         run: flutter pub get
 
+      - name: Show tool versions (for debugging)
+        run: |
+          flutter --version
+          dart --version
+
       - name: Build (compile sanity check)
         run: |
-          flutter pub get
           flutter build apk --debug --no-shrink
 
       - name: Run domain tests and coverage (module/domain)
@@ -90,7 +95,6 @@ jobs:
         # the generated lcov file resolve correctly.
         working-directory: module
         run: |
-          dart --version
           dart run ../tool/ci/check_coverage.dart coverage-domain.lcov ${{ env.COVERAGE_DOMAIN_MIN }}
 
       - name: Upload domain coverage
@@ -111,7 +115,6 @@ jobs:
         # resolved consistently and the generated lcov file is found.
         working-directory: module
         run: |
-          dart --version
           dart run ../tool/ci/check_coverage.dart coverage-infra.lcov ${{ env.COVERAGE_INFRA_MIN }}
 
       - name: Upload infrastructure coverage
@@ -122,13 +125,11 @@ jobs:
 
       - name: Run bloc tests (presentation blocs)
         run: |
-          flutter pub get
           flutter test --coverage test/presentation/**/bloc -r expanded
           mv coverage/lcov.info coverage-presentation-bloc.lcov || true
 
       - name: Check presentation bloc coverage
         run: |
-          dart --version
           dart run tool/ci/check_coverage.dart coverage-presentation-bloc.lcov ${{ env.COVERAGE_PRESENTATION_BLOC_MIN }}
 
       - name: Upload presentation bloc coverage
@@ -139,14 +140,12 @@ jobs:
 
       - name: Run widget tests
         run: |
-          flutter pub get
           # Run all presentation widget tests, excluding golden and accessibility tests
           flutter test --coverage test/presentation/**/widgets --exclude-tags=golden,accessibility -r expanded
           mv coverage/lcov.info coverage-presentation-widgets.lcov || true
 
       - name: Check presentation widget coverage
         run: |
-          dart --version
           dart run tool/ci/check_coverage.dart coverage-presentation-widgets.lcov ${{ env.COVERAGE_PRESENTATION_WIDGETS_MIN }}
 
       - name: Upload presentation widget coverage
@@ -157,15 +156,13 @@ jobs:
 
       - name: Run page tests  
         run: |
-          flutter pub get
           # Run all presentation page tests, excluding golden and accessibility tests
           flutter test --coverage test/presentation/**/page --exclude-tags=golden,accessibility -r expanded
           mv coverage/lcov.info coverage-presentation-pages.lcov || true
 
       - name: Check presentation page coverage
         run: |
-          dart --version
-          dart run tool/ci/check_coverage.dart coverage-presentation-pages.lcov ${{ env.COVERAGE_PRESENTATION_WIDGETS_MIN }}
+          dart run tool/ci/check_coverage.dart coverage-presentation-pages.lcov ${{ env.COVERAGE_PRESENTATION_PAGES_MIN }}
 
       - name: Upload presentation page coverage
         uses: actions/upload-artifact@v4
@@ -178,7 +175,6 @@ jobs:
 
       - name: Run accessibility tests
         run: |
-          flutter pub get
           # Run only accessibility-tagged tests
           flutter test --tags=accessibility -r expanded
 
@@ -190,9 +186,6 @@ jobs:
 
       - name: Fail CI only on analyzer errors (tool/ci/analyze_check.dart)
         run: |
-          # Ensure we have Dart in PATH (installed with Flutter)
-          flutter --version
-          dart --version
           dart run tool/ci/analyze_check.dart analyze.json
 
       - name: Static analysis - dart_code_metrics (optional)
