@@ -140,7 +140,8 @@ jobs:
       - name: Run widget tests
         run: |
           flutter pub get
-          flutter test --coverage test/presentation/**/widgets -r expanded
+          # Run all presentation widget tests, excluding golden tests by tag
+          flutter test --coverage test/presentation/**/widgets --exclude-tags=golden -r expanded
           mv coverage/lcov.info coverage-presentation-widgets.lcov || true
 
       - name: Check presentation widget coverage
@@ -153,6 +154,24 @@ jobs:
         with:
           name: coverage-presentation-widgets
           path: coverage-presentation-widgets.lcov
+
+      - name: Run page tests  
+        run: |
+          flutter pub get
+          # Run all presentation page tests, excluding golden tests by tag
+          flutter test --coverage test/presentation/**/page --exclude-tags=golden -r expanded
+          mv coverage/lcov.info coverage-presentation-pages.lcov || true
+
+      - name: Check presentation page coverage
+        run: |
+          dart --version
+          dart run tool/ci/check_coverage.dart coverage-presentation-pages.lcov ${{ env.COVERAGE_PRESENTATION_WIDGETS_MIN }}
+
+      - name: Upload presentation page coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-presentation-pages
+          path: coverage-presentation-pages.lcov
 
       # Golden tests removed per request: they were causing CI failures while
       # local development uses `flutter test --update-goldens` to manage baselines.
