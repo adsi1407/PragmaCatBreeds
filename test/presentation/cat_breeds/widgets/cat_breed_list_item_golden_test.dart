@@ -14,7 +14,7 @@ void main() {
       imageUrl: 'https://example.com/siamese.jpg',
     );
 
-    testWidgets('should render cat breed item correctly', (WidgetTester tester) async {
+    testWidgets('breedProvided | widgetRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
       // Arrange
       final widget = MaterialApp(
         theme: PragmaTheme.lightTheme,
@@ -36,7 +36,7 @@ void main() {
       );
     });
 
-    testWidgets('should render cat breed item in dark theme', (WidgetTester tester) async {
+    testWidgets('breedProvided | darkThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
       // Arrange
       final widget = MaterialApp(
         theme: PragmaTheme.darkTheme,
@@ -58,7 +58,7 @@ void main() {
       );
     });
 
-    testWidgets('should render cat breed item with long name', (WidgetTester tester) async {
+    testWidgets('longNameBreedProvided | widgetRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
       // Arrange
       const longNameBreed = CatBreed(
         id: '2',
