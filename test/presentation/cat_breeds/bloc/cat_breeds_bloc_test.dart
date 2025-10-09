@@ -166,41 +166,44 @@ void main() {
           ],
         );
 
-        test('emptyQueryProvided | searchRequestedEvent | showsAllBreedsWithoutSearching', () async {
-          // Arrange
-          when(() => mockGetCatBreedsUseCase.call())
-              .thenAnswer((_) async => tCatBreeds);
-          
-          // First load the breeds to populate internal _allBreeds
-          catBreedsBloc.add(const CatBreedsLoadRequested());
-          await expectLater(
-            catBreedsBloc.stream,
-            emitsInOrder([
-              const CatBreedsLoading(),
-              const CatBreedsLoaded(breeds: tCatBreeds),
-            ]),
-          );
-
-          // Act - search with empty query
-          catBreedsBloc.add(const CatBreedsSearchRequested(''));
-
-          // Assert
-          await expectLater(
-            catBreedsBloc.stream,
-            emits(const CatBreedsLoaded(
+        blocTest<CatBreedsBloc, CatBreedsState>(
+          'emptyQueryProvided | searchRequestedEvent | showsAllBreedsWithoutSearching',
+          build: () {
+            when(() => mockGetCatBreedsUseCase.call())
+                .thenAnswer((_) async => tCatBreeds);
+            when(() => mockSearchCatBreedsUseCase.call(tSearchQuery))
+                .thenAnswer((_) async => [tCatBreeds.first]);
+            return catBreedsBloc;
+          },
+          act: (bloc) {
+            bloc.add(const CatBreedsLoadRequested());
+            bloc.add(const CatBreedsSearchRequested(tSearchQuery)); // First search with actual query
+            bloc.add(const CatBreedsSearchRequested('')); // Then search with empty query
+          },
+          expect: () => [
+            const CatBreedsLoading(),
+            const CatBreedsLoaded(breeds: tCatBreeds), // Initial load
+            CatBreedsLoaded(
+              breeds: tCatBreeds,
+              isSearching: true,
+              searchQuery: tSearchQuery,
+            ), // Searching state
+            const CatBreedsLoaded(
               breeds: tCatBreeds,
               isSearching: false,
               searchQuery: '',
-            )),
-          );
-
-          verifyNever(() => mockSearchCatBreedsUseCase.call(any()));
-        });
+            ), // Back to all breeds with empty search
+          ],
+          verify: (_) {
+            verify(() => mockSearchCatBreedsUseCase.call(tSearchQuery)).called(1);
+            verifyNever(() => mockSearchCatBreedsUseCase.call(''));
+          },
+        );
       });
 
       group('Error Scenarios', () {
         blocTest<CatBreedsBloc, CatBreedsState>(
-          'useCaseThrowsException | searchRequestedEvent | emitsInitialSearchingState',
+          'useCaseThrowsException | searchRequestedEvent | emitsSearchingStateAndError',
           build: () {
             // Arrange
             when(() => mockGetCatBreedsUseCase.call())
@@ -214,7 +217,6 @@ void main() {
             bloc.add(const CatBreedsLoadRequested());
             bloc.add(const CatBreedsSearchRequested(tSearchQuery));
           },
-          wait: const Duration(milliseconds: 600),
           expect: () => [
             // Assert
             const CatBreedsLoading(),
@@ -224,6 +226,7 @@ void main() {
               isSearching: true,
               searchQuery: tSearchQuery,
             ),
+            CatBreedsError('Failed to search cat breeds: Exception: $tErrorMessage'),
           ],
         );
       });
