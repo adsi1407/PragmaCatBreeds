@@ -42,6 +42,12 @@ A Flutter application that displays information about different cat breeds, buil
 
 ## Architecture 🏗️
 
+📖 **For detailed technical information, see:**
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Complete architecture documentation
+- [docs/PRESENTATION_ARCHITECTURE.md](docs/PRESENTATION_ARCHITECTURE.md) - Presentation layer patterns
+- [docs/PERFORMANCE.md](docs/PERFORMANCE.md) - Performance optimization guide
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Development guidelines
+
 ## Why Clean Architecture was used
 ------------------------------
 Although the original challenge was small, the project uses Clean Architecture to:

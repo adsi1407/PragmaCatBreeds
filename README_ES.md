@@ -42,12 +42,18 @@ Una aplicación Flutter que muestra información sobre diferentes razas de gatos
 
 ## Arquitectura 🏗️
 
-**Por qué Clean Architecture**
---------------------------
-Se aplicó Clean Architecture para separar responsabilidades y mostrar:
-- Capas independientes (domain, infrastructure, presentation)
-- Casos de uso y entidades desacopladas de frameworks
-- Código testeable y con buena mantenibilidad
+📖 **Para información técnica detallada, consulta:**
+- [ARCHITECTURE.md](ARCHITECTURE.md) - Documentación completa de arquitectura
+- [docs/PRESENTATION_ARCHITECTURE.md](docs/PRESENTATION_ARCHITECTURE.md) - Patrones de capa de presentación
+- [docs/PERFORMANCE.md](docs/PERFORMANCE.md) - Guía de optimización de rendimiento
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Lineamientos de desarrollo
+
+## ¿Por qué se usó Arquitectura Limpia?
+-----------------------------------
+Aunque el reto original era pequeño, el proyecto usa Arquitectura Limpia para:
+- Separar las capas de dominio, infraestructura y presentación
+- Hacer que los casos de uso y entidades sean independientes de los frameworks
+- Demostrar la capacidad de estructurar código testeable y mantenible
 
 Este proyecto sigue los principios de **Arquitectura Limpia** con clara separación de responsabilidades:
 
