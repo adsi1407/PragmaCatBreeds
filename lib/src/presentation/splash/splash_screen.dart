@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/page/cat_breeds_page.dart';
@@ -16,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
+  Timer? _navigationTimer;
 
   @override
   void initState() {
@@ -45,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
     _animationController.forward();
     
     // Navigate to main app after animation
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    _navigationTimer = Timer(const Duration(milliseconds: 3000), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute<void>(
@@ -59,6 +61,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void dispose() {
     _animationController.dispose();
+    _navigationTimer?.cancel();
     super.dispose();
   }
 
@@ -100,10 +103,13 @@ class _SplashScreenState extends State<SplashScreen>
                               ),
                             ],
                           ),
-                          child: const Icon(
-                            Icons.pets,
-                            size: 60,
-                            color: Colors.white,
+                          child: const Center(
+                            child: Text(
+                              '🐱',
+                              style: TextStyle(
+                                fontSize: 60,
+                              ),
+                            ),
                           ),
                         ),
                         
