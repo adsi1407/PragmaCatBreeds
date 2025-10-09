@@ -41,7 +41,7 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
     }
   }
 
-  /// Handle search request with debouncing
+  /// Handle search request
   Future<void> _onSearchRequested(
     CatBreedsSearchRequested event,
     Emitter<CatBreedsState> emit,
@@ -70,26 +70,22 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
       ));
     }
     
-    // Debounce search requests
-    _searchTimer = Timer(const Duration(milliseconds: 500), () async {
+    // Execute search immediately (debouncing is handled in UI layer)
+    try {
+      final results = await _searchCatBreedsUseCase(query);
+      
       if (!emit.isDone) {
-        try {
-          final results = await _searchCatBreedsUseCase(query);
-          
-          if (!emit.isDone) {
-            emit(CatBreedsLoaded(
-              breeds: results,
-              isSearching: true,
-              searchQuery: query,
-            ));
-          }
-        } catch (e) {
-          if (!emit.isDone) {
-            emit(CatBreedsError('Failed to search cat breeds: $e'));
-          }
-        }
+        emit(CatBreedsLoaded(
+          breeds: results,
+          isSearching: true,
+          searchQuery: query,
+        ));
       }
-    });
+    } catch (e) {
+      if (!emit.isDone) {
+        emit(CatBreedsError('Failed to search cat breeds: $e'));
+      }
+    }
   }
 
   /// Handle clear search request
