@@ -559,7 +559,7 @@ Stream<CatBreedsState> _debounceSearch(String query) async* {
 The application follows a comprehensive testing strategy with **100% coverage** in the domain layer and robust testing patterns throughout all layers.
 
 > 📚 **Detailed Testing Documentation**: 
-> - [Test Doubles Guidelines](test/TEST_DOUBLES_GUIDELINES.md) - **Essential guidelines for organizing mocks, stubs, and fakes**
+> - [Test Organization Principles](test/TEST_ORGANIZATION.md) - **Essential guidelines for organizing tests and mocks across layers**
 > - [Domain Tests Documentation](module/domain/test/README.md) - Comprehensive domain testing patterns and examples
 > - [Domain Test Organization](module/domain/test/TEST_ORGANIZATION.md) - Clean Architecture compliance and business logic focus
 > - [Infrastructure Tests Documentation](module/infrastructure/test/README.md) - Infrastructure testing strategies and coverage

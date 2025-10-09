@@ -1,10 +1,13 @@
-# Testing Documentation
+# Testing D```
+test/
+├── TEST_ORGANIZATION.md                    # Testing organization principles (READ THIS FIRST!)
+├── presentation/                           # UI and presentation layer testsentation
 
 This directory contains all tests for the Cat Breeds application, following Clean Architecture principles and comprehensive testing strategies.
 
 ## 📋 Quick References
 
-- **[TEST_DOUBLES_GUIDELINES.md](TEST_DOUBLES_GUIDELINES.md)** - **Essential guidelines for organizing mocks, stubs, and fakes**
+- **[TEST_ORGANIZATION.md](TEST_ORGANIZATION.md)** - **Essential organization principles for presentation layer tests**
 - **[ARCHITECTURE.md](../ARCHITECTURE.md#testing-strategy)** - Overall testing strategy and architecture
 
 ## 📁 Test Structure

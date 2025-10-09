@@ -11,7 +11,7 @@ For detailed technical information, please refer to:
 
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Technical architecture details
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Development guidelines and tools  
-- **[test/TEST_DOUBLES_GUIDELINES.md](test/TEST_DOUBLES_GUIDELINES.md)** - Testing best practices and mock organization
+- **[test/TEST_ORGANIZATION.md](test/TEST_ORGANIZATION.md)** - Testing organization principles and best practices
 - **[docs/](docs/)** - Additional technical documentation
 - **[CHANGELOG.md](CHANGELOG.md)** - Project change history
 
