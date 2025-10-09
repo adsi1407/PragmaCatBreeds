@@ -28,7 +28,12 @@ class CatBreedApi {
   /// Throws:
   /// - [DioException] if the HTTP request fails
   Future<List<CatBreedDto>> getCatBreeds() async {
-    final response = await _dio.get<List<dynamic>>('/breeds');
+    final response = await _dio.get<List<dynamic>>(
+      '/breeds',
+      queryParameters: {
+        'attach_image': '1', // Include image data
+      },
+    );
     
     if (response.data == null) {
       return [];

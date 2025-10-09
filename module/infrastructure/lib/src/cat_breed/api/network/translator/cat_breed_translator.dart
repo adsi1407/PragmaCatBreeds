@@ -42,6 +42,7 @@ class CatBreedTranslator {
       image: json['image'] != null 
           ? _imageFromJson(json['image'] as Map<String, dynamic>)
           : null,
+      referenceImageId: json['reference_image_id'] as String?,
     );
   }
 
@@ -89,7 +90,7 @@ class CatBreedTranslator {
       origin: dto.origin,
       weightMetric: dto.weightMetric,
       lifeSpan: dto.lifeSpan,
-      imageUrl: dto.image?.url,
+      imageUrl: dto.image?.url ?? _buildImageUrlFromReference(dto.referenceImageId),
       adaptability: dto.adaptability,
       affectionLevel: dto.affectionLevel,
       childFriendly: dto.childFriendly,
@@ -127,5 +128,17 @@ class CatBreedTranslator {
     }
     
     return breeds;
+  }
+
+  /// Builds image URL from reference image ID.
+  /// 
+  /// The Cat API uses reference image IDs that can be used to construct
+  /// direct URLs to the images hosted on their CDN.
+  String? _buildImageUrlFromReference(String? referenceImageId) {
+    if (referenceImageId == null || referenceImageId.isEmpty) {
+      return null;
+    }
+    
+    return 'https://cdn2.thecatapi.com/images/$referenceImageId.jpg';
   }
 }

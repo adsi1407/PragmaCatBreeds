@@ -28,6 +28,7 @@ class CatBreedDto {
     this.rare,
     this.wikipediaUrl,
     this.image,
+    this.referenceImageId,
   });
 
   final String? id;
@@ -52,4 +53,5 @@ class CatBreedDto {
   final bool? rare;
   final String? wikipediaUrl;
   final CatBreedImageDto? image;
+  final String? referenceImageId;
 }
