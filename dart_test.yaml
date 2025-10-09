@@ -1,0 +1,24 @@
+# Dart test configuration for Cat Breeds project
+# This file defines tags and test runner configuration
+
+# Define known test tags to avoid warnings
+tags:
+  # Functional test categories
+  integration:
+    description: Tests that verify end-to-end user workflows
+  bloc: 
+    description: Tests for business logic components (BLoC pattern)
+  
+  # UI test categories  
+  golden:
+    description: Golden tests for widget visual regression
+  accessibility:
+    description: Tests for accessibility compliance and screen reader support
+  
+  # Platform/environment tags
+  smoke:
+    description: Quick smoke tests for basic functionality
+  
+# Test runner configuration
+timeout: 30s
+retry: 1
