@@ -54,10 +54,10 @@ void main() {
       expect(find.textContaining('Loading cat breeds'), findsOneWidget);
     });
 
-    testWidgets('should display Powered by Pragma text', (WidgetTester tester) async {
+    testWidgets('should display Technical Challenge text', (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.textContaining('Powered by Pragma'), findsOneWidget);
+      expect(find.textContaining('Technical Challenge'), findsOneWidget);
     });
 
     testWidgets('should display loading indicator', (WidgetTester tester) async {

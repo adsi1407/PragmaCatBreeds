@@ -128,9 +128,9 @@ class _SplashScreenState extends State<SplashScreen>
                         
                         const SizedBox(height: 8),
                         
-                        // Pragma branding
+                        // Technical challenge branding
                         Text(
-                          'Powered by Pragma',
+                          'Technical Challenge',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: PragmaColors.accentBlue,
                             fontWeight: FontWeight.w500,
