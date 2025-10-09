@@ -140,8 +140,8 @@ jobs:
       - name: Run widget tests
         run: |
           flutter pub get
-          # Run all presentation widget tests, excluding golden tests by tag
-          flutter test --coverage test/presentation/**/widgets --exclude-tags=golden -r expanded
+          # Run all presentation widget tests, excluding golden and accessibility tests
+          flutter test --coverage test/presentation/**/widgets --exclude-tags=golden,accessibility -r expanded
           mv coverage/lcov.info coverage-presentation-widgets.lcov || true
 
       - name: Check presentation widget coverage
@@ -158,8 +158,8 @@ jobs:
       - name: Run page tests  
         run: |
           flutter pub get
-          # Run all presentation page tests, excluding golden tests by tag
-          flutter test --coverage test/presentation/**/page --exclude-tags=golden -r expanded
+          # Run all presentation page tests, excluding golden and accessibility tests
+          flutter test --coverage test/presentation/**/page --exclude-tags=golden,accessibility -r expanded
           mv coverage/lcov.info coverage-presentation-pages.lcov || true
 
       - name: Check presentation page coverage
@@ -176,10 +176,11 @@ jobs:
       # Golden tests removed per request: they were causing CI failures while
       # local development uses `flutter test --update-goldens` to manage baselines.
 
-      - name: Run semantic/accessibility tests
+      - name: Run accessibility tests
         run: |
           flutter pub get
-          flutter test test/presentation/**/*accessibility*.dart -r expanded
+          # Run only accessibility-tagged tests
+          flutter test --tags=accessibility -r expanded
 
       - name: Static analysis - flutter analyze
         run: |
