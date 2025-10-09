@@ -18,36 +18,58 @@ The presentation layer test organization follows **Clean Architecture** principl
 
 **Application in Presentation Testing**: Test doubles are organized by UI feature and component responsibility, ensuring that changes in UI behavior affect only related test artifacts.
 
-#### ✅ Correct Organization:
+#### ✅ Correct Organization (Updated - Component-Based Structure):
 
 ```
 test/presentation/cat_breeds/
-├── test_doubles/
-│   ├── mock_cat_breeds_bloc.dart           # BLoC state management mock
-│   ├── mock_get_cat_breeds_use_case.dart   # Use case dependency mock
-│   └── mock_search_cat_breeds_use_case.dart # Search functionality mock
-├── cat_breeds_bloc_test.dart               # State management tests
-└── cat_breeds_page_test.dart               # Widget and UI tests
+├── bloc/
+│   ├── cat_breeds_bloc_test.dart
+│   └── test_doubles/
+│       ├── mock_get_cat_breeds_use_case.dart
+│       └── mock_search_cat_breeds_use_case.dart
+├── page/
+│   ├── cat_breeds_page_test.dart
+│   ├── cat_breeds_page_accessibility_test.dart
+│   └── test_doubles/
+│       └── mock_cat_breeds_bloc.dart
+└── widgets/
+    ├── cat_breed_list_item_test.dart
+    ├── cat_breed_list_item_accessibility_test.dart
+    ├── cat_breed_list_item_golden_test.dart
+    └── test_doubles/
+        └── (component-specific mocks as needed)
 ```
 
-#### ❌ Incorrect Organization:
+#### ❌ Incorrect Organization (Legacy - Type-Based Structure):
 
 ```
-test/
-├── test_doubles/                           # Centralized mocks (too broad)
-│   ├── mock_cat_breeds_bloc.dart          # BLoC concern
-│   ├── mock_get_cat_breeds_use_case.dart  # Use case concern
+test/presentation/cat_breeds/
+├── accessibility_tests/                    # Organized by test type
+│   ├── cat_breeds_page_accessibility_test.dart
+│   └── cat_breed_list_item_accessibility_test.dart
+├── golden_tests/                          # Organized by test type
+│   └── cat_breed_list_item_golden_test.dart
+├── test_doubles/                          # Centralized mocks
+│   ├── mock_cat_breeds_bloc.dart
+│   ├── mock_get_cat_breeds_use_case.dart
 │   └── mock_search_cat_breeds_use_case.dart
-└── presentation/cat_breeds/
-    ├── cat_breeds_bloc_test.dart
-    └── cat_breeds_page_test.dart
+├── cat_breeds_bloc_test.dart
+└── cat_breeds_page_test.dart
 ```
 
-### 2. Feature-Specific Mock Organization
+### 2. Component-Based Test Organization
 
-#### BLoC Layer Mocks
-- **Location**: `presentation/{feature}/test_doubles/`
-- **Purpose**: Mock state management, use cases, and UI dependencies
+The presentation layer now follows a **component-based organization** rather than test-type organization, implementing the Common Closure Principle more effectively.
+
+#### Component Structure Benefits
+- **BLoC Tests**: All state management tests and their dependencies grouped together
+- **Page Tests**: All page-level tests (widget, accessibility) in one location
+- **Widget Tests**: All widget-level tests (unit, accessibility, golden) co-located
+
+#### test_doubles Distribution
+- **Distributed by Responsibility**: Each component type (bloc/, page/, widgets/) has its own test_doubles/ folder
+- **Component-Specific Mocks**: Mocks are placed closest to the tests that use them
+- **Reduced Coupling**: Changes to one component don't affect test doubles of other components
 - **Change Trigger**: Feature requirements, UI behavior changes, state management evolution
 
 #### Widget Test Mocks
@@ -183,6 +205,51 @@ void main() {
   });
 }
 ```
+
+## Current Presentation Layer Structure
+
+Following the Common Closure Principle implementation, the complete presentation test structure is:
+
+```
+test/presentation/
+├── cat_breeds/                        # Feature: Cat breeds listing
+│   ├── bloc/                         # State management layer
+│   │   ├── cat_breeds_bloc_test.dart
+│   │   └── test_doubles/
+│   │       ├── mock_get_cat_breeds_use_case.dart
+│   │       └── mock_search_cat_breeds_use_case.dart
+│   ├── page/                         # Page-level UI tests
+│   │   ├── cat_breeds_page_test.dart
+│   │   ├── cat_breeds_page_accessibility_test.dart
+│   │   └── test_doubles/
+│   │       └── mock_cat_breeds_bloc.dart
+│   └── widgets/                      # Widget-level tests
+│       ├── cat_breed_list_item_test.dart
+│       ├── cat_breed_list_item_accessibility_test.dart
+│       ├── cat_breed_list_item_golden_test.dart
+│       └── test_doubles/             # (component-specific mocks)
+├── cat_breed_detail/                 # Feature: Cat breed detail view
+│   ├── page/                         # Page-level UI tests
+│   │   ├── cat_breed_detail_page_test.dart
+│   │   ├── cat_breed_detail_page_accessibility_test.dart
+│   │   ├── cat_breed_detail_page_golden_test.dart
+│   │   └── test_doubles/             # (page-specific mocks)
+│   └── widgets/                      # Widget-level tests
+│       ├── breed_characteristics_widget_test.dart
+│       ├── breed_characteristics_widget_accessibility_test.dart
+│       ├── breed_characteristics_widget_golden_test.dart
+│       └── test_doubles/             # (widget-specific mocks)
+└── splash/                           # Feature: Splash screen
+    └── splash_screen_test.dart
+```
+
+### Key Improvements Implemented
+
+1. **Component Cohesion**: Tests that change together are grouped together (bloc/, page/, widgets/)
+2. **Distributed test_doubles**: Each component level has its own mocks folder
+3. **Complete Test Coverage**: All components now have unit, accessibility, and golden tests
+4. **Consistent Naming**: All test methods follow 'condition | action | result' domain pattern
+5. **Feature Isolation**: Changes to one feature don't affect other features' test structure
 
 ## References
 
