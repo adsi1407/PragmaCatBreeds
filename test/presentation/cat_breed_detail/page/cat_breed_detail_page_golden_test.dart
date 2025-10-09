@@ -5,7 +5,17 @@ import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breed_detail/page/cat_breed_detail_page.dart';
 import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
 
+import '../../shared/test_doubles/widget_test_plugin_mocks.dart';
+
 void main() {
+  setUpAll(() {
+    WidgetTestPluginMocks.setUp();
+  });
+  
+  tearDownAll(() {
+    WidgetTestPluginMocks.tearDown();
+  });
+
   group('CatBreedDetailPage Golden Tests', () {
     // Test Data
     const tCatBreed = CatBreed(
@@ -113,8 +123,13 @@ void main() {
       await tester.pumpWidget(widget);
       await tester.pumpAndSettle();
       
-      // Scroll down to show characteristics section
-      await tester.drag(find.byType(SingleChildScrollView), const Offset(0, -300));
+      // Scroll down to show characteristics section - find the main content scroll
+      // Use specific finder to avoid ambiguity with multiple ScrollViews
+      final mainContentScroll = find.descendant(
+        of: find.byType(Expanded),
+        matching: find.byType(SingleChildScrollView),
+      ).first;
+      await tester.drag(mainContentScroll, const Offset(0, -300));
       await tester.pumpAndSettle();
 
       // Assert
