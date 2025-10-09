@@ -125,7 +125,8 @@ jobs:
 
       - name: Run bloc tests (presentation blocs)
         run: |
-          flutter test --coverage test/presentation/**/bloc -r expanded
+          # Run only bloc-tagged tests
+          flutter test --coverage --tags=bloc -r expanded
           mv coverage/lcov.info coverage-presentation-bloc.lcov || true
 
       - name: Check presentation bloc coverage
@@ -140,8 +141,8 @@ jobs:
 
       - name: Run widget tests
         run: |
-          # Run all presentation widget tests, excluding golden and accessibility tests
-          flutter test --coverage test/presentation/**/widgets --exclude-tags=golden,accessibility -r expanded
+          # Run all presentation widget tests, excluding golden, accessibility and bloc tests
+          flutter test --coverage test/presentation/**/widgets --exclude-tags=golden,accessibility,bloc -r expanded
           mv coverage/lcov.info coverage-presentation-widgets.lcov || true
 
       - name: Check presentation widget coverage
@@ -156,8 +157,8 @@ jobs:
 
       - name: Run page tests  
         run: |
-          # Run all presentation page tests, excluding golden and accessibility tests
-          flutter test --coverage test/presentation/**/page --exclude-tags=golden,accessibility -r expanded
+          # Run all presentation page tests, excluding golden, accessibility and bloc tests
+          flutter test --coverage test/presentation/**/page --exclude-tags=golden,accessibility,bloc -r expanded
           mv coverage/lcov.info coverage-presentation-pages.lcov || true
 
       - name: Check presentation page coverage
@@ -177,6 +178,21 @@ jobs:
         run: |
           # Run only accessibility-tagged tests
           flutter test --tags=accessibility -r expanded
+
+      - name: Run smoke tests
+        run: |
+          # Run smoke tests to verify basic app functionality
+          flutter test test/smoke/ -r expanded
+
+      - name: Run theme tests
+        run: |
+          # Run theme tests to verify UI consistency
+          flutter test test/theme/ -r expanded
+
+      - name: Run integration tests
+        run: |
+          # Run integration tests to verify end-to-end functionality
+          flutter test --tags=integration -r expanded
 
       - name: Static analysis - flutter analyze
         run: |
