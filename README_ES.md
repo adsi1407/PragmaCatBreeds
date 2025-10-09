@@ -4,16 +4,19 @@
 -------
 Una aplicación Flutter que muestra información sobre diferentes razas de gatos, construida con principios de Arquitectura Limpia y siguiendo las mejores prácticas de la industria.
 
-## Requerimientos iniciales del reto ✨
+## Requerimientos del reto técnico ✨
 --------------------------------
-- **Explorar Razas de Gatos**: Ve una lista completa de razas de gatos con información detallada e imágenes de alta calidad
+- **Explorar Razas de Gatos**: Lista completa de razas de gatos con información detallada e imágenes de alta calidad
 - **Funcionalidad de Búsqueda**: Búsqueda en tiempo real con debouncing para rendimiento óptimo (soporte para idioma inglés)
-- **Información Detallada**: Perfiles completos de razas con diseño de imagen fija (50% de altura de pantalla) y contenido desplazable
-- **UI/UX Mejorada**: 
-  - Carga de imágenes optimizada con adjunto de imagen de API
+- **Información Detallada**: Perfiles completos de razas con imagen fija en la parte superior y contenido desplazable
+- **Especificaciones de UI**: 
+  - Imagen del gato fija en la parte superior de la página de detalle (50% de altura de pantalla)
+  - Contenido desplazable solo en la información de la raza, no en la imagen
+  - Emoji de gato (🐱) en pantalla de splash en lugar de icono genérico
+  - Parámetro de adjunto de imagen de API para carga confiable de datos
   - Tema consistente de AppBar con esquema de color primario
-  - Contraste de texto mejorado y accesibilidad
-  - Visualización del nombre de la raza en AppBar de página de detalle para mejor navegación
+  - Contraste de texto adecuado y cumplimiento de accesibilidad
+  - Visualización del nombre de la raza en AppBar para contexto de navegación
 - **Optimización de Rendimiento**: Carga eficiente de imágenes y diseño responsivo
 
 ## Versión de Flutter y requisitos
