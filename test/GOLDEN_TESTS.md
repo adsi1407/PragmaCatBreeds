@@ -2,6 +2,37 @@
 
 Golden tests capture rendered UI components as images and compare them against reference images to detect unintended visual changes.
 
+## 🏷️ Tags and CI Exclusions
+
+**IMPORTANT**: All golden tests are tagged with `@Tags(['golden'])` and **excluded from CI** to prevent false failures due to environment differences.
+
+```dart
+@Tags(['golden'])
+library;
+
+import 'package:flutter_test/flutter_test.dart';
+// ... rest of imports
+
+void main() {
+  // Golden tests - run locally only
+}
+```
+
+### Why Golden Tests are Excluded from CI
+- **Font rendering differences**: Linux CI vs Windows/macOS development
+- **System dependencies**: Different image libraries and rendering engines
+- **Platform pixel differences**: Slight variations in anti-aliasing and subpixel rendering
+- **Performance**: Reduces CI execution time and prevents unreliable failures
+
+### Local vs CI Execution
+```bash
+# Local development - run golden tests
+flutter test --tags=golden
+
+# CI behavior - automatically excludes golden tests
+flutter test --exclude-tags=golden  # This is done automatically in CI
+```
+
 ## 📋 Overview
 
 Golden tests in this project ensure UI consistency across:
@@ -54,15 +85,20 @@ flutter test --update-goldens test/path/to/widget_golden_test.dart
 # During development - update goldens when you intentionally change UI
 flutter test --update-goldens
 
-# Verify tests pass after updates
-flutter test test/presentation/**/*_golden_test.dart
+# Run only golden tests to verify changes
+flutter test --tags=golden
+
+# Verify specific golden test passes
+flutter test --tags=golden test/presentation/cat_breeds/widgets/cat_breed_list_item_golden_test.dart
 ```
 
 ### 3. **Pull Request Process**
 1. **Before committing**: Ensure golden files are up-to-date
-2. **Include in commit**: Golden files (.png) must be committed
-3. **PR Description**: Include screenshots showing visual changes
-4. **Review**: Reviewers should verify golden files are appropriate
+2. **Local validation**: Run `flutter test --tags=golden` to verify all pass
+3. **Include in commit**: Golden files (.png) must be committed
+4. **PR Description**: Include screenshots showing visual changes
+5. **Review**: Reviewers should verify golden files are appropriate
+6. **CI Note**: Golden tests won't run in CI (this is intentional to prevent environment-based failures)
 
 ## 🛠️ Best Practices
 

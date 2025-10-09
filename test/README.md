@@ -68,6 +68,47 @@ void main() {
 5. **Comprehensive Coverage**: Unit, widget, integration, and accessibility tests
 6. **Minimal Mocking**: Only mock what's actually needed to prevent test failures
 
+## 🏷️ Test Tags and CI Exclusions
+
+### **Test Tags**
+Tests are categorized using `@Tags` annotations for selective execution:
+
+```dart
+@Tags(['golden'])
+library;
+
+import 'package:flutter_test/flutter_test.dart';
+// ... other imports
+
+void main() {
+  // Golden tests are excluded from CI but run locally
+}
+```
+
+### **Available Tags**
+- **`golden`**: Visual regression tests (excluded from CI due to environment differences)
+
+### **Tag Usage**
+```bash
+# Run all tests EXCEPT golden tests (CI behavior)
+flutter test --exclude-tags=golden
+
+# Run ONLY golden tests (local development)
+flutter test --tags=golden
+
+# Run specific tagged tests
+flutter test test/presentation/ --exclude-tags=golden
+```
+
+### **CI Exclusions**
+Golden tests are **automatically excluded** from CI pipelines because:
+- **Environment differences**: Linux CI vs Windows/macOS local development
+- **Font rendering**: Different systems produce slightly different pixel outputs
+- **Performance**: Reduces CI execution time and prevents false failures
+
+**Local development**: Use `flutter test --update-goldens` to manage visual baselines
+**CI pipeline**: Automatically excludes golden tests to prevent pixel-diff failures
+
 ## 🚀 Running Tests
 
 ```bash
@@ -90,6 +131,8 @@ flutter test test/presentation/**/*_golden_test.dart  # Run only golden tests
 
 Golden tests ensure UI components render consistently. **Important**: Golden files must be committed to version control.
 
+**Tags**: All golden tests are tagged with `@Tags(['golden'])` and excluded from CI to prevent environment-based pixel differences.
+
 ### When to Update Golden Files
 - Adding new UI components with golden tests
 - Intentionally changing existing UI appearance
@@ -103,14 +146,23 @@ flutter test --update-goldens
 # Generate for specific widget
 flutter test --update-goldens test/presentation/cat_breeds/widgets/cat_breed_list_item_golden_test.dart
 
-# Verify golden tests pass
+# Run only golden tests (local development)
+flutter test --tags=golden
+
+# Verify golden tests pass (excluded from CI)
 flutter test test/presentation/**/*_golden_test.dart
 ```
 
+### CI Behavior
+- **Golden tests are excluded** from CI using `--exclude-tags=golden`
+- **Prevents false failures** due to font/rendering differences between environments
+- **Local development only**: Golden tests are meant for local validation
+
 ### Pull Request Requirements
 - [ ] Golden files (.png) must be committed if UI changes
-- [ ] All golden tests must pass in CI
+- [ ] Run `flutter test --tags=golden` locally to verify visual consistency
 - [ ] Include screenshots in PR description for visual review
+- [ ] **Note**: Golden tests won't run in CI (this is intentional)
 
 See **[GOLDEN_TESTS.md](GOLDEN_TESTS.md)** for detailed workflow.
 
