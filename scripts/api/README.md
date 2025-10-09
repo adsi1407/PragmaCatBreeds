@@ -14,6 +14,9 @@ Scripts para probar los endpoints de Cat API utilizados por la aplicación.
 ```bash
 # Desde la raíz del proyecto
 dart run scripts/api/test_endpoints.dart
+
+# Con API key personalizada (más seguro)
+dart run --define=CAT_API_KEY=your_api_key_here scripts/api/test_endpoints.dart
 ```
 
 ### PowerShell (Windows)
@@ -63,14 +66,28 @@ chmod +x scripts/api/test_api.sh
 - 📝 **Headers**: Headers de respuesta (solo en script de Dart)
 - 🚨 **Error Handling**: Manejo de errores y endpoints inválidos
 
-## 🔑 API Key
+## 🔑 API Key Management
 
-Los scripts utilizan la API key hardcodeada del proyecto:
+### Secure Usage (Recommended)
+```bash
+# Use Dart Define to inject API key at runtime
+dart run --define=CAT_API_KEY=your_secure_key_here scripts/api/test_endpoints.dart
+
+# For app development 
+flutter run --dart-define=CAT_API_KEY=your_secure_key_here
+flutter build apk --dart-define=CAT_API_KEY=your_secure_key_here
+```
+
+### Development Fallback
+Los scripts incluyen una API key de fallback para desarrollo:
 ```
 live_BDQqVqUXMRfcVj7C8WJIUJpgHLVt8KHhO6WZdQoWZoS2nVUBGPGdKNO2S1ZhxA
 ```
 
-⚠️ **Nota**: En producción, esta key debería obtenerse de variables de entorno o almacenamiento seguro.
+⚠️ **Nota de Seguridad**: 
+- En **producción**, siempre usa `--dart-define=CAT_API_KEY=your_key`
+- En **CI/CD**, obtén la key de secrets/environment variables
+- La key de fallback es solo para desarrollo y testing rápido
 
 ## 📋 Ejemplo de respuesta
 

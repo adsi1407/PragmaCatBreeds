@@ -16,7 +16,10 @@ void main() async {
   dio.options.baseUrl = 'https://api.thecatapi.com/v1';
   dio.options.headers = {
     'Content-Type': 'application/json',
-    'x-api-key': 'live_BDQqVqUXMRfcVj7C8WJIUJpgHLVt8KHhO6WZdQoWZoS2nVUBGPGdKNO2S1ZhxA',
+    'x-api-key': const String.fromEnvironment(
+      'CAT_API_KEY',
+      defaultValue: 'live_BDQqVqUXMRfcVj7C8WJIUJpgHLVt8KHhO6WZdQoWZoS2nVUBGPGdKNO2S1ZhxA',
+    ),
   };
 
   await testGetAllBreeds(dio);

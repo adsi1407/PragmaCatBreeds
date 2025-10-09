@@ -18,8 +18,12 @@ class CatBreedApi {
   final Dio _dio;
   final CatBreedTranslator _translator;
   
-  // In a real app, this should come from environment variables or secure storage
-  static const String _apiKey = 'live_BDQqVqUXMRfcVj7C8WJIUJpgHLVt8KHhO6WZdQoWZoS2nVUBGPGdKNO2S1ZhxA';
+  // Obtener API key de environment variable en build-time
+  // Usar: flutter run --dart-define=CAT_API_KEY=your_key_here
+  static const String _apiKey = String.fromEnvironment(
+    'CAT_API_KEY',
+    defaultValue: 'live_BDQqVqUXMRfcVj7C8WJIUJpgHLVt8KHhO6WZdQoWZoS2nVUBGPGdKNO2S1ZhxA', // Fallback para desarrollo
+  );
 
   /// Retrieves all cat breeds from The Cat API.
   /// 
