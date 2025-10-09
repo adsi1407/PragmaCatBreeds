@@ -5,10 +5,8 @@ import 'package:mocktail/mocktail.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_breeds_event.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_breeds_state.dart';
-
-// Test Doubles
-class MockGetCatBreedsUseCase extends Mock implements GetCatBreedsUseCase {}
-class MockSearchCatBreedsUseCase extends Mock implements SearchCatBreedsUseCase {}
+import 'test_doubles/mock_get_cat_breeds_use_case.dart';
+import 'test_doubles/mock_search_cat_breeds_use_case.dart';
 
 void main() {
   group('CatBreedsBloc', () {

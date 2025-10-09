@@ -9,7 +9,7 @@ import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_br
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_breeds_state.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/page/cat_breeds_page.dart';
 import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
-import '../../test_doubles/mock_cat_breeds_bloc.dart';
+import 'test_doubles/mock_cat_breeds_bloc.dart';
 
 void main() {
   group('CatBreedsPage', () {
