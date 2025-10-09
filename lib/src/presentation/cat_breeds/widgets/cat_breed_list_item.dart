@@ -38,6 +38,12 @@ class CatBreedListItem extends StatelessWidget {
                       ? CachedNetworkImage(
                           imageUrl: breed.imageUrl!,
                           fit: BoxFit.cover,
+                          // Performance optimizations
+                          memCacheWidth: 160, // Reduce memory usage
+                          memCacheHeight: 160,
+                          maxWidthDiskCache: 200,
+                          maxHeightDiskCache: 200,
+                          fadeInDuration: const Duration(milliseconds: 300),
                           placeholder: (context, url) => ColoredBox(
                             color: Theme.of(context)
                                 .colorScheme

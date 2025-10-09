@@ -1,5 +1,6 @@
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 
 /// Widget that displays breed characteristics with rating bars
 class BreedCharacteristicsWidget extends StatelessWidget {
@@ -12,13 +13,14 @@ class BreedCharacteristicsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final characteristics = _getCharacteristics();
     
     if (characteristics.isEmpty) {
-      return const Card(
+      return Card(
         child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Text('No characteristic information available'),
+          padding: const EdgeInsets.all(16),
+          child: Text(l10n.noCharacteristics),
         ),
       );
     }

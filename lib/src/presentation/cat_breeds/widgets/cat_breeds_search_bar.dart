@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
-import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_breeds_event.dart';
 
 /// Search bar widget for filtering cat breeds
 class CatBreedsSearchBar extends StatefulWidget {
@@ -14,6 +17,7 @@ class CatBreedsSearchBar extends StatefulWidget {
 
 class _CatBreedsSearchBarState extends State<CatBreedsSearchBar> {
   late final TextEditingController _controller;
+  Timer? _debounceTimer;
 
   @override
   void initState() {
@@ -24,7 +28,22 @@ class _CatBreedsSearchBarState extends State<CatBreedsSearchBar> {
   @override
   void dispose() {
     _controller.dispose();
+    _debounceTimer?.cancel();
     super.dispose();
+  }
+
+  void _onSearchChanged(String query) {
+    setState(() {}); // Update suffixIcon visibility
+    
+    // Cancel previous timer
+    _debounceTimer?.cancel();
+    
+    // Create new timer for debouncing search
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      context.read<CatBreedsBloc>().add(
+        CatBreedsSearchRequested(query),
+      );
+    });
   }
 
   @override
@@ -70,12 +89,7 @@ class _CatBreedsSearchBarState extends State<CatBreedsSearchBar> {
             vertical: 12,
           ),
         ),
-        onChanged: (query) {
-          setState(() {}); // Update suffixIcon visibility
-          context.read<CatBreedsBloc>().add(
-                CatBreedsSearchRequested(query),
-              );
-        },
+        onChanged: _onSearchChanged,
       ),
     );
   }

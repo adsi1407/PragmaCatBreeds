@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 import 'package:pragma_cat_breeds/src/dependency_injection/dependency_injection.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_breeds_event.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/widgets/cat_breeds_list.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/widgets/cat_breeds_search_bar.dart';
-import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 
 /// Main page for displaying and searching cat breeds
 class CatBreedsPage extends StatelessWidget {
@@ -34,8 +34,6 @@ class CatBreedsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.homeTitle),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        elevation: 0,
       ),
       body: const Column(
         children: [

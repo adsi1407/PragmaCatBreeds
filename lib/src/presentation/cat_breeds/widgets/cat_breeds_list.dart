@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/cat_breeds_bloc.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_breeds_event.dart';
+import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_breeds_state.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/widgets/cat_breed_list_item.dart';
 
 /// Widget that displays the list of cat breeds
@@ -10,11 +13,13 @@ class CatBreedsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return BlocBuilder<CatBreedsBloc, CatBreedsState>(
       builder: (context, state) {
         return switch (state) {
-          CatBreedsInitial() => const Center(
-              child: Text('Welcome! Loading cat breeds...'),
+          CatBreedsInitial() => Center(
+              child: Text(l10n.welcomeLoading),
             ),
           CatBreedsLoading() => const Center(
               child: CircularProgressIndicator(),
@@ -27,6 +32,8 @@ class CatBreedsList extends StatelessWidget {
   }
 
   Widget _buildLoadedState(BuildContext context, CatBreedsLoaded state) {
+    final l10n = AppLocalizations.of(context)!;
+    
     if (state.breeds.isEmpty) {
       return Center(
         child: Column(
@@ -40,8 +47,8 @@ class CatBreedsList extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               state.searchQuery.isNotEmpty
-                  ? 'No breeds found for "${state.searchQuery}"'
-                  : 'No cat breeds available',
+                  ? l10n.noResultsFor(state.searchQuery)
+                  : l10n.noBreedsAvailable,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -57,7 +64,7 @@ class CatBreedsList extends StatelessWidget {
                         const CatBreedsSearchCleared(),
                       );
                 },
-                child: const Text('Clear search'),
+                child: Text(l10n.clearSearchButton),
               ),
             ],
           ],
@@ -72,17 +79,23 @@ class CatBreedsList extends StatelessWidget {
       child: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: state.breeds.length,
+        // Performance optimizations
+        cacheExtent: 200.0, // Cache items outside viewport for smooth scrolling
+        physics: const AlwaysScrollableScrollPhysics(), // Improve scroll behavior
         itemBuilder: (context, index) {
           final breed = state.breeds[index];
-          return CatBreedListItem(
-            breed: breed,
-            onTap: () {
-              // Navigate to detail page
-              Navigator.of(context).pushNamed(
-                '/cat-breed-detail',
-                arguments: breed,
-              );
-            },
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: CatBreedListItem(
+              breed: breed,
+              onTap: () {
+                // Navigate to detail page
+                Navigator.of(context).pushNamed(
+                  '/cat-breed-detail',
+                  arguments: breed,
+                );
+              },
+            ),
           );
         },
       ),
@@ -90,6 +103,8 @@ class CatBreedsList extends StatelessWidget {
   }
 
   Widget _buildErrorState(BuildContext context, CatBreedsError state) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +116,7 @@ class CatBreedsList extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            'Oops! Something went wrong',
+            l10n.errorGeneric,
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 8),
@@ -123,7 +138,7 @@ class CatBreedsList extends StatelessWidget {
                   );
             },
             icon: const Icon(Icons.refresh),
-            label: const Text('Try again'),
+            label: Text(l10n.tryAgainButton),
           ),
         ],
       ),
