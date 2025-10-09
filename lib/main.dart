@@ -1,11 +1,12 @@
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 import 'package:pragma_cat_breeds/src/dependency_injection/dependency_injection.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breed_detail/page/cat_breed_detail_page.dart';
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/page/cat_breeds_page.dart';
-import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
+import 'package:pragma_cat_breeds/src/presentation/splash/splash_screen.dart';
+import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,10 +24,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: PragmaTheme.lightTheme,
+      darkTheme: PragmaTheme.darkTheme,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
         Locale('en'),
         Locale('es'),
       ],
-      home: const CatBreedsPage(),
+      home: const SplashScreen(),
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case CatBreedsPage.routeName:
