@@ -17,63 +17,102 @@ class CatBreedDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final imageHeight = screenHeight * 0.5; // Imagen ocupa la mitad de la pantalla
+    
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          // App bar with image
-          SliverAppBar(
-            expandedHeight: 300,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text(
-                breed.name,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(0, 1),
-                      blurRadius: 3,
-                      color: Colors.black54,
+      body: Column(
+        children: [
+          // Imagen fija en la parte superior (mitad de pantalla)
+          SizedBox(
+            height: imageHeight,
+            child: Stack(
+              children: [
+                // Imagen de fondo
+                breed.imageUrl != null
+                    ? CachedNetworkImage(
+                        imageUrl: breed.imageUrl!,
+                        height: imageHeight,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(
+                          height: imageHeight,
+                          width: double.infinity,
+                          color: Theme.of(context).colorScheme.surfaceContainer,
+                          child: Icon(
+                            Icons.pets,
+                            size: 64,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          height: imageHeight,
+                          width: double.infinity,
+                          color: Theme.of(context).colorScheme.surfaceContainer,
+                          child: Icon(
+                            Icons.pets,
+                            size: 64,
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        height: imageHeight,
+                        width: double.infinity,
+                        color: Theme.of(context).colorScheme.surfaceContainer,
+                        child: Icon(
+                          Icons.pets,
+                          size: 64,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                
+                // AppBar con nombre de la raza
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: AppBar(
+                    title: Text(
+                      breed.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(1, 1),
+                            blurRadius: 3,
+                            color: Colors.black54,
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    foregroundColor: Colors.white,
+                    leading: Container(
+                      margin: const EdgeInsets.all(4), // Reduced margin for larger tap area
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => Navigator.of(context).pop(),
+                        iconSize: 24,
+                        padding: const EdgeInsets.all(8), // Ensure minimum tap area
+                        tooltip: 'Go back', // Semantic label for accessibility
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              background: breed.imageUrl != null
-                  ? CachedNetworkImage(
-                      imageUrl: breed.imageUrl!,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => ColoredBox(
-                        color: Theme.of(context).colorScheme.surfaceContainer,
-                        child: Icon(
-                          Icons.pets,
-                          size: 64,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => ColoredBox(
-                        color: Theme.of(context).colorScheme.surfaceContainer,
-                        child: Icon(
-                          Icons.pets,
-                          size: 64,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    )
-                  : ColoredBox(
-                      color: Theme.of(context).colorScheme.surfaceContainer,
-                      child: Icon(
-                        Icons.pets,
-                        size: 64,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ),
+              ],
             ),
           ),
-
-          // Content
-          SliverToBoxAdapter(
-            child: Padding(
+          
+          // Contenido scrolleable en la parte inferior
+          Expanded(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
