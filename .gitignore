@@ -51,7 +51,6 @@ coverage/
 
 # Static analysis temporary files
 analyze_output.txt
-metrics.json
 *.lcov
 coverage*.lcov
 

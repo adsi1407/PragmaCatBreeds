@@ -13,6 +13,7 @@ For detailed technical information, please refer to:
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Development guidelines and tools  
 - **[test/TEST_ORGANIZATION.md](test/TEST_ORGANIZATION.md)** - Testing organization principles and best practices
 - **[docs/COVERAGE_STRATEGY.md](docs/COVERAGE_STRATEGY.md)** - 📊 Test coverage strategy and granular measurement approach
+- **[docs/STATIC_ANALYSIS.md](docs/STATIC_ANALYSIS.md)** - 🔍 Static analysis strategy with flutter analyze and quality rules
 - **[docs/API_KEY_SECURITY.md](docs/API_KEY_SECURITY.md)** - 🔐 API key security strategy and environment configuration
 - **[docs/](docs/)** - Additional technical documentation
 - **[CHANGELOG.md](CHANGELOG.md)** - Project change history
