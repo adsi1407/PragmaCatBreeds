@@ -9,8 +9,6 @@ class PragmaColors {
   static const Color _secondaryPragma = Color(
     0xFF0066CC,
   ); // Blue accent from website
-  static const Color _backgroundLight = Color(0xFFFAFAFA); // Light background
-  static const Color _backgroundDark = Color(0xFF121212); // Dark background
   static const Color _surfaceLight = Color(0xFFFFFFFF); // Light surface
   static const Color _surfaceDark = Color(0xFF1E1E1E); // Dark surface
 
@@ -46,9 +44,7 @@ class PragmaColors {
     onError: Color(0xFFFFFFFF),
     surface: _surfaceLight,
     onSurface: _primaryPragma,
-    background: _backgroundLight,
-    onBackground: _primaryPragma,
-    surfaceVariant: gray100,
+    surfaceContainerHighest: gray100,
     onSurfaceVariant: gray700,
     outline: gray300,
     outlineVariant: gray200,
@@ -73,9 +69,7 @@ class PragmaColors {
     onError: Color(0xFFFFFFFF),
     surface: _surfaceDark,
     onSurface: Color(0xFFFFFFFF),
-    background: _backgroundDark,
-    onBackground: Color(0xFFFFFFFF),
-    surfaceVariant: gray800,
+    surfaceContainerHighest: gray800,
     onSurfaceVariant: gray200,
     outline: gray600,
     outlineVariant: gray700,

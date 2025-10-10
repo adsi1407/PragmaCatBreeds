@@ -75,7 +75,7 @@ class PragmaTheme {
           backgroundColor: PragmaColors.accentBlue,
           foregroundColor: Colors.white,
           elevation: 2,
-          shadowColor: PragmaColors.accentBlue.withOpacity(0.3),
+          shadowColor: PragmaColors.accentBlue.withValues(alpha: 0.3),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           textStyle: const TextStyle(
@@ -161,7 +161,7 @@ class PragmaTheme {
       // Card Theme
       cardTheme: CardThemeData(
         elevation: 4,
-        shadowColor: Colors.black.withOpacity(0.3),
+        shadowColor: Colors.black.withValues(alpha: 0.3),
         surfaceTintColor: Colors.transparent,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(12)),
@@ -205,7 +205,7 @@ class PragmaTheme {
           backgroundColor: PragmaColors.accentBlue,
           foregroundColor: Colors.white,
           elevation: 4,
-          shadowColor: PragmaColors.accentBlue.withOpacity(0.3),
+          shadowColor: PragmaColors.accentBlue.withValues(alpha: 0.3),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           textStyle: const TextStyle(

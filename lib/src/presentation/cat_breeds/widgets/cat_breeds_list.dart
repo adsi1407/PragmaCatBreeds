@@ -40,7 +40,7 @@ class CatBreedsList extends StatelessWidget {
             Icon(
               Icons.search_off,
               size: 64,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             const SizedBox(height: 16),
             Text(
@@ -48,7 +48,7 @@ class CatBreedsList extends StatelessWidget {
                   ? l10n.noResultsFor(state.searchQuery)
                   : l10n.noBreedsAvailable,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               ),
             ),
             if (state.searchQuery.isNotEmpty) ...[
@@ -119,7 +119,7 @@ class CatBreedsList extends StatelessWidget {
             state.message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
             ),
           ),
           const SizedBox(height: 24),

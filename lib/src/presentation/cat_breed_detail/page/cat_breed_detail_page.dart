@@ -97,7 +97,7 @@ class CatBreedDetailPage extends StatelessWidget {
                         4,
                       ), // Reduced margin for larger tap area
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3),
+                        color: Colors.black.withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: IconButton(
