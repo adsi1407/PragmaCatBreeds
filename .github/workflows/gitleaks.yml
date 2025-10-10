@@ -25,18 +25,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Detect sensitive key files (p12/pfx/jks/keystore/mobileprovision/pem/key)
-        id: detect-keys
-        run: |
-          set -e
-          echo "Looking for sensitive key files (extensions: .p12 .pfx .jks .keystore .mobileprovision .pem .key)"
-          # find files with these extensions, ignoring common build folders
-          matches=$(git ls-files | grep -Ei '\.(p12|pfx|jks|keystore|mobileprovision|pem|key)$' || true)
-          if [ -n "$matches" ]; then
-            echo "Sensitive key files detected:" >&2
-            echo "$matches" >&2
-            echo "For your safety, do NOT commit key material. Consider adding these files to .gitignore or moving them to a secure secrets store." >&2
-            exit 1
-          else
-            echo "No sensitive key files found."
-          fi
+      # Note: Certificate/keystore file detection is handled by Semgrep workflow
+      # See: security/semgrep/cert-files.yml for the centralized configuration
