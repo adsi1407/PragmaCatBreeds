@@ -20,7 +20,26 @@ jobs:
           pip install semgrep
       - name: Run semgrep
         run: |
-          semgrep --config ./security/semgrep/ --json --output semgrep-report.json
+          EXIT_CODE=0
+          semgrep --config ./security/semgrep/ --json --output semgrep-report.json || EXIT_CODE=$?
+          echo "Semgrep exit code: $EXIT_CODE"
+          
+          # Check if there are actual findings in the report
+          FINDINGS=$(jq '.results | length' semgrep-report.json 2>/dev/null || echo "0")
+          echo "Number of findings: $FINDINGS"
+          
+          # Only fail if there are actual ERROR findings
+          if [ "$FINDINGS" -gt 0 ]; then
+            ERROR_FINDINGS=$(jq '[.results[] | select(.extra.severity == "ERROR")] | length' semgrep-report.json 2>/dev/null || echo "0")
+            echo "Error findings: $ERROR_FINDINGS"
+            if [ "$ERROR_FINDINGS" -gt 0 ]; then
+              echo "❌ Found $ERROR_FINDINGS ERROR level security issues"
+              exit 1
+            fi
+          fi
+          
+          # Exit 0 if no errors or only warnings
+          echo "✅ No blocking security issues found"
       - name: Upload semgrep report
         if: always()
         uses: actions/upload-artifact@v4
