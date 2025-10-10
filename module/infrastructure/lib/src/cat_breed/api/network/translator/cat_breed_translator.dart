@@ -3,7 +3,7 @@ import 'package:infrastructure/src/cat_breed/api/network/dto/cat_breed_dto.dart'
 import 'package:infrastructure/src/cat_breed/api/network/dto/cat_breed_image_dto.dart';
 
 /// Translator class to convert between DTOs and domain entities.
-/// 
+///
 /// This class handles the transformation of data transfer objects
 /// from the API layer to domain entities used by the business logic.
 /// Also handles JSON serialization/deserialization logic.
@@ -11,12 +11,12 @@ class CatBreedTranslator {
   const CatBreedTranslator();
 
   /// Creates a [CatBreedDto] from JSON map.
-  /// 
+  ///
   /// Handles all JSON parsing logic including special cases like 'rare' field
   /// and nested 'weight' and 'image' objects.
   CatBreedDto fromJson(Map<String, dynamic> json) {
     final weight = json['weight'] as Map<String, dynamic>?;
-    
+
     return CatBreedDto(
       id: json['id'] as String?,
       name: json['name'] as String?,
@@ -39,7 +39,7 @@ class CatBreedTranslator {
       vocalisation: json['vocalisation'] as int?,
       rare: _parseRare(json['rare']),
       wikipediaUrl: json['wikipedia_url'] as String?,
-      image: json['image'] != null 
+      image: json['image'] != null
           ? _imageFromJson(json['image'] as Map<String, dynamic>)
           : null,
       referenceImageId: json['reference_image_id'] as String?,
@@ -72,9 +72,9 @@ class CatBreedTranslator {
   }
 
   /// Converts a [CatBreedDto] to a [CatBreed] domain entity.
-  /// 
+  ///
   /// [dto] - The data transfer object from the API
-  /// 
+  ///
   /// Returns a [CatBreed] domain entity.
   /// Throws [ArgumentError] if required fields are missing.
   CatBreed fromDto(CatBreedDto dto) {
@@ -90,7 +90,8 @@ class CatBreedTranslator {
       origin: dto.origin,
       weightMetric: dto.weightMetric,
       lifeSpan: dto.lifeSpan,
-      imageUrl: dto.image?.url ?? _buildImageUrlFromReference(dto.referenceImageId),
+      imageUrl:
+          dto.image?.url ?? _buildImageUrlFromReference(dto.referenceImageId),
       adaptability: dto.adaptability,
       affectionLevel: dto.affectionLevel,
       childFriendly: dto.childFriendly,
@@ -109,14 +110,14 @@ class CatBreedTranslator {
   }
 
   /// Converts a list of [CatBreedDto] to a list of [CatBreed] domain entities.
-  /// 
+  ///
   /// [dtos] - The list of data transfer objects from the API
-  /// 
+  ///
   /// Returns a list of [CatBreed] domain entities.
   /// Filters out any DTOs that cannot be converted (missing required fields).
   List<CatBreed> fromDtoList(List<CatBreedDto> dtos) {
     final breeds = <CatBreed>[];
-    
+
     for (final dto in dtos) {
       try {
         breeds.add(fromDto(dto));
@@ -126,19 +127,19 @@ class CatBreedTranslator {
         continue;
       }
     }
-    
+
     return breeds;
   }
 
   /// Builds image URL from reference image ID.
-  /// 
+  ///
   /// The Cat API uses reference image IDs that can be used to construct
   /// direct URLs to the images hosted on their CDN.
   String? _buildImageUrlFromReference(String? referenceImageId) {
     if (referenceImageId == null || referenceImageId.isEmpty) {
       return null;
     }
-    
+
     return 'https://cdn2.thecatapi.com/images/$referenceImageId.jpg';
   }
 }

@@ -1,7 +1,7 @@
 import 'package:infrastructure/src/cat_breed/api/network/dto/cat_breed_image_dto.dart';
 
 /// Data Transfer Object for cat breed from The Cat API.
-/// 
+///
 /// This is a pure data class without logic, following the DTO pattern.
 /// JSON serialization logic is handled by the CatBreedTranslator.
 class CatBreedDto {

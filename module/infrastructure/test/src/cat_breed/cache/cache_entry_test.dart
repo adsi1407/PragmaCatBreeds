@@ -73,7 +73,9 @@ void main() {
       test('should return true for past expiration time', () {
         // Arrange
         const testValue = 'test_data';
-        final pastExpiration = DateTime.now().subtract(const Duration(hours: 1));
+        final pastExpiration = DateTime.now().subtract(
+          const Duration(hours: 1),
+        );
         final entry = CacheEntry(testValue, pastExpiration);
 
         // Act
@@ -86,7 +88,9 @@ void main() {
       test('should return true for slightly past expiration time', () {
         // Arrange
         const testValue = 'test_data';
-        final slightlyPastTime = DateTime.now().subtract(const Duration(milliseconds: 100));
+        final slightlyPastTime = DateTime.now().subtract(
+          const Duration(milliseconds: 100),
+        );
         final entry = CacheEntry(testValue, slightlyPastTime);
 
         // Act
@@ -99,7 +103,9 @@ void main() {
       test('should handle very close expiration times', () {
         // Arrange
         const testValue = 'test_data';
-        final almostExpired = DateTime.now().add(const Duration(milliseconds: 1));
+        final almostExpired = DateTime.now().add(
+          const Duration(milliseconds: 1),
+        );
         final entry = CacheEntry(testValue, almostExpired);
 
         // Act - Check immediately
@@ -108,7 +114,7 @@ void main() {
         // Wait a moment and check again
         // Note: In a real test, you might want to use fake timers
         // but for this simple case, we'll just verify the logic
-        
+
         // Assert - Should not be expired immediately
         expect(immediateResult, isFalse);
       });
@@ -140,11 +146,11 @@ void main() {
         // by attempting to access them (compilation would fail if not final)
         expect(entry.value, isNotNull);
         expect(entry.expiration, isNotNull);
-        
+
         // Verify the values don't change
         final originalValue = entry.value;
         final originalExpiration = entry.expiration;
-        
+
         expect(entry.value, equals(originalValue));
         expect(entry.expiration, equals(originalExpiration));
       });
@@ -167,7 +173,7 @@ void main() {
         expect(stringEntry.value, isA<String>());
         expect(intEntry.value, isA<int>());
         expect(listEntry.value, isA<List<int>>());
-        
+
         expect(stringEntry.value, equals(stringValue));
         expect(intEntry.value, equals(intValue));
         expect(listEntry.value, equals(listValue));
@@ -178,12 +184,15 @@ void main() {
         final complexObject = {
           'id': 'test',
           'data': ['item1', 'item2'],
-          'metadata': {'created': DateTime.now().toString()}
+          'metadata': {'created': DateTime.now().toString()},
         };
         final expiration = DateTime.now().add(const Duration(hours: 1));
 
         // Act
-        final entry = CacheEntry<Map<String, dynamic>>(complexObject, expiration);
+        final entry = CacheEntry<Map<String, dynamic>>(
+          complexObject,
+          expiration,
+        );
 
         // Assert
         expect(entry.value, isA<Map<String, dynamic>>());
@@ -197,15 +206,15 @@ void main() {
       test('should handle typical cache TTL scenarios', () {
         // Arrange
         const cacheData = 'api_response_data';
-        
+
         // 1 hour TTL
         final oneHourTTL = DateTime.now().add(const Duration(hours: 1));
         final longTermEntry = CacheEntry(cacheData, oneHourTTL);
-        
+
         // 5 minutes TTL
         final fiveMinutesTTL = DateTime.now().add(const Duration(minutes: 5));
         final shortTermEntry = CacheEntry(cacheData, fiveMinutesTTL);
-        
+
         // 1 second TTL (very short)
         final oneSecondTTL = DateTime.now().add(const Duration(seconds: 1));
         final veryShortEntry = CacheEntry(cacheData, oneSecondTTL);
@@ -214,7 +223,7 @@ void main() {
         expect(longTermEntry.isExpired, isFalse);
         expect(shortTermEntry.isExpired, isFalse);
         expect(veryShortEntry.isExpired, isFalse);
-        
+
         expect(longTermEntry.value, equals(cacheData));
         expect(shortTermEntry.value, equals(cacheData));
         expect(veryShortEntry.value, equals(cacheData));
@@ -223,11 +232,11 @@ void main() {
       test('should work with different timezone scenarios', () {
         // Arrange
         const testValue = 'timezone_test';
-        
+
         // UTC time
         final utcExpiration = DateTime.utc(2024, 12, 31, 23, 59, 59);
         final utcEntry = CacheEntry(testValue, utcExpiration);
-        
+
         // Local time
         final localExpiration = DateTime(2024, 12, 31, 23, 59, 59);
         final localEntry = CacheEntry(testValue, localExpiration);
@@ -242,15 +251,15 @@ void main() {
       test('should handle edge case dates', () {
         // Arrange
         const testValue = 'edge_case_test';
-        
+
         // Far future date
         final farFuture = DateTime(2100, 1, 1);
         final farFutureEntry = CacheEntry(testValue, farFuture);
-        
-        // Far past date  
+
+        // Far past date
         final farPast = DateTime(1900, 1, 1);
         final farPastEntry = CacheEntry(testValue, farPast);
-        
+
         // Epoch
         final epoch = DateTime.fromMillisecondsSinceEpoch(0);
         final epochEntry = CacheEntry(testValue, epoch);
@@ -259,7 +268,7 @@ void main() {
         expect(farFutureEntry.isExpired, isFalse);
         expect(farPastEntry.isExpired, isTrue);
         expect(epochEntry.isExpired, isTrue);
-        
+
         expect(farFutureEntry.value, equals(testValue));
         expect(farPastEntry.value, equals(testValue));
         expect(epochEntry.value, equals(testValue));
@@ -277,7 +286,7 @@ void main() {
         for (int i = 0; i < 100; i++) {
           expect(entry.isExpired, isFalse);
         }
-        
+
         // Value should remain consistent
         expect(entry.value, equals(testValue));
       });
@@ -302,7 +311,7 @@ void main() {
         const testValue = 'comparison_test';
         final expiration1 = DateTime(2024, 6, 15, 10, 0, 0);
         final expiration2 = DateTime(2024, 6, 15, 11, 0, 0);
-        
+
         final entry1 = CacheEntry(testValue, expiration1);
         final entry2 = CacheEntry(testValue, expiration1);
         final entry3 = CacheEntry(testValue, expiration2);

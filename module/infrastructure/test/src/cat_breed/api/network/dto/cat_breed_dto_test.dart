@@ -29,7 +29,8 @@ void main() {
         const expectedStrangerFriendly = 5;
         const expectedVocalisation = 1;
         const expectedRare = false;
-        const expectedWikipediaUrl = 'https://en.wikipedia.org/wiki/Abyssinian_cat';
+        const expectedWikipediaUrl =
+            'https://en.wikipedia.org/wiki/Abyssinian_cat';
         final expectedImage = CatBreedImageDtoTestDataBuilder().build();
 
         // Act
@@ -118,10 +119,7 @@ void main() {
         const expectedName = 'Test Cat';
 
         // Act
-        const dto = CatBreedDto(
-          id: expectedId,
-          name: expectedName,
-        );
+        const dto = CatBreedDto(id: expectedId, name: expectedName);
 
         // Assert
         expect(dto.id, equals(expectedId));

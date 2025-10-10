@@ -45,10 +45,7 @@ void main() {
         const expectedUrl = 'https://example.com/cat.jpg';
 
         // Act
-        const dto = CatBreedImageDto(
-          id: expectedId,
-          url: expectedUrl,
-        );
+        const dto = CatBreedImageDto(id: expectedId, url: expectedUrl);
 
         // Assert
         expect(dto.id, equals(expectedId));
@@ -81,7 +78,10 @@ void main() {
         expect(dto.id, equals('default123'));
         expect(dto.width, equals(800));
         expect(dto.height, equals(600));
-        expect(dto.url, equals('https://cdn2.thecatapi.com/images/default123.jpg'));
+        expect(
+          dto.url,
+          equals('https://cdn2.thecatapi.com/images/default123.jpg'),
+        );
       });
 
       test('should create valid minimal data', () {
@@ -103,7 +103,10 @@ void main() {
         expect(dto.id, equals('highres456'));
         expect(dto.width, equals(1920));
         expect(dto.height, equals(1080));
-        expect(dto.url, equals('https://cdn2.thecatapi.com/images/highres456.jpg'));
+        expect(
+          dto.url,
+          equals('https://cdn2.thecatapi.com/images/highres456.jpg'),
+        );
       });
 
       test('should create valid low resolution data', () {
@@ -114,7 +117,10 @@ void main() {
         expect(dto.id, equals('lowres789'));
         expect(dto.width, equals(320));
         expect(dto.height, equals(240));
-        expect(dto.url, equals('https://cdn2.thecatapi.com/images/lowres789.jpg'));
+        expect(
+          dto.url,
+          equals('https://cdn2.thecatapi.com/images/lowres789.jpg'),
+        );
       });
 
       test('should allow field customization', () {
@@ -154,7 +160,10 @@ void main() {
         expect(dto.height, equals(customHeight));
         // Other fields should maintain default values
         expect(dto.id, equals('default123'));
-        expect(dto.url, equals('https://cdn2.thecatapi.com/images/default123.jpg'));
+        expect(
+          dto.url,
+          equals('https://cdn2.thecatapi.com/images/default123.jpg'),
+        );
       });
     });
 
@@ -184,7 +193,10 @@ void main() {
         expect(dto.width, equals(0));
         expect(dto.height, equals(0));
         expect(dto.id, equals('default123')); // Should maintain default
-        expect(dto.url, equals('https://cdn2.thecatapi.com/images/default123.jpg')); // Should maintain default
+        expect(
+          dto.url,
+          equals('https://cdn2.thecatapi.com/images/default123.jpg'),
+        ); // Should maintain default
       });
 
       test('should handle negative dimensions', () {
@@ -227,7 +239,8 @@ void main() {
 
       test('should handle special characters in URL', () {
         // Arrange
-        const specialUrl = 'https://example.com/cat-image_123.jpg?size=large&format=jpg';
+        const specialUrl =
+            'https://example.com/cat-image_123.jpg?size=large&format=jpg';
 
         // Act
         final dto = CatBreedImageDtoTestDataBuilder()
@@ -243,9 +256,7 @@ void main() {
         const unicodeId = 'cat_🐱_image_123';
 
         // Act
-        final dto = CatBreedImageDtoTestDataBuilder()
-            .withId(unicodeId)
-            .build();
+        final dto = CatBreedImageDtoTestDataBuilder().withId(unicodeId).build();
 
         // Assert
         expect(dto.id, equals(unicodeId));
@@ -281,9 +292,15 @@ void main() {
         const webpUrl = 'https://cdn2.thecatapi.com/images/cat789.webp';
 
         // Act
-        final jpgDto = CatBreedImageDtoTestDataBuilder().withUrl(jpgUrl).build();
-        final pngDto = CatBreedImageDtoTestDataBuilder().withUrl(pngUrl).build();
-        final webpDto = CatBreedImageDtoTestDataBuilder().withUrl(webpUrl).build();
+        final jpgDto = CatBreedImageDtoTestDataBuilder()
+            .withUrl(jpgUrl)
+            .build();
+        final pngDto = CatBreedImageDtoTestDataBuilder()
+            .withUrl(pngUrl)
+            .build();
+        final webpDto = CatBreedImageDtoTestDataBuilder()
+            .withUrl(webpUrl)
+            .build();
 
         // Assert
         expect(jpgDto.url, equals(jpgUrl));

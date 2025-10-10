@@ -52,7 +52,10 @@ void main() {
         // Assert
         expect(result.id, equals('abys'));
         expect(result.name, equals('Abyssinian'));
-        expect(result.description, equals('The Abyssinian is easy to care for.'));
+        expect(
+          result.description,
+          equals('The Abyssinian is easy to care for.'),
+        );
         expect(result.temperament, equals('Active, Energetic, Independent'));
         expect(result.origin, equals('Egypt'));
         expect(result.weightMetric, equals('3 - 5'));
@@ -70,20 +73,23 @@ void main() {
         expect(result.strangerFriendly, equals(5));
         expect(result.vocalisation, equals(1));
         expect(result.rare, isFalse);
-        expect(result.wikipediaUrl, equals('https://en.wikipedia.org/wiki/Abyssinian_cat'));
+        expect(
+          result.wikipediaUrl,
+          equals('https://en.wikipedia.org/wiki/Abyssinian_cat'),
+        );
         expect(result.image, isNotNull);
         expect(result.image?.id, equals('image123'));
         expect(result.image?.width, equals(800));
         expect(result.image?.height, equals(600));
-        expect(result.image?.url, equals('https://cdn2.thecatapi.com/images/image123.jpg'));
+        expect(
+          result.image?.url,
+          equals('https://cdn2.thecatapi.com/images/image123.jpg'),
+        );
       });
 
       test('should convert minimal JSON to CatBreedDto', () {
         // Arrange
-        const json = {
-          'id': 'test',
-          'name': 'Test Cat',
-        };
+        const json = {'id': 'test', 'name': 'Test Cat'};
 
         // Act
         final result = translator.fromJson(json);
@@ -160,11 +166,7 @@ void main() {
 
       test('should handle null image object', () {
         // Arrange
-        const json = {
-          'id': 'test',
-          'name': 'Test Cat',
-          'image': null,
-        };
+        const json = {'id': 'test', 'name': 'Test Cat', 'image': null};
 
         // Act
         final result = translator.fromJson(json);
@@ -178,16 +180,8 @@ void main() {
       test('should convert JSON list to CatBreedDto list', () {
         // Arrange
         const jsonList = [
-          {
-            'id': 'abys',
-            'name': 'Abyssinian',
-            'description': 'Active breed',
-          },
-          {
-            'id': 'pers',
-            'name': 'Persian',
-            'description': 'Calm breed',
-          },
+          {'id': 'abys', 'name': 'Abyssinian', 'description': 'Active breed'},
+          {'id': 'pers', 'name': 'Persian', 'description': 'Calm breed'},
         ];
 
         // Act
@@ -217,14 +211,8 @@ void main() {
       test('should handle mixed valid and invalid JSON objects', () {
         // Arrange
         const jsonList = [
-          {
-            'id': 'valid1',
-            'name': 'Valid Cat 1',
-          },
-          {
-            'id': 'valid2',
-            'name': 'Valid Cat 2',
-          },
+          {'id': 'valid1', 'name': 'Valid Cat 1'},
+          {'id': 'valid2', 'name': 'Valid Cat 2'},
         ];
 
         // Act
@@ -400,7 +388,11 @@ void main() {
         // Arrange
         const json1 = {'id': 'test', 'name': 'Test', 'rare': 3.14};
         const json2 = {'id': 'test', 'name': 'Test', 'rare': <dynamic>[]};
-        const json3 = {'id': 'test', 'name': 'Test', 'rare': <String, dynamic>{}};
+        const json3 = {
+          'id': 'test',
+          'name': 'Test',
+          'rare': <String, dynamic>{},
+        };
 
         // Act
         final result1 = translator.fromJson(json1);
@@ -507,9 +499,7 @@ void main() {
         final imageDto = CatBreedImageDtoTestDataBuilder()
             .withUrl('https://example.com/cat.jpg')
             .build();
-        final dto = CatBreedDtoTestDataBuilder()
-            .withImage(imageDto)
-            .build();
+        final dto = CatBreedDtoTestDataBuilder().withImage(imageDto).build();
 
         // Act
         final result = translator.fromDto(dto);
@@ -520,9 +510,7 @@ void main() {
 
       test('should handle null image gracefully', () {
         // Arrange
-        final dto = CatBreedDtoTestDataBuilder()
-            .withImage(null)
-            .build();
+        final dto = CatBreedDtoTestDataBuilder().withImage(null).build();
 
         // Act
         final result = translator.fromDto(dto);
@@ -541,11 +529,13 @@ void main() {
         // Act & Assert
         expect(
           () => translator.fromDto(dto),
-          throwsA(isA<ArgumentError>().having(
-            (e) => e.message,
-            'message',
-            'CatBreed must have id and name',
-          )),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              'CatBreed must have id and name',
+            ),
+          ),
         );
       });
 
@@ -559,11 +549,13 @@ void main() {
         // Act & Assert
         expect(
           () => translator.fromDto(dto),
-          throwsA(isA<ArgumentError>().having(
-            (e) => e.message,
-            'message',
-            'CatBreed must have id and name',
-          )),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              'CatBreed must have id and name',
+            ),
+          ),
         );
       });
 
@@ -577,11 +569,13 @@ void main() {
         // Act & Assert
         expect(
           () => translator.fromDto(dto),
-          throwsA(isA<ArgumentError>().having(
-            (e) => e.message,
-            'message',
-            'CatBreed must have id and name',
-          )),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              'CatBreed must have id and name',
+            ),
+          ),
         );
       });
     });
@@ -662,10 +656,7 @@ void main() {
               .withId('invalid2')
               .withName(null)
               .build(),
-          CatBreedDtoTestDataBuilder()
-              .withId(null)
-              .withName(null)
-              .build(),
+          CatBreedDtoTestDataBuilder().withId(null).withName(null).build(),
         ];
 
         // Act
@@ -735,22 +726,17 @@ void main() {
         expect(catBreed.strangerFriendly, equals(3));
         expect(catBreed.vocalisation, equals(2));
         expect(catBreed.rare, isTrue);
-        expect(catBreed.wikipediaUrl, equals('https://en.wikipedia.org/wiki/Test_cat'));
+        expect(
+          catBreed.wikipediaUrl,
+          equals('https://en.wikipedia.org/wiki/Test_cat'),
+        );
       });
 
       test('should handle JSON list to CatBreed list conversion', () {
         // Arrange
         const jsonList = [
-          {
-            'id': 'cat1',
-            'name': 'Cat One',
-            'rare': false,
-          },
-          {
-            'id': 'cat2',
-            'name': 'Cat Two',
-            'rare': true,
-          },
+          {'id': 'cat1', 'name': 'Cat One', 'rare': false},
+          {'id': 'cat2', 'name': 'Cat Two', 'rare': true},
         ];
 
         // Act

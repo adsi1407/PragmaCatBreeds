@@ -2,14 +2,11 @@ import 'package:domain/domain.dart';
 import 'package:infrastructure/src/cat_breed/cache/cat_breed_cache.dart';
 
 /// Proxy implementation of [CatBreedRepository] that adds caching functionality.
-/// 
+///
 /// This class wraps another repository implementation and provides
 /// cache-first behavior to improve performance and reduce API calls.
 class CatBreedRepositoryProxy implements CatBreedRepository {
-  CatBreedRepositoryProxy(
-    this._repository,
-    this._cache,
-  );
+  CatBreedRepositoryProxy(this._repository, this._cache);
 
   final CatBreedRepository _repository;
   final CatBreedCache _cache;
@@ -28,14 +25,14 @@ class CatBreedRepositoryProxy implements CatBreedRepository {
     // Fetch from repository and cache the result
     final breeds = await _repository.getCatBreeds();
     _cache.put(_allBreedsKey, breeds);
-    
+
     return breeds;
   }
 
   @override
   Future<List<CatBreed>> searchCatBreeds(String query) async {
     final cacheKey = 'search:${query.toLowerCase().trim()}';
-    
+
     // Check cache first
     final cached = _cache.get(cacheKey);
     if (cached != null) {
@@ -45,14 +42,14 @@ class CatBreedRepositoryProxy implements CatBreedRepository {
     // Fetch from repository and cache the result
     final results = await _repository.searchCatBreeds(query);
     _cache.put(cacheKey, results);
-    
+
     return results;
   }
 
   @override
   Future<CatBreed?> getCatBreedById(String id) async {
     final cacheKey = 'breed:$id';
-    
+
     // For individual breeds, we can check if we have it in the all breeds cache
     final allBreeds = _cache.get(_allBreedsKey);
     if (allBreeds != null) {
@@ -71,12 +68,12 @@ class CatBreedRepositoryProxy implements CatBreedRepository {
 
     // Fetch from repository
     final breed = await _repository.getCatBreedById(id);
-    
+
     // Cache the result if found
     if (breed != null) {
       _cache.put(cacheKey, [breed]);
     }
-    
+
     return breed;
   }
 

@@ -1,10 +1,10 @@
 import 'package:infrastructure/src/cat_breed/api/network/dto/cat_breed_image_dto.dart';
 
 /// Test data builder for [CatBreedImageDto] following the builder pattern.
-/// 
+///
 /// Provides fluent API for creating test instances with default valid data
 /// and methods to customize specific fields for different test scenarios.
-/// 
+///
 /// Usage:
 /// ```dart
 /// final imageDto = CatBreedImageDtoTestDataBuilder().build();
@@ -24,24 +24,24 @@ class CatBreedImageDtoTestDataBuilder {
 
   /// Creates a builder with minimal valid data.
   CatBreedImageDtoTestDataBuilder.minimal()
-      : _id = null,
-        _width = null,
-        _height = null,
-        _url = null;
+    : _id = null,
+      _width = null,
+      _height = null,
+      _url = null;
 
   /// Creates a builder with high resolution image data.
   CatBreedImageDtoTestDataBuilder.highRes()
-      : _id = 'highres456',
-        _width = 1920,
-        _height = 1080,
-        _url = 'https://cdn2.thecatapi.com/images/highres456.jpg';
+    : _id = 'highres456',
+      _width = 1920,
+      _height = 1080,
+      _url = 'https://cdn2.thecatapi.com/images/highres456.jpg';
 
   /// Creates a builder with low resolution image data.
   CatBreedImageDtoTestDataBuilder.lowRes()
-      : _id = 'lowres789',
-        _width = 320,
-        _height = 240,
-        _url = 'https://cdn2.thecatapi.com/images/lowres789.jpg';
+    : _id = 'lowres789',
+      _width = 320,
+      _height = 240,
+      _url = 'https://cdn2.thecatapi.com/images/lowres789.jpg';
 
   CatBreedImageDtoTestDataBuilder withId(String? id) {
     _id = id;
@@ -71,11 +71,6 @@ class CatBreedImageDtoTestDataBuilder {
 
   /// Builds the [CatBreedImageDto] instance with the configured data.
   CatBreedImageDto build() {
-    return CatBreedImageDto(
-      id: _id,
-      width: _width,
-      height: _height,
-      url: _url,
-    );
+    return CatBreedImageDto(id: _id, width: _width, height: _height, url: _url);
   }
 }

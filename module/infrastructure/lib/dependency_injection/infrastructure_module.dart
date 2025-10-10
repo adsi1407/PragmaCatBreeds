@@ -9,7 +9,7 @@ import 'package:infrastructure/src/cat_breed/cat_breed_repository_proxy.dart';
 import 'package:injectable/injectable.dart';
 
 /// Infrastructure module for dependency injection.
-/// 
+///
 /// This module provides all the infrastructure layer dependencies
 /// including HTTP clients, repositories, caches, and translators.
 @module
@@ -23,23 +23,24 @@ abstract class InfrastructureModule {
   @lazySingleton
   Future<Dio> dio(DioRetryInterceptor retryInterceptor) async {
     final dio = Dio();
-    
+
     // Configure base options
     dio.options
       ..connectTimeout = const Duration(seconds: 30)
       ..receiveTimeout = const Duration(seconds: 30)
       ..sendTimeout = const Duration(seconds: 30);
-    
+
     // Add retry interceptor
     dio.interceptors.add(retryInterceptor);
     retryInterceptor.attach(dio);
-    
+
     return dio;
   }
 
   /// Provides the Cat Breed API client.
   @lazySingleton
-  CatBreedApi catBreedApi(Dio dio, CatBreedTranslator translator) => CatBreedApi(dio, translator);
+  CatBreedApi catBreedApi(Dio dio, CatBreedTranslator translator) =>
+      CatBreedApi(dio, translator);
 
   /// Provides the Cat Breed translator.
   @lazySingleton
@@ -54,16 +55,14 @@ abstract class InfrastructureModule {
   CatBreedRepositoryApi catBreedRepositoryApi(
     CatBreedApi api,
     CatBreedTranslator translator,
-  ) =>
-      CatBreedRepositoryApi(api, translator);
+  ) => CatBreedRepositoryApi(api, translator);
 
   /// Provides the Cat Breed repository with caching proxy.
   @LazySingleton(as: CatBreedRepository)
   CatBreedRepositoryProxy catBreedRepository(
     CatBreedRepositoryApi repositoryApi,
     CatBreedCache cache,
-  ) =>
-      CatBreedRepositoryProxy(repositoryApi, cache);
+  ) => CatBreedRepositoryProxy(repositoryApi, cache);
 
   /// Provides the Get Cat Breeds use case.
   @lazySingleton
@@ -72,12 +71,13 @@ abstract class InfrastructureModule {
 
   /// Provides the Search Cat Breeds use case.
   @lazySingleton
-  SearchCatBreedsUseCase searchCatBreedsUseCase(CatBreedRepository repository) =>
-      SearchCatBreedsUseCase(repository);
+  SearchCatBreedsUseCase searchCatBreedsUseCase(
+    CatBreedRepository repository,
+  ) => SearchCatBreedsUseCase(repository);
 }
 
 /// Initializes the infrastructure micro-package dependencies.
-/// 
+///
 /// This function is called by the code generator to properly register
 /// all infrastructure dependencies as a micro-package.
 @InjectableInit.microPackage()

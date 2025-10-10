@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-/// A lightweight Dio interceptor that retries GET/HEAD requests 
+/// A lightweight Dio interceptor that retries GET/HEAD requests
 /// on server errors (5xx) using exponential backoff.
 class DioRetryInterceptor extends Interceptor {
   DioRetryInterceptor({
@@ -12,16 +12,16 @@ class DioRetryInterceptor extends Interceptor {
 
   /// Maximum number of retry attempts
   final int maxRetries;
-  
+
   /// HTTP status codes that should trigger a retry
   final List<int> retryableStatusCodes;
-  
+
   /// HTTP methods that are safe to retry
   final List<String> retryableHttpMethods;
-  
+
   /// Base delay between retries (will be multiplied exponentially)
   final Duration baseDelay;
-  
+
   /// Dio instance for making retry requests
   Dio? _dio;
 
@@ -31,14 +31,17 @@ class DioRetryInterceptor extends Interceptor {
   }
 
   @override
-  Future<void> onError(DioException err, ErrorInterceptorHandler handler) async {
+  Future<void> onError(
+    DioException err,
+    ErrorInterceptorHandler handler,
+  ) async {
     if (!_shouldRetry(err)) {
       handler.next(err);
       return;
     }
 
     final retryCount = err.requestOptions.extra['retryCount'] as int? ?? 0;
-    
+
     if (retryCount >= maxRetries) {
       handler.next(err);
       return;
@@ -48,16 +51,16 @@ class DioRetryInterceptor extends Interceptor {
     final delay = Duration(
       milliseconds: baseDelay.inMilliseconds * (1 << retryCount),
     );
-    
+
     await Future<void>.delayed(delay);
 
     try {
       final options = err.requestOptions;
       options.extra['retryCount'] = retryCount + 1;
-      
+
       final dio = _dio ?? Dio();
       final response = await dio.fetch<dynamic>(options);
-      
+
       handler.resolve(response);
     } catch (e) {
       if (e is DioException) {

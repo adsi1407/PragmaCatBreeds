@@ -22,38 +22,51 @@ import 'package:infrastructure/src/cat_breed/cache/cat_breed_cache.dart'
 import 'package:injectable/injectable.dart' as _i526;
 
 class InfrastructurePackageModule extends _i526.MicroPackageModule {
-// initializes the registration of main-scope dependencies inside of GetIt
+  // initializes the registration of main-scope dependencies inside of GetIt
   @override
   _i687.FutureOr<void> init(_i526.GetItHelper gh) async {
     final infrastructureModule = _$InfrastructureModule();
     gh.lazySingleton<_i373.DioRetryInterceptor>(
-        () => infrastructureModule.dioRetryInterceptor());
+      () => infrastructureModule.dioRetryInterceptor(),
+    );
     gh.lazySingleton<_i477.CatBreedTranslator>(
-        () => infrastructureModule.catBreedTranslator());
+      () => infrastructureModule.catBreedTranslator(),
+    );
     gh.lazySingleton<_i923.CatBreedCache>(
-        () => infrastructureModule.catBreedCache());
+      () => infrastructureModule.catBreedCache(),
+    );
     await gh.lazySingletonAsync<_i361.Dio>(
       () => infrastructureModule.dio(gh<_i373.DioRetryInterceptor>()),
       preResolve: true,
     );
-    gh.lazySingleton<_i748.CatBreedApi>(() => infrastructureModule.catBreedApi(
-          gh<_i361.Dio>(),
-          gh<_i477.CatBreedTranslator>(),
-        ));
+    gh.lazySingleton<_i748.CatBreedApi>(
+      () => infrastructureModule.catBreedApi(
+        gh<_i361.Dio>(),
+        gh<_i477.CatBreedTranslator>(),
+      ),
+    );
     gh.lazySingleton<_i913.CatBreedRepositoryApi>(
-        () => infrastructureModule.catBreedRepositoryApi(
-              gh<_i748.CatBreedApi>(),
-              gh<_i477.CatBreedTranslator>(),
-            ));
+      () => infrastructureModule.catBreedRepositoryApi(
+        gh<_i748.CatBreedApi>(),
+        gh<_i477.CatBreedTranslator>(),
+      ),
+    );
     gh.lazySingleton<_i494.CatBreedRepository>(
-        () => infrastructureModule.catBreedRepository(
-              gh<_i913.CatBreedRepositoryApi>(),
-              gh<_i923.CatBreedCache>(),
-            ));
-    gh.lazySingleton<_i494.GetCatBreedsUseCase>(() => infrastructureModule
-        .getCatBreedsUseCase(gh<_i494.CatBreedRepository>()));
-    gh.lazySingleton<_i494.SearchCatBreedsUseCase>(() => infrastructureModule
-        .searchCatBreedsUseCase(gh<_i494.CatBreedRepository>()));
+      () => infrastructureModule.catBreedRepository(
+        gh<_i913.CatBreedRepositoryApi>(),
+        gh<_i923.CatBreedCache>(),
+      ),
+    );
+    gh.lazySingleton<_i494.GetCatBreedsUseCase>(
+      () => infrastructureModule.getCatBreedsUseCase(
+        gh<_i494.CatBreedRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i494.SearchCatBreedsUseCase>(
+      () => infrastructureModule.searchCatBreedsUseCase(
+        gh<_i494.CatBreedRepository>(),
+      ),
+    );
   }
 }
 

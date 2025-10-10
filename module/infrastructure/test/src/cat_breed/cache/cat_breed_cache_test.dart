@@ -8,30 +8,33 @@ void main() {
 
     // Helper method to create test cat breeds
     List<CatBreed> createTestCatBreeds(int count) {
-      return List.generate(count, (index) => CatBreed(
-        id: 'cat_$index',
-        name: 'Cat $index',
-        description: 'Description for cat $index',
-        temperament: 'Friendly, Active',
-        origin: 'Test Country',
-        weightMetric: '3-5 kg',
-        lifeSpan: '12-15 years',
-        imageUrl: 'https://example.com/cat_$index.jpg',
-        adaptability: 4,
-        affectionLevel: 5,
-        childFriendly: 4,
-        dogFriendly: 3,
-        energyLevel: 4,
-        grooming: 2,
-        healthIssues: 1,
-        intelligence: 5,
-        sheddingLevel: 3,
-        socialNeeds: 4,
-        strangerFriendly: 3,
-        vocalisation: 2,
-        rare: false,
-        wikipediaUrl: 'https://en.wikipedia.org/wiki/Cat_$index',
-      ));
+      return List.generate(
+        count,
+        (index) => CatBreed(
+          id: 'cat_$index',
+          name: 'Cat $index',
+          description: 'Description for cat $index',
+          temperament: 'Friendly, Active',
+          origin: 'Test Country',
+          weightMetric: '3-5 kg',
+          lifeSpan: '12-15 years',
+          imageUrl: 'https://example.com/cat_$index.jpg',
+          adaptability: 4,
+          affectionLevel: 5,
+          childFriendly: 4,
+          dogFriendly: 3,
+          energyLevel: 4,
+          grooming: 2,
+          healthIssues: 1,
+          intelligence: 5,
+          sheddingLevel: 3,
+          socialNeeds: 4,
+          strangerFriendly: 3,
+          vocalisation: 2,
+          rare: false,
+          wikipediaUrl: 'https://en.wikipedia.org/wiki/Cat_$index',
+        ),
+      );
     }
 
     setUp(() {
@@ -171,7 +174,7 @@ void main() {
         // Arrange
         const key = 'expired_test';
         final testBreeds = createTestCatBreeds(1);
-        
+
         // Manually create an expired entry
         cache.put(key, testBreeds, ttl: const Duration(milliseconds: -1));
 
@@ -190,7 +193,11 @@ void main() {
         final testBreeds = createTestCatBreeds(1);
 
         // Put one expired and one valid entry
-        cache.put(expiredKey, testBreeds, ttl: const Duration(milliseconds: -1));
+        cache.put(
+          expiredKey,
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
         cache.put(validKey, testBreeds, ttl: const Duration(hours: 1));
 
         // Act
@@ -273,10 +280,14 @@ void main() {
       test('cleanExpired | mixedEntries | removesOnlyExpiredEntries', () {
         // Arrange
         final testBreeds = createTestCatBreeds(1);
-        
+
         // Add expired entry
-        cache.put('expired_key', testBreeds, ttl: const Duration(milliseconds: -1));
-        
+        cache.put(
+          'expired_key',
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
+
         // Add valid entries
         cache.put('valid_key1', testBreeds, ttl: const Duration(hours: 1));
         cache.put('valid_key2', testBreeds, ttl: const Duration(hours: 2));
@@ -315,9 +326,21 @@ void main() {
       test('cleanExpired | allExpired | removesAllEntries', () {
         // Arrange
         final testBreeds = createTestCatBreeds(1);
-        cache.put('expired1', testBreeds, ttl: const Duration(milliseconds: -1));
-        cache.put('expired2', testBreeds, ttl: const Duration(milliseconds: -1));
-        cache.put('expired3', testBreeds, ttl: const Duration(milliseconds: -1));
+        cache.put(
+          'expired1',
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
+        cache.put(
+          'expired2',
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
+        cache.put(
+          'expired3',
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
 
         // Act
         cache.cleanExpired();
@@ -397,8 +420,12 @@ void main() {
         const expiredKey = 'expired_key';
         const validKey = 'valid_key';
         final testBreeds = createTestCatBreeds(1);
-        
-        cache.put(expiredKey, testBreeds, ttl: const Duration(milliseconds: -1));
+
+        cache.put(
+          expiredKey,
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
         cache.put(validKey, testBreeds, ttl: const Duration(hours: 1));
 
         // Act
@@ -433,9 +460,13 @@ void main() {
       test('should handle cache eviction through expiration', () {
         // Arrange
         final testBreeds = createTestCatBreeds(10);
-        
+
         // Simulate short-lived cache entries with negative TTL (already expired)
-        cache.put('short_lived', testBreeds, ttl: const Duration(milliseconds: -100));
+        cache.put(
+          'short_lived',
+          testBreeds,
+          ttl: const Duration(milliseconds: -100),
+        );
         cache.put('long_lived', testBreeds, ttl: const Duration(hours: 1));
 
         // Act
@@ -480,7 +511,7 @@ void main() {
 
         // Assert
         expect(cache.size, equals(10)); // Should have 10 unique keys
-        
+
         // All entries should be accessible
         for (int i = 0; i < 10; i++) {
           expect(cache.get('key_$i'), isNotNull);
@@ -490,11 +521,19 @@ void main() {
       test('should handle cache cleanup scenarios', () {
         // Arrange
         final testBreeds = createTestCatBreeds(3);
-        
+
         // Add mix of expired and valid entries
-        cache.put('expired1', testBreeds, ttl: const Duration(milliseconds: -1));
+        cache.put(
+          'expired1',
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
         cache.put('valid1', testBreeds, ttl: const Duration(hours: 1));
-        cache.put('expired2', testBreeds, ttl: const Duration(milliseconds: -1));
+        cache.put(
+          'expired2',
+          testBreeds,
+          ttl: const Duration(milliseconds: -1),
+        );
         cache.put('valid2', testBreeds, ttl: const Duration(hours: 1));
 
         // Act
@@ -530,7 +569,11 @@ void main() {
         for (final key in specialKeys) {
           cache.put(key, testBreeds);
           expect(cache.get(key), isNotNull, reason: 'Failed for key: $key');
-          expect(cache.containsKey(key), isTrue, reason: 'containsKey failed for: $key');
+          expect(
+            cache.containsKey(key),
+            isTrue,
+            reason: 'containsKey failed for: $key',
+          );
         }
 
         expect(cache.size, equals(specialKeys.length));
