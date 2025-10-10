@@ -75,13 +75,13 @@ class CatBreedsList extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         itemCount: state.breeds.length,
         // Performance optimizations
-        cacheExtent: 200.0, // Cache items outside viewport for smooth scrolling
+        cacheExtent: 200, // Cache items outside viewport for smooth scrolling
         physics:
             const AlwaysScrollableScrollPhysics(), // Improve scroll behavior
         itemBuilder: (context, index) {
           final breed = state.breeds[index];
           return Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
+            padding: const EdgeInsets.only(bottom: 8),
             child: CatBreedListItem(
               breed: breed,
               onTap: () {

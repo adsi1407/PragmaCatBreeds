@@ -121,7 +121,7 @@ class CatBreedTranslator {
     for (final dto in dtos) {
       try {
         breeds.add(fromDto(dto));
-      } catch (e) {
+      } on Exception {
         // Log warning but continue processing other breeds
         // In a real app, you might want to use a proper logging framework
         continue;

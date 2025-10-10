@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
+      onGenerateTitle: (BuildContext context) => AppLocalizations.of(context)!.appTitle,
       theme: PragmaTheme.lightTheme,
       darkTheme: PragmaTheme.darkTheme,
       localizationsDelegates: const [
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: const [Locale('en'), Locale('es')],
       home: const SplashScreen(),
-      onGenerateRoute: (settings) {
+      onGenerateRoute: (RouteSettings settings) {
         switch (settings.name) {
           case CatBreedsPage.routeName:
             return MaterialPageRoute<void>(

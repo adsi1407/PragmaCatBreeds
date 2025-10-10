@@ -62,12 +62,10 @@ class DioRetryInterceptor extends Interceptor {
       final response = await dio.fetch<dynamic>(options);
 
       handler.resolve(response);
-    } catch (e) {
-      if (e is DioException) {
-        handler.next(e);
-      } else {
-        handler.next(err);
-      }
+    } on DioException catch (e) {
+      handler.next(e);
+    } on Exception {
+      handler.next(err);
     }
   }
 

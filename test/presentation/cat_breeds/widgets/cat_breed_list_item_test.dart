@@ -49,7 +49,7 @@ void main() {
         theme: PragmaTheme.lightTheme,
         home: Scaffold(
           body: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16),
             child: CatBreedListItem(
               breed: breed,
               onTap: onTap ?? onTapCallback,

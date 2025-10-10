@@ -34,7 +34,7 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
       _allBreeds = breeds;
 
       emit(CatBreedsLoaded(breeds: breeds));
-    } catch (e) {
+    } on Exception catch (e) {
       emit(CatBreedsError('Failed to load cat breeds: $e'));
     }
   }
@@ -80,7 +80,7 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
           ),
         );
       }
-    } catch (e) {
+    } on Exception catch (e) {
       if (!emit.isDone) {
         emit(CatBreedsError('Failed to search cat breeds: $e'));
       }
@@ -103,7 +103,7 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
       emit(
         CatBreedsLoaded(breeds: breeds, isSearching: false, searchQuery: ''),
       );
-    } catch (e) {
+    } on Exception catch (e) {
       emit(CatBreedsError('Failed to clear search: $e'));
     }
   }

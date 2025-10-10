@@ -55,7 +55,7 @@ class CatBreedRepositoryProxy implements CatBreedRepository {
     if (allBreeds != null) {
       try {
         return allBreeds.firstWhere((breed) => breed.id == id);
-      } catch (e) {
+      } on StateError {
         // Not found in cache, continue to repository
       }
     }
