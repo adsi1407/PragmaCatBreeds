@@ -14,7 +14,9 @@ For detailed technical information, please refer to:
 - **[test/TEST_ORGANIZATION.md](test/TEST_ORGANIZATION.md)** - Testing organization principles and best practices
 - **[docs/COVERAGE_STRATEGY.md](docs/COVERAGE_STRATEGY.md)** - 📊 Test coverage strategy and granular measurement approach
 - **[docs/STATIC_ANALYSIS.md](docs/STATIC_ANALYSIS.md)** - 🔍 Static analysis strategy with flutter analyze and quality rules
+- **[docs/TECHNICAL_DEBT_MONITORING.md](docs/TECHNICAL_DEBT_MONITORING.md)** - 🎯 Technical debt monitoring with SonarCloud integration
 - **[docs/API_KEY_SECURITY.md](docs/API_KEY_SECURITY.md)** - 🔐 API key security strategy and environment configuration
+- **[docs/SONARCLOUD_SETUP.md](docs/SONARCLOUD_SETUP.md)** - 🚀 SonarCloud setup guide for quality monitoring
 - **[docs/](docs/)** - Additional technical documentation
 - **[CHANGELOG.md](CHANGELOG.md)** - Project change history
 

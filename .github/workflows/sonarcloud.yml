@@ -1,0 +1,46 @@
+name: SonarCloud Analysis
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  sonarcloud:
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for better analysis
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.24.3'
+        channel: 'stable'
+
+    - name: Get dependencies
+      run: |
+        flutter pub get
+        cd module/domain && flutter pub get
+        cd ../infrastructure && flutter pub get
+
+    - name: Run tests with coverage
+      run: |
+        flutter test --coverage
+        # Merge coverage from modules if needed
+        # lcov --add-tracefile coverage/lcov.info --add-tracefile module/domain/coverage/lcov.info --output-file coverage/merged.info
+
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >
+          -Dsonar.organization=adsi1407
+          -Dsonar.projectKey=adsi1407_PragmaCatBreeds
