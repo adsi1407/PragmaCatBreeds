@@ -22,37 +22,33 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    
+
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
 
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: const Interval(0.0, 0.6, curve: Curves.easeIn),
-    ));
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.0, 0.6, curve: Curves.easeIn),
+      ),
+    );
 
-    _scaleAnimation = Tween<double>(
-      begin: 0.8,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: const Interval(0.2, 0.8, curve: Curves.elasticOut),
-    ));
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: const Interval(0.2, 0.8, curve: Curves.elasticOut),
+      ),
+    );
 
     _animationController.forward();
-    
+
     // Navigate to main app after animation
     _navigationTimer = Timer(const Duration(milliseconds: 3000), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute<void>(
-            builder: (context) => const CatBreedsPage(),
-          ),
+          MaterialPageRoute<void>(builder: (context) => const CatBreedsPage()),
         );
       }
     });
@@ -69,9 +65,9 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
+
     return Scaffold(
-      backgroundColor: isDarkMode 
+      backgroundColor: isDarkMode
           ? PragmaColors.darkColorScheme.surface
           : PragmaColors.lightColorScheme.surface,
       body: Center(
@@ -104,37 +100,34 @@ class _SplashScreenState extends State<SplashScreen>
                             ],
                           ),
                           child: const Center(
-                            child: Text(
-                              '🐱',
-                              style: TextStyle(
-                                fontSize: 60,
-                              ),
-                            ),
+                            child: Text('🐱', style: TextStyle(fontSize: 60)),
                           ),
                         ),
-                        
+
                         const SizedBox(height: 24),
-                        
+
                         // App title
                         Text(
                           l10n.appTitle,
-                          style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: isDarkMode 
-                                ? Colors.white 
-                                : PragmaColors.gray900,
-                          ),
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: isDarkMode
+                                    ? Colors.white
+                                    : PragmaColors.gray900,
+                              ),
                         ),
-                        
+
                         const SizedBox(height: 8),
-                        
+
                         // Technical challenge branding
                         Text(
                           'Technical Challenge',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: PragmaColors.accentBlue,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: PragmaColors.accentBlue,
+                                fontWeight: FontWeight.w500,
+                              ),
                         ),
                       ],
                     ),
@@ -142,9 +135,9 @@ class _SplashScreenState extends State<SplashScreen>
                 );
               },
             ),
-            
+
             const SizedBox(height: 80),
-            
+
             // Loading indicator
             AnimatedBuilder(
               animation: _animationController,
@@ -163,14 +156,14 @@ class _SplashScreenState extends State<SplashScreen>
                           ),
                         ),
                       ),
-                      
+
                       const SizedBox(height: 16),
-                      
+
                       Text(
                         l10n.loadingBreeds,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: isDarkMode 
-                              ? PragmaColors.gray300 
+                          color: isDarkMode
+                              ? PragmaColors.gray300
                               : PragmaColors.gray600,
                         ),
                       ),

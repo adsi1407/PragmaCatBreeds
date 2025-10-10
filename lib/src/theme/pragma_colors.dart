@@ -3,20 +3,24 @@ import 'package:flutter/material.dart';
 /// Pragma corporate color scheme
 /// Colors based on Pragma's brand identity from https://www.pragma.co/
 class PragmaColors {
-  static const Color _primaryPragma = Color(0xFF6B46C1); // Pragma purple - corporate primary
-  static const Color _secondaryPragma = Color(0xFF0066CC); // Blue accent from website
+  static const Color _primaryPragma = Color(
+    0xFF6B46C1,
+  ); // Pragma purple - corporate primary
+  static const Color _secondaryPragma = Color(
+    0xFF0066CC,
+  ); // Blue accent from website
   static const Color _backgroundLight = Color(0xFFFAFAFA); // Light background
   static const Color _backgroundDark = Color(0xFF121212); // Dark background
   static const Color _surfaceLight = Color(0xFFFFFFFF); // Light surface
   static const Color _surfaceDark = Color(0xFF1E1E1E); // Dark surface
-  
+
   // Additional colors found on the website
   static const Color accentBlue = Color(0xFF0066CC);
   static const Color accentGreen = Color(0xFF00A86B);
   static const Color warningOrange = Color(0xFFFF6B35);
   static const Color errorRed = Color(0xFFE53E3E);
   static const Color successGreen = Color(0xFF38A169);
-  
+
   // Gray scale palette
   static const Color gray50 = Color(0xFFF7FAFC);
   static const Color gray100 = Color(0xFFEDF2F7);

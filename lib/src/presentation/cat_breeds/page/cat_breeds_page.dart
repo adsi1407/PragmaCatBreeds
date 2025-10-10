@@ -16,8 +16,8 @@ class CatBreedsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<CatBreedsBloc>()
-        ..add(const CatBreedsLoadRequested()),
+      create: (context) =>
+          getIt<CatBreedsBloc>()..add(const CatBreedsLoadRequested()),
       child: const CatBreedsView(),
     );
   }
@@ -30,17 +30,13 @@ class CatBreedsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.homeTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.homeTitle)),
       body: const Column(
         children: [
           CatBreedsSearchBar(),
-          Expanded(
-            child: CatBreedsList(),
-          ),
+          Expanded(child: CatBreedsList()),
         ],
       ),
     );

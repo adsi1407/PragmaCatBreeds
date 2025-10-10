@@ -9,10 +9,8 @@ import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_br
 /// BLoC for managing cat breeds list and search functionality
 @injectable
 class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
-  CatBreedsBloc(
-    this._getCatBreedsUseCase,
-    this._searchCatBreedsUseCase,
-  ) : super(const CatBreedsInitial()) {
+  CatBreedsBloc(this._getCatBreedsUseCase, this._searchCatBreedsUseCase)
+    : super(const CatBreedsInitial()) {
     on<CatBreedsLoadRequested>(_onLoadRequested);
     on<CatBreedsSearchRequested>(_onSearchRequested);
     on<CatBreedsSearchCleared>(_onSearchCleared);
@@ -30,11 +28,11 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
     Emitter<CatBreedsState> emit,
   ) async {
     emit(const CatBreedsLoading());
-    
+
     try {
       final breeds = await _getCatBreedsUseCase();
       _allBreeds = breeds;
-      
+
       emit(CatBreedsLoaded(breeds: breeds));
     } catch (e) {
       emit(CatBreedsError('Failed to load cat breeds: $e'));
@@ -48,38 +46,39 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
   ) async {
     // Cancel previous timer
     _searchTimer?.cancel();
-    
+
     final query = event.query.trim();
-    
+
     // If query is empty, show all breeds
     if (query.isEmpty) {
-      emit(CatBreedsLoaded(
-        breeds: _allBreeds,
-        isSearching: false,
-        searchQuery: '',
-      ));
+      emit(
+        CatBreedsLoaded(
+          breeds: _allBreeds,
+          isSearching: false,
+          searchQuery: '',
+        ),
+      );
       return;
     }
-    
+
     // Show current state as searching
     if (state is CatBreedsLoaded) {
       final currentState = state as CatBreedsLoaded;
-      emit(currentState.copyWith(
-        isSearching: true,
-        searchQuery: query,
-      ));
+      emit(currentState.copyWith(isSearching: true, searchQuery: query));
     }
-    
+
     // Execute search immediately (debouncing is handled in UI layer)
     try {
       final results = await _searchCatBreedsUseCase(query);
-      
+
       if (!emit.isDone) {
-        emit(CatBreedsLoaded(
-          breeds: results,
-          isSearching: true,
-          searchQuery: query,
-        ));
+        emit(
+          CatBreedsLoaded(
+            breeds: results,
+            isSearching: true,
+            searchQuery: query,
+          ),
+        );
       }
     } catch (e) {
       if (!emit.isDone) {
@@ -94,18 +93,16 @@ class CatBreedsBloc extends Bloc<CatBreedsEvent, CatBreedsState> {
     Emitter<CatBreedsState> emit,
   ) async {
     _searchTimer?.cancel();
-    
+
     emit(const CatBreedsLoading());
-    
+
     try {
       final breeds = await _getCatBreedsUseCase();
       _allBreeds = breeds;
-      
-      emit(CatBreedsLoaded(
-        breeds: breeds,
-        isSearching: false,
-        searchQuery: '',
-      ));
+
+      emit(
+        CatBreedsLoaded(breeds: breeds, isSearching: false, searchQuery: ''),
+      );
     } catch (e) {
       emit(CatBreedsError('Failed to clear search: $e'));
     }

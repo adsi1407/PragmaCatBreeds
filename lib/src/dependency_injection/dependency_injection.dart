@@ -8,8 +8,6 @@ final getIt = GetIt.instance;
 
 /// Configures dependency injection for the entire application using micro-packages
 @InjectableInit(
-  externalPackageModulesAfter: [
-    ExternalModule(InfrastructurePackageModule),
-  ],
+  externalPackageModulesAfter: [ExternalModule(InfrastructurePackageModule)],
 )
 Future<void> configureDependencies() => getIt.init();

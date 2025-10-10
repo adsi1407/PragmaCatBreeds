@@ -4,14 +4,14 @@ import 'package:pragma_cat_breeds/src/theme/pragma_colors.dart';
 /// Pragma corporate theme data
 class PragmaTheme {
   static const String _fontFamily = 'Roboto';
-  
+
   /// Light theme for Pragma Cat Breeds app
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
       colorScheme: PragmaColors.lightColorScheme,
       fontFamily: _fontFamily,
-      
+
       // App Bar Theme
       appBarTheme: AppBarTheme(
         centerTitle: true,
@@ -25,11 +25,9 @@ class PragmaTheme {
           color: Colors.white,
           fontFamily: _fontFamily,
         ),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      
+
       // Card Theme
       cardTheme: const CardThemeData(
         elevation: 2,
@@ -40,7 +38,7 @@ class PragmaTheme {
         ),
         margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
-      
+
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -55,16 +53,22 @@ class PragmaTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: PragmaColors.accentBlue, width: 2),
+          borderSide: const BorderSide(
+            color: PragmaColors.accentBlue,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: PragmaColors.errorRed),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         hintStyle: const TextStyle(color: PragmaColors.gray400),
       ),
-      
+
       // Elevated Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -72,9 +76,7 @@ class PragmaTheme {
           foregroundColor: Colors.white,
           elevation: 2,
           shadowColor: PragmaColors.accentBlue.withOpacity(0.3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           textStyle: const TextStyle(
             fontSize: 16,
@@ -83,14 +85,12 @@ class PragmaTheme {
           ),
         ),
       ),
-      
+
       // Text Button Theme
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: PragmaColors.accentBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           textStyle: const TextStyle(
             fontSize: 14,
@@ -99,7 +99,7 @@ class PragmaTheme {
           ),
         ),
       ),
-      
+
       // Chip Theme
       chipTheme: ChipThemeData(
         backgroundColor: PragmaColors.gray100,
@@ -108,12 +108,10 @@ class PragmaTheme {
           fontSize: 12,
           fontWeight: FontWeight.w500,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       ),
-      
+
       // List Tile Theme
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -121,13 +119,13 @@ class PragmaTheme {
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
       ),
-      
+
       // Progress Indicator Theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: PragmaColors.accentBlue,
         circularTrackColor: PragmaColors.gray200,
       ),
-      
+
       // Divider Theme
       dividerTheme: const DividerThemeData(
         color: PragmaColors.gray200,
@@ -143,7 +141,7 @@ class PragmaTheme {
       useMaterial3: true,
       colorScheme: PragmaColors.darkColorScheme,
       fontFamily: _fontFamily,
-      
+
       // App Bar Theme
       appBarTheme: AppBarTheme(
         centerTitle: true,
@@ -157,11 +155,9 @@ class PragmaTheme {
           color: Colors.white,
           fontFamily: _fontFamily,
         ),
-        iconTheme: const IconThemeData(
-          color: Colors.white,
-        ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
-      
+
       // Card Theme
       cardTheme: CardThemeData(
         elevation: 4,
@@ -172,7 +168,7 @@ class PragmaTheme {
         ),
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       ),
-      
+
       // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -187,16 +183,22 @@ class PragmaTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: PragmaColors.accentBlue, width: 2),
+          borderSide: const BorderSide(
+            color: PragmaColors.accentBlue,
+            width: 2,
+          ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: const BorderSide(color: PragmaColors.errorRed),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
         hintStyle: const TextStyle(color: PragmaColors.gray400),
       ),
-      
+
       // Elevated Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -204,9 +206,7 @@ class PragmaTheme {
           foregroundColor: Colors.white,
           elevation: 4,
           shadowColor: PragmaColors.accentBlue.withOpacity(0.3),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           textStyle: const TextStyle(
             fontSize: 16,
@@ -215,14 +215,12 @@ class PragmaTheme {
           ),
         ),
       ),
-      
+
       // Text Button Theme
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: PragmaColors.accentBlue,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           textStyle: const TextStyle(
             fontSize: 14,
@@ -231,7 +229,7 @@ class PragmaTheme {
           ),
         ),
       ),
-      
+
       // Chip Theme
       chipTheme: ChipThemeData(
         backgroundColor: PragmaColors.gray700,
@@ -240,12 +238,10 @@ class PragmaTheme {
           fontSize: 12,
           fontWeight: FontWeight.w500,
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       ),
-      
+
       // List Tile Theme
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -253,13 +249,13 @@ class PragmaTheme {
           borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
       ),
-      
+
       // Progress Indicator Theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: PragmaColors.accentBlue,
         circularTrackColor: PragmaColors.gray700,
       ),
-      
+
       // Divider Theme
       dividerTheme: const DividerThemeData(
         color: PragmaColors.gray700,

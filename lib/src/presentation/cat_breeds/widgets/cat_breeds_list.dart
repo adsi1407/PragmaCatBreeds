@@ -14,16 +14,14 @@ class CatBreedsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return BlocBuilder<CatBreedsBloc, CatBreedsState>(
       builder: (context, state) {
         return switch (state) {
-          CatBreedsInitial() => Center(
-              child: Text(l10n.welcomeLoading),
-            ),
+          CatBreedsInitial() => Center(child: Text(l10n.welcomeLoading)),
           CatBreedsLoading() => const Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: CircularProgressIndicator(),
+          ),
           CatBreedsLoaded() => _buildLoadedState(context, state),
           CatBreedsError() => _buildErrorState(context, state),
         };
@@ -33,7 +31,7 @@ class CatBreedsList extends StatelessWidget {
 
   Widget _buildLoadedState(BuildContext context, CatBreedsLoaded state) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     if (state.breeds.isEmpty) {
       return Center(
         child: Column(
@@ -50,19 +48,16 @@ class CatBreedsList extends StatelessWidget {
                   ? l10n.noResultsFor(state.searchQuery)
                   : l10n.noBreedsAvailable,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
-                  ),
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+              ),
             ),
             if (state.searchQuery.isNotEmpty) ...[
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () {
                   context.read<CatBreedsBloc>().add(
-                        const CatBreedsSearchCleared(),
-                      );
+                    const CatBreedsSearchCleared(),
+                  );
                 },
                 child: Text(l10n.clearSearchButton),
               ),
@@ -81,7 +76,8 @@ class CatBreedsList extends StatelessWidget {
         itemCount: state.breeds.length,
         // Performance optimizations
         cacheExtent: 200.0, // Cache items outside viewport for smooth scrolling
-        physics: const AlwaysScrollableScrollPhysics(), // Improve scroll behavior
+        physics:
+            const AlwaysScrollableScrollPhysics(), // Improve scroll behavior
         itemBuilder: (context, index) {
           final breed = state.breeds[index];
           return Padding(
@@ -90,10 +86,9 @@ class CatBreedsList extends StatelessWidget {
               breed: breed,
               onTap: () {
                 // Navigate to detail page
-                Navigator.of(context).pushNamed(
-                  '/cat-breed-detail',
-                  arguments: breed,
-                );
+                Navigator.of(
+                  context,
+                ).pushNamed('/cat-breed-detail', arguments: breed);
               },
             ),
           );
@@ -104,7 +99,7 @@ class CatBreedsList extends StatelessWidget {
 
   Widget _buildErrorState(BuildContext context, CatBreedsError state) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -124,18 +119,13 @@ class CatBreedsList extends StatelessWidget {
             state.message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSurface
-                      .withOpacity(0.7),
-                ),
+              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+            ),
           ),
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () {
-              context.read<CatBreedsBloc>().add(
-                    const CatBreedsLoadRequested(),
-                  );
+              context.read<CatBreedsBloc>().add(const CatBreedsLoadRequested());
             },
             icon: const Icon(Icons.refresh),
             label: Text(l10n.tryAgainButton),

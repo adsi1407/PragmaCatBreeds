@@ -10,10 +10,10 @@ import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Configure dependency injection
   await configureDependencies();
-  
+
   runApp(const MyApp());
 }
 
@@ -32,10 +32,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('es'),
-      ],
+      supportedLocales: const [Locale('en'), Locale('es')],
       home: const SplashScreen(),
       onGenerateRoute: (settings) {
         switch (settings.name) {
@@ -62,9 +59,7 @@ class MyApp extends StatelessWidget {
     return MaterialPageRoute<void>(
       builder: (_) => Scaffold(
         appBar: AppBar(title: const Text('Error')),
-        body: Center(
-          child: Text(message),
-        ),
+        body: Center(child: Text(message)),
       ),
     );
   }

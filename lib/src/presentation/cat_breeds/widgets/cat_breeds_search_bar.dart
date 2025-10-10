@@ -34,22 +34,20 @@ class _CatBreedsSearchBarState extends State<CatBreedsSearchBar> {
 
   void _onSearchChanged(String query) {
     setState(() {}); // Update suffixIcon visibility
-    
+
     // Cancel previous timer
     _debounceTimer?.cancel();
-    
+
     // Create new timer for debouncing search
     _debounceTimer = Timer(const Duration(milliseconds: 300), () {
-      context.read<CatBreedsBloc>().add(
-        CatBreedsSearchRequested(query),
-      );
+      context.read<CatBreedsBloc>().add(CatBreedsSearchRequested(query));
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -73,8 +71,8 @@ class _CatBreedsSearchBarState extends State<CatBreedsSearchBar> {
                   onPressed: () {
                     _controller.clear();
                     context.read<CatBreedsBloc>().add(
-                          const CatBreedsSearchCleared(),
-                        );
+                      const CatBreedsSearchCleared(),
+                    );
                   },
                 )
               : null,

@@ -6,10 +6,7 @@ import 'package:pragma_cat_breeds/src/presentation/cat_breed_detail/widgets/bree
 
 /// Detail page for displaying comprehensive information about a cat breed
 class CatBreedDetailPage extends StatelessWidget {
-  const CatBreedDetailPage({
-    required this.breed,
-    super.key,
-  });
+  const CatBreedDetailPage({required this.breed, super.key});
 
   final CatBreed breed;
 
@@ -18,8 +15,9 @@ class CatBreedDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final imageHeight = screenHeight * 0.5; // Imagen ocupa la mitad de la pantalla
-    
+    final imageHeight =
+        screenHeight * 0.5; // Imagen ocupa la mitad de la pantalla
+
     return Scaffold(
       body: Column(
         children: [
@@ -42,7 +40,9 @@ class CatBreedDetailPage extends StatelessWidget {
                           child: Icon(
                             Icons.pets,
                             size: 64,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                         errorWidget: (context, url, error) => Container(
@@ -52,7 +52,9 @@ class CatBreedDetailPage extends StatelessWidget {
                           child: Icon(
                             Icons.pets,
                             size: 64,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       )
@@ -66,7 +68,7 @@ class CatBreedDetailPage extends StatelessWidget {
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
-                
+
                 // AppBar con nombre de la raza
                 Positioned(
                   top: 0,
@@ -91,7 +93,9 @@ class CatBreedDetailPage extends StatelessWidget {
                     elevation: 0,
                     foregroundColor: Colors.white,
                     leading: Container(
-                      margin: const EdgeInsets.all(4), // Reduced margin for larger tap area
+                      margin: const EdgeInsets.all(
+                        4,
+                      ), // Reduced margin for larger tap area
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(20),
@@ -100,7 +104,9 @@ class CatBreedDetailPage extends StatelessWidget {
                         icon: const Icon(Icons.arrow_back, color: Colors.white),
                         onPressed: () => Navigator.of(context).pop(),
                         iconSize: 24,
-                        padding: const EdgeInsets.all(8), // Ensure minimum tap area
+                        padding: const EdgeInsets.all(
+                          8,
+                        ), // Ensure minimum tap area
                         tooltip: 'Go back', // Semantic label for accessibility
                       ),
                     ),
@@ -109,7 +115,7 @@ class CatBreedDetailPage extends StatelessWidget {
               ],
             ),
           ),
-          
+
           // Contenido scrolleable en la parte inferior
           Expanded(
             child: SingleChildScrollView(
@@ -119,29 +125,21 @@ class CatBreedDetailPage extends StatelessWidget {
                 children: [
                   // Basic information
                   _buildBasicInfo(context),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Description
                   if (breed.description != null) ...[
-                    _buildSection(
-                      context,
-                      'Description',
-                      breed.description!,
-                    ),
+                    _buildSection(context, 'Description', breed.description!),
                     const SizedBox(height: 24),
                   ],
-                  
+
                   // Temperament
                   if (breed.temperament != null) ...[
-                    _buildSection(
-                      context,
-                      'Temperament',
-                      breed.temperament!,
-                    ),
+                    _buildSection(context, 'Temperament', breed.temperament!),
                     const SizedBox(height: 24),
                   ],
-                  
+
                   // Characteristics
                   _buildCharacteristics(context),
                 ],
@@ -166,7 +164,7 @@ class CatBreedDetailPage extends StatelessWidget {
                 'Origin',
                 breed.origin!,
               ),
-            
+
             if (breed.lifeSpan != null) ...[
               const SizedBox(height: 12),
               _buildInfoRow(
@@ -176,7 +174,7 @@ class CatBreedDetailPage extends StatelessWidget {
                 '${breed.lifeSpan} years',
               ),
             ],
-            
+
             if (breed.weightMetric != null) ...[
               const SizedBox(height: 12),
               _buildInfoRow(
@@ -200,23 +198,16 @@ class CatBreedDetailPage extends StatelessWidget {
   ) {
     return Row(
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        Icon(icon, size: 20, color: Theme.of(context).colorScheme.primary),
         const SizedBox(width: 12),
         Text(
           '$label: ',
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
         ),
         Expanded(
-          child: Text(
-            value,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+          child: Text(value, style: Theme.of(context).textTheme.bodyMedium),
         ),
       ],
     );
@@ -228,9 +219,9 @@ class CatBreedDetailPage extends StatelessWidget {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         Card(
@@ -238,9 +229,9 @@ class CatBreedDetailPage extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Text(
               content,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    height: 1.5,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(height: 1.5),
             ),
           ),
         ),
@@ -254,9 +245,9 @@ class CatBreedDetailPage extends StatelessWidget {
       children: [
         Text(
           'Characteristics',
-          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         BreedCharacteristicsWidget(breed: breed),

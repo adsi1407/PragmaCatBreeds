@@ -10,10 +10,10 @@ class CatBreedsLoaded extends CatBreedsState {
 
   /// List of cat breeds to display
   final List<CatBreed> breeds;
-  
+
   /// Flag indicating if a search is currently active
   final bool isSearching;
-  
+
   /// Current search query string
   final String searchQuery;
 
@@ -34,6 +34,6 @@ class CatBreedsLoaded extends CatBreedsState {
   }
 
   @override
-  String toString() => 
-    'CatBreedsLoaded(breeds: ${breeds.length}, isSearching: $isSearching, searchQuery: $searchQuery)';
+  String toString() =>
+      'CatBreedsLoaded(breeds: ${breeds.length}, isSearching: $isSearching, searchQuery: $searchQuery)';
 }

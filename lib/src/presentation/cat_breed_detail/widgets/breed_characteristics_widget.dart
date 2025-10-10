@@ -4,10 +4,7 @@ import 'package:pragma_cat_breeds/l10n/app_localizations.dart';
 
 /// Widget that displays breed characteristics with rating bars
 class BreedCharacteristicsWidget extends StatelessWidget {
-  const BreedCharacteristicsWidget({
-    required this.breed,
-    super.key,
-  });
+  const BreedCharacteristicsWidget({required this.breed, super.key});
 
   final CatBreed breed;
 
@@ -15,7 +12,7 @@ class BreedCharacteristicsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final characteristics = _getCharacteristics();
-    
+
     if (characteristics.isEmpty) {
       return Card(
         child: Padding(
@@ -31,11 +28,13 @@ class BreedCharacteristicsWidget extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: characteristics
-                .map((characteristic) => _buildCharacteristicRow(
-                      context,
-                      characteristic.name,
-                      characteristic.value,
-                    ))
+                .map(
+                  (characteristic) => _buildCharacteristicRow(
+                    context,
+                    characteristic.name,
+                    characteristic.value,
+                  ),
+                )
                 .toList(),
           ),
         ),
@@ -43,21 +42,14 @@ class BreedCharacteristicsWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildCharacteristicRow(
-    BuildContext context,
-    String name,
-    int value,
-  ) {
+  Widget _buildCharacteristicRow(BuildContext context, String name, int value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
           Expanded(
             flex: 2,
-            child: Text(
-              name,
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
+            child: Text(name, style: Theme.of(context).textTheme.bodyMedium),
           ),
           Expanded(
             flex: 3,
@@ -66,9 +58,9 @@ class BreedCharacteristicsWidget extends StatelessWidget {
                 Expanded(
                   child: LinearProgressIndicator(
                     value: value / 5.0,
-                    backgroundColor: Theme.of(context)
-                        .colorScheme
-                        .surfaceContainer,
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainer,
                     valueColor: AlwaysStoppedAnimation<Color>(
                       _getColorForValue(context, value),
                     ),
@@ -80,8 +72,8 @@ class BreedCharacteristicsWidget extends StatelessWidget {
                   child: Text(
                     '$value/5',
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                      fontWeight: FontWeight.w600,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -107,9 +99,7 @@ class BreedCharacteristicsWidget extends StatelessWidget {
     final characteristics = <_Characteristic>[];
 
     if (breed.adaptability != null) {
-      characteristics.add(
-        _Characteristic('Adaptability', breed.adaptability!),
-      );
+      characteristics.add(_Characteristic('Adaptability', breed.adaptability!));
     }
 
     if (breed.affectionLevel != null) {
@@ -125,21 +115,15 @@ class BreedCharacteristicsWidget extends StatelessWidget {
     }
 
     if (breed.dogFriendly != null) {
-      characteristics.add(
-        _Characteristic('Dog Friendly', breed.dogFriendly!),
-      );
+      characteristics.add(_Characteristic('Dog Friendly', breed.dogFriendly!));
     }
 
     if (breed.energyLevel != null) {
-      characteristics.add(
-        _Characteristic('Energy Level', breed.energyLevel!),
-      );
+      characteristics.add(_Characteristic('Energy Level', breed.energyLevel!));
     }
 
     if (breed.grooming != null) {
-      characteristics.add(
-        _Characteristic('Grooming', breed.grooming!),
-      );
+      characteristics.add(_Characteristic('Grooming', breed.grooming!));
     }
 
     if (breed.healthIssues != null) {
@@ -149,9 +133,7 @@ class BreedCharacteristicsWidget extends StatelessWidget {
     }
 
     if (breed.intelligence != null) {
-      characteristics.add(
-        _Characteristic('Intelligence', breed.intelligence!),
-      );
+      characteristics.add(_Characteristic('Intelligence', breed.intelligence!));
     }
 
     if (breed.sheddingLevel != null) {
@@ -161,9 +143,7 @@ class BreedCharacteristicsWidget extends StatelessWidget {
     }
 
     if (breed.socialNeeds != null) {
-      characteristics.add(
-        _Characteristic('Social Needs', breed.socialNeeds!),
-      );
+      characteristics.add(_Characteristic('Social Needs', breed.socialNeeds!));
     }
 
     if (breed.strangerFriendly != null) {
@@ -173,9 +153,7 @@ class BreedCharacteristicsWidget extends StatelessWidget {
     }
 
     if (breed.vocalisation != null) {
-      characteristics.add(
-        _Characteristic('Vocalisation', breed.vocalisation!),
-      );
+      characteristics.add(_Characteristic('Vocalisation', breed.vocalisation!));
     }
 
     return characteristics;

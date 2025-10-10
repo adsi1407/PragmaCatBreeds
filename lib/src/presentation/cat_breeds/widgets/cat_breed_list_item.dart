@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 
 /// Widget that represents a single cat breed item in the list
 class CatBreedListItem extends StatelessWidget {
-  const CatBreedListItem({
-    required this.breed,
-    required this.onTap,
-    super.key,
-  });
+  const CatBreedListItem({required this.breed, required this.onTap, super.key});
 
   final CatBreed breed;
   final VoidCallback onTap;
@@ -18,9 +14,7 @@ class CatBreedListItem extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(12),
@@ -45,46 +39,46 @@ class CatBreedListItem extends StatelessWidget {
                           maxHeightDiskCache: 200,
                           fadeInDuration: const Duration(milliseconds: 300),
                           placeholder: (context, url) => ColoredBox(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
                             child: Icon(
                               Icons.pets,
                               size: 32,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
                             ),
                           ),
                           errorWidget: (context, url, error) => ColoredBox(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
                             child: Icon(
                               Icons.pets,
                               size: 32,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
                             ),
                           ),
                         )
                       : ColoredBox(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest,
                           child: Icon(
                             Icons.pets,
                             size: 32,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                 ),
               ),
               const SizedBox(width: 16),
-              
+
               // Breed information
               Expanded(
                 child: Column(
@@ -94,12 +88,12 @@ class CatBreedListItem extends StatelessWidget {
                     Text(
                       breed.name,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
+                        fontWeight: FontWeight.w600,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    
+
                     // Origin
                     if (breed.origin != null) ...[
                       const SizedBox(height: 4),
@@ -108,21 +102,19 @@ class CatBreedListItem extends StatelessWidget {
                           Icon(
                             Icons.location_on,
                             size: 16,
-                            color: Theme.of(context)
-                                .colorScheme
-                                .onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                           const SizedBox(width: 4),
                           Expanded(
                             child: Text(
                               breed.origin!,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
+                              style: Theme.of(context).textTheme.bodySmall
                                   ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
                                   ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -131,17 +123,15 @@ class CatBreedListItem extends StatelessWidget {
                         ],
                       ),
                     ],
-                    
+
                     // Temperament (first few words)
                     if (breed.temperament != null) ...[
                       const SizedBox(height: 4),
                       Text(
                         _getShortTemperament(breed.temperament!),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -149,7 +139,7 @@ class CatBreedListItem extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               // Arrow indicator
               Icon(
                 Icons.chevron_right,
@@ -166,7 +156,7 @@ class CatBreedListItem extends StatelessWidget {
   String _getShortTemperament(String temperament) {
     final words = temperament.split(', ');
     if (words.length <= 3) return temperament;
-    
+
     return '${words.take(3).join(', ')}...';
   }
 }
