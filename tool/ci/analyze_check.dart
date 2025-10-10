@@ -61,21 +61,40 @@ Future<int> main(List<String> args) async {
       final l = ln.trim();
       if (l.isEmpty) continue;
       // Common analyzer textual output includes patterns like:
-      // "error • <message> • <file>:<line>"
-      final isError = RegExp(r'^error\b', caseSensitive: false).hasMatch(l) || l.contains(' • error • ');
-      final isWarning = RegExp(r'^warning\b', caseSensitive: false).hasMatch(l) || l.contains(' • warning • ');
-      if (isError) {
+      // "   info - <message> - <file>:<line> - <rule>"
+      // "   error - <message> - <file>:<line> - <rule>"
+      // "   warning - <message> - <file>:<line> - <rule>"
+      final infoMatch = RegExp(r'^\s*info\s*-').hasMatch(l);
+      final errorMatch = RegExp(r'^\s*error\s*-').hasMatch(l);
+      final warningMatch = RegExp(r'^\s*warning\s*-').hasMatch(l);
+      
+      if (errorMatch) {
         txtErrors++;
         if (preview.length < 20) preview.add('ERROR: $l');
-      } else if (isWarning) {
+      } else if (warningMatch) {
         txtWarnings++;
         if (preview.length < 20) preview.add('WARNING: $l');
+      } else if (infoMatch) {
+        // Count info messages but don't add to preview to keep it focused
+        // We don't fail on info messages
       }
     }
 
     if (txtErrors == 0 && txtWarnings == 0) {
-      stderr.writeln('Could not parse analyze JSON file: no JSON objects found and no textual analyzer markers in ${args[0]}');
-      return 2;
+      // Check if we found any analysis at all
+      final hasAnalysisContent = textLines.any((line) => 
+        RegExp(r'^\s*(info|warning|error)\s*-').hasMatch(line) ||
+        line.contains('issues found') ||
+        line.contains('No issues found'));
+      
+      if (!hasAnalysisContent) {
+        stderr.writeln('Could not parse analyze file: no JSON objects found and no analyzer output detected in ${args[0]}');
+        return 2;
+      }
+      
+      // If we have analysis content but no errors/warnings, that's success
+      stdout.writeln('Analyzer (text) found: errors=0 warnings=0 (only info messages or clean analysis)');
+      return 0;
     }
 
     // Print summary based on textual parsing

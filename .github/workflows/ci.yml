@@ -196,13 +196,13 @@ jobs:
 
       - name: Static analysis - flutter analyze
         run: |
-          # Run analyzer and emit JSON to file. We allow non-zero exit so we can
-          # process the results and fail only on 'error' severity.
-          flutter analyze --format=json > analyze.json || true
+          # Run analyzer and save output to file with UTF-8 encoding.
+          # We allow non-zero exit so we can process results and fail only on 'error' severity.
+          flutter analyze 2>&1 | Out-File -FilePath analyze_output.txt -Encoding utf8 || true
 
       - name: Fail CI only on analyzer errors (tool/ci/analyze_check.dart)
         run: |
-          dart run tool/ci/analyze_check.dart analyze.json
+          dart run tool/ci/analyze_check.dart analyze_output.txt
 
       - name: Static analysis - dart_code_metrics (optional)
         run: |
@@ -210,7 +210,7 @@ jobs:
           dart pub global activate dart_code_metrics
           export PATH="$PATH":"$HOME/.pub-cache/bin"
           # Analyze project (root) and output JSON
-          dart pub global run dart_code_metrics:metrics analyze --reporter=json > metrics.json || true
+          dart pub global run dart_code_metrics:metrics analyze lib --reporter=json --disable-sunset-warning > metrics.json || true
           # Note: metrics.json will be produced by dart_code_metrics above (if available).
           # We intentionally do NOT fail the CI here based on code metrics to avoid
           # embedding extra scripting in the workflow. Review metrics.json artifact

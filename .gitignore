@@ -48,6 +48,10 @@ app.*.map.json
 coverage/
 **/coverage/
 **/lcov.info
+
+# Static analysis temporary files
+analyze_output.txt
+metrics.json
 *.lcov
 coverage*.lcov
 
