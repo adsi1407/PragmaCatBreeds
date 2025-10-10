@@ -20,28 +20,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Go (required for gitleaks cli build)
-        uses: actions/setup-go@v4
-        with:
-          go-version: '1.20'
-
-      - name: Install gitleaks
-        run: |
-          # Install latest gitleaks from releases
-          GITLEAKS_VERSION="v8.13.2"
-          wget -qO- "https://github.com/zricethezav/gitleaks/releases/download/${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION#v}_linux_x86_64.tar.gz" | tar xz -C /tmp
-          sudo mv /tmp/gitleaks /usr/local/bin/gitleaks
-
-      - name: Run gitleaks (exit non-zero on findings)
-        id: gitleaks
-        run: |
-          # Use a baseline file if present to reduce false positives
-          BASELINE=".gitleaks.baseline.json"
-          if [ -f "$BASELINE" ]; then
-            gitleaks detect --source . --report-format json --report-path gitleaks-report.json --baseline-path $BASELINE
-          else
-            gitleaks detect --source . --report-format json --report-path gitleaks-report.json
-          fi
+      - name: Run gitleaks scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Detect sensitive key files (p12/pfx/jks/keystore/mobileprovision/pem/key)
         id: detect-keys
@@ -58,16 +40,3 @@ jobs:
           else
             echo "No sensitive key files found."
           fi
-
-      - name: Upload gitleaks report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gitleaks-report
-          path: gitleaks-report.json
-
-      - name: Fail if secrets detected
-        if: steps.gitleaks.outcome == 'failure' || (steps.gitleaks.conclusion == 'failure')
-        run: |
-          echo "gitleaks detected potential secrets. See gitleaks-report.json artifact for details." >&2
-          exit 1
