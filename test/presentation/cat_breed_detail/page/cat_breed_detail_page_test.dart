@@ -65,16 +65,21 @@ void main() {
     }
 
     group('Widget Structure', () {
-      testWidgets('breedProvided | pageRender | displaysScaffoldWithScrollableContent', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
+      testWidgets(
+        'breedProvided | pageRender | displaysScaffoldWithScrollableContent',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 
-        // Act & Assert
-        expect(find.byType(Scaffold), findsOneWidget);
-        expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
-      });
+          // Act & Assert
+          expect(find.byType(Scaffold), findsOneWidget);
+          expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
+        },
+      );
 
-      testWidgets('breedProvided | pageRender | displaysAppBarWithBreedName', (tester) async {
+      testWidgets('breedProvided | pageRender | displaysAppBarWithBreedName', (
+        tester,
+      ) async {
         // Arrange
         await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 
@@ -85,43 +90,57 @@ void main() {
     });
 
     group('Image Display Scenarios', () {
-      testWidgets('breedWithImageUrl | pageRender | displaysCachedNetworkImage', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
+      testWidgets(
+        'breedWithImageUrl | pageRender | displaysCachedNetworkImage',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 
-        // Act & Assert
-        expect(find.byType(CachedNetworkImage), findsOneWidget);
-      });
+          // Act & Assert
+          expect(find.byType(CachedNetworkImage), findsOneWidget);
+        },
+      );
 
-      testWidgets('breedWithoutImageUrl | pageRender | displaysPlaceholderIcon', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithoutImage));
+      testWidgets(
+        'breedWithoutImageUrl | pageRender | displaysPlaceholderIcon',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithoutImage));
 
-        // Act & Assert
-        expect(find.byIcon(Icons.pets), findsOneWidget);
-      });
+          // Act & Assert
+          expect(find.byIcon(Icons.pets), findsOneWidget);
+        },
+      );
     });
 
     group('Basic Content Display', () {
-      testWidgets('breedWithBasicInfo | pageRender | displaysBreedNameInAppBar', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
+      testWidgets(
+        'breedWithBasicInfo | pageRender | displaysBreedNameInAppBar',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 
-        // Act & Assert
-        expect(find.text('Siamese'), findsOneWidget);
-      });
+          // Act & Assert
+          expect(find.text('Siamese'), findsOneWidget);
+        },
+      );
 
-      testWidgets('breedWithDifferentName | pageRender | displaysCorrectBreedName', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithoutImage));
+      testWidgets(
+        'breedWithDifferentName | pageRender | displaysCorrectBreedName',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithoutImage));
 
-        // Act & Assert
-        expect(find.text('Maine Coon'), findsOneWidget);
-      });
+          // Act & Assert
+          expect(find.text('Maine Coon'), findsOneWidget);
+        },
+      );
     });
 
     group('Scrolling Behavior', () {
-      testWidgets('pageContent | scrollGesture | allowsVerticalScrolling', (tester) async {
+      testWidgets('pageContent | scrollGesture | allowsVerticalScrolling', (
+        tester,
+      ) async {
         // Arrange
         await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithImage));
 

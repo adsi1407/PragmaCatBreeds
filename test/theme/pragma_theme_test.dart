@@ -16,16 +16,26 @@ void main() {
 
     test('should have gray scale progression', () {
       // Gray colors should get progressively darker
-      expect(PragmaColors.gray50.computeLuminance(), 
-             greaterThan(PragmaColors.gray100.computeLuminance()));
-      expect(PragmaColors.gray100.computeLuminance(), 
-             greaterThan(PragmaColors.gray200.computeLuminance()));
-      expect(PragmaColors.gray200.computeLuminance(), 
-             greaterThan(PragmaColors.gray300.computeLuminance()));
-      expect(PragmaColors.gray300.computeLuminance(), 
-             greaterThan(PragmaColors.gray400.computeLuminance()));
-      expect(PragmaColors.gray400.computeLuminance(), 
-             greaterThan(PragmaColors.gray500.computeLuminance()));
+      expect(
+        PragmaColors.gray50.computeLuminance(),
+        greaterThan(PragmaColors.gray100.computeLuminance()),
+      );
+      expect(
+        PragmaColors.gray100.computeLuminance(),
+        greaterThan(PragmaColors.gray200.computeLuminance()),
+      );
+      expect(
+        PragmaColors.gray200.computeLuminance(),
+        greaterThan(PragmaColors.gray300.computeLuminance()),
+      );
+      expect(
+        PragmaColors.gray300.computeLuminance(),
+        greaterThan(PragmaColors.gray400.computeLuminance()),
+      );
+      expect(
+        PragmaColors.gray400.computeLuminance(),
+        greaterThan(PragmaColors.gray500.computeLuminance()),
+      );
     });
 
     test('should provide accessible contrast ratios', () {
@@ -46,7 +56,7 @@ void main() {
   group('PragmaTheme', () {
     test('should provide light theme', () {
       final lightTheme = PragmaTheme.lightTheme;
-      
+
       expect(lightTheme, isA<ThemeData>());
       expect(lightTheme.brightness, equals(Brightness.light));
       expect(lightTheme.useMaterial3, isTrue);
@@ -54,7 +64,7 @@ void main() {
 
     test('should provide dark theme', () {
       final darkTheme = PragmaTheme.darkTheme;
-      
+
       expect(darkTheme, isA<ThemeData>());
       expect(darkTheme.brightness, equals(Brightness.dark));
       expect(darkTheme.useMaterial3, isTrue);
@@ -62,7 +72,7 @@ void main() {
 
     test('light theme should use appropriate colors', () {
       final lightTheme = PragmaTheme.lightTheme;
-      
+
       // Check primary color
       expect(lightTheme.colorScheme.primary, equals(const Color(0xFF6B46C1)));
       expect(lightTheme.colorScheme.secondary, equals(PragmaColors.accentBlue));
@@ -71,7 +81,7 @@ void main() {
 
     test('dark theme should use appropriate colors', () {
       final darkTheme = PragmaTheme.darkTheme;
-      
+
       // Check primary color
       expect(darkTheme.colorScheme.primary, equals(PragmaColors.accentBlue));
       expect(darkTheme.colorScheme.secondary, equals(PragmaColors.accentGreen));
@@ -82,18 +92,22 @@ void main() {
     test('should have consistent typography', () {
       final lightTheme = PragmaTheme.lightTheme;
       final darkTheme = PragmaTheme.darkTheme;
-      
+
       // Both themes should have the same font family
-      expect(lightTheme.textTheme.bodyLarge?.fontFamily, 
-             equals(darkTheme.textTheme.bodyLarge?.fontFamily));
-      expect(lightTheme.textTheme.headlineLarge?.fontFamily, 
-             equals(darkTheme.textTheme.headlineLarge?.fontFamily));
+      expect(
+        lightTheme.textTheme.bodyLarge?.fontFamily,
+        equals(darkTheme.textTheme.bodyLarge?.fontFamily),
+      );
+      expect(
+        lightTheme.textTheme.headlineLarge?.fontFamily,
+        equals(darkTheme.textTheme.headlineLarge?.fontFamily),
+      );
     });
 
     test('should configure app bar theme', () {
       final lightTheme = PragmaTheme.lightTheme;
       final darkTheme = PragmaTheme.darkTheme;
-      
+
       expect(lightTheme.appBarTheme, isNotNull);
       expect(darkTheme.appBarTheme, isNotNull);
       expect(lightTheme.appBarTheme.elevation, isNotNull);
@@ -103,7 +117,7 @@ void main() {
     test('should configure card theme', () {
       final lightTheme = PragmaTheme.lightTheme;
       final darkTheme = PragmaTheme.darkTheme;
-      
+
       expect(lightTheme.cardTheme, isNotNull);
       expect(darkTheme.cardTheme, isNotNull);
       expect(lightTheme.cardTheme.elevation, isNotNull);
@@ -113,7 +127,7 @@ void main() {
     test('should configure elevated button theme', () {
       final lightTheme = PragmaTheme.lightTheme;
       final darkTheme = PragmaTheme.darkTheme;
-      
+
       expect(lightTheme.elevatedButtonTheme, isNotNull);
       expect(darkTheme.elevatedButtonTheme, isNotNull);
       expect(lightTheme.elevatedButtonTheme.style, isNotNull);
@@ -123,7 +137,7 @@ void main() {
     test('should configure input decoration theme', () {
       final lightTheme = PragmaTheme.lightTheme;
       final darkTheme = PragmaTheme.darkTheme;
-      
+
       expect(lightTheme.inputDecorationTheme, isNotNull);
       expect(darkTheme.inputDecorationTheme, isNotNull);
       expect(lightTheme.inputDecorationTheme.border, isNotNull);
@@ -132,43 +146,43 @@ void main() {
   });
 
   group('Theme Application', () {
-    testWidgets('light theme should be applied correctly', (WidgetTester tester) async {
+    testWidgets('light theme should be applied correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: PragmaTheme.lightTheme,
-          home: const Scaffold(
-            body: Text('Test'),
-          ),
+          home: const Scaffold(body: Text('Test')),
         ),
       );
 
       final BuildContext context = tester.element(find.byType(Scaffold));
       final theme = Theme.of(context);
-      
+
       expect(theme.brightness, equals(Brightness.light));
       expect(theme.colorScheme.primary, equals(const Color(0xFF6B46C1)));
     });
 
-    testWidgets('dark theme should be applied correctly', (WidgetTester tester) async {
+    testWidgets('dark theme should be applied correctly', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: PragmaTheme.darkTheme,
-          home: const Scaffold(
-            body: Text('Test'),
-          ),
+          home: const Scaffold(body: Text('Test')),
         ),
       );
 
       final BuildContext context = tester.element(find.byType(Scaffold));
       final theme = Theme.of(context);
-      
+
       expect(theme.brightness, equals(Brightness.dark));
       expect(theme.colorScheme.primary, equals(PragmaColors.accentBlue));
     });
 
     testWidgets('should support theme switching', (WidgetTester tester) async {
       ThemeMode currentThemeMode = ThemeMode.light;
-      
+
       await tester.pumpWidget(
         StatefulBuilder(
           builder: (context, setState) {
@@ -180,9 +194,9 @@ void main() {
                 body: ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      currentThemeMode = currentThemeMode == ThemeMode.light 
-                        ? ThemeMode.dark 
-                        : ThemeMode.light;
+                      currentThemeMode = currentThemeMode == ThemeMode.light
+                          ? ThemeMode.dark
+                          : ThemeMode.light;
                     });
                   },
                   child: const Text('Toggle Theme'),

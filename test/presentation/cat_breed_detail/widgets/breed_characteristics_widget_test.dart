@@ -92,17 +92,25 @@ void main() {
     }
 
     group('Widget Structure', () {
-      testWidgets('breedProvided | widgetRender | displaysCardContainer', (tester) async {
+      testWidgets('breedProvided | widgetRender | displaysCardContainer', (
+        tester,
+      ) async {
         // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+        await tester.pumpWidget(
+          createWidgetUnderTest(tCatBreedWithCharacteristics),
+        );
 
         // Act & Assert
         expect(find.byType(Card), findsOneWidget);
       });
 
-      testWidgets('breedProvided | widgetRender | displaysPaddingContainer', (tester) async {
+      testWidgets('breedProvided | widgetRender | displaysPaddingContainer', (
+        tester,
+      ) async {
         // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+        await tester.pumpWidget(
+          createWidgetUnderTest(tCatBreedWithCharacteristics),
+        );
 
         // Act & Assert
         expect(find.byType(Padding), findsWidgets);
@@ -110,180 +118,238 @@ void main() {
     });
 
     group('Characteristics Display Scenarios', () {
-      testWidgets('breedWithValidCharacteristics | widgetRender | displaysCharacteristicRows', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+      testWidgets(
+        'breedWithValidCharacteristics | widgetRender | displaysCharacteristicRows',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
 
-        // Act & Assert
-        expect(find.byType(Column), findsOneWidget);
-        
-        // Should display characteristic names (checking some key ones)
-        expect(find.text('Adaptability'), findsOneWidget);
-        expect(find.text('Affection Level'), findsOneWidget);
-        expect(find.text('Intelligence'), findsOneWidget);
-        expect(find.text('Energy Level'), findsOneWidget);
-      });
+          // Act & Assert
+          expect(find.byType(Column), findsOneWidget);
 
-      testWidgets('breedWithMaxCharacteristics | widgetRender | displaysAllCharacteristicsAtMaxLevel', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithMaxCharacteristics));
+          // Should display characteristic names (checking some key ones)
+          expect(find.text('Adaptability'), findsOneWidget);
+          expect(find.text('Affection Level'), findsOneWidget);
+          expect(find.text('Intelligence'), findsOneWidget);
+          expect(find.text('Energy Level'), findsOneWidget);
+        },
+      );
 
-        // Act & Assert
-        // Verify all rating bars show maximum value (5 filled indicators)
-        final linearProgressIndicators = find.byType(LinearProgressIndicator);
-        expect(linearProgressIndicators, findsWidgets);
-        
-        // Check that text shows "5/5" for max characteristics
-        expect(find.text('5/5'), findsWidgets);
-      });
+      testWidgets(
+        'breedWithMaxCharacteristics | widgetRender | displaysAllCharacteristicsAtMaxLevel',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithMaxCharacteristics),
+          );
 
-      testWidgets('breedWithZeroCharacteristics | widgetRender | displaysCharacteristicsAtMinimumLevel', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithZeroCharacteristics));
+          // Act & Assert
+          // Verify all rating bars show maximum value (5 filled indicators)
+          final linearProgressIndicators = find.byType(LinearProgressIndicator);
+          expect(linearProgressIndicators, findsWidgets);
 
-        // Act & Assert
-        // Check that text shows "0/5" for zero characteristics
-        expect(find.text('0/5'), findsWidgets);
-      });
+          // Check that text shows "5/5" for max characteristics
+          expect(find.text('5/5'), findsWidgets);
+        },
+      );
+
+      testWidgets(
+        'breedWithZeroCharacteristics | widgetRender | displaysCharacteristicsAtMinimumLevel',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithZeroCharacteristics),
+          );
+
+          // Act & Assert
+          // Check that text shows "0/5" for zero characteristics
+          expect(find.text('0/5'), findsWidgets);
+        },
+      );
     });
 
     group('Rating Bar Display', () {
-      testWidgets('characteristicWithValue | widgetRender | displaysLinearProgressIndicator', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+      testWidgets(
+        'characteristicWithValue | widgetRender | displaysLinearProgressIndicator',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
 
-        // Act & Assert
-        expect(find.byType(LinearProgressIndicator), findsWidgets);
-      });
+          // Act & Assert
+          expect(find.byType(LinearProgressIndicator), findsWidgets);
+        },
+      );
 
-      testWidgets('characteristicWithSpecificValue | widgetRender | displaysCorrectRatingText', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+      testWidgets(
+        'characteristicWithSpecificValue | widgetRender | displaysCorrectRatingText',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
 
-        // Act & Assert
-        // Siamese has adaptability: 5, so should show "5/5"
-        expect(find.text('5/5'), findsAtLeastNWidgets(1));
-        
-        // Siamese has childFriendly: 3, so should show "3/5"
-        expect(find.text('3/5'), findsAtLeastNWidgets(1));
-        
-        // Siamese has grooming: 1, so should show "1/5"
-        expect(find.text('1/5'), findsAtLeastNWidgets(1));
-      });
+          // Act & Assert
+          // Siamese has adaptability: 5, so should show "5/5"
+          expect(find.text('5/5'), findsAtLeastNWidgets(1));
+
+          // Siamese has childFriendly: 3, so should show "3/5"
+          expect(find.text('3/5'), findsAtLeastNWidgets(1));
+
+          // Siamese has grooming: 1, so should show "1/5"
+          expect(find.text('1/5'), findsAtLeastNWidgets(1));
+        },
+      );
     });
 
     group('Specific Characteristic Tests', () {
-      testWidgets('breedWithHighAdaptability | widgetRender | displaysAdaptabilityCorrectly', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+      testWidgets(
+        'breedWithHighAdaptability | widgetRender | displaysAdaptabilityCorrectly',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
 
-        // Act & Assert
-        expect(find.text('Adaptability'), findsOneWidget);
-        
-        // Find the row containing Adaptability and verify its rating
-        final adaptabilityFinder = find.ancestor(
-          of: find.text('Adaptability'),
-          matching: find.byType(Padding),
-        );
-        expect(adaptabilityFinder, findsWidgets);
-      });
+          // Act & Assert
+          expect(find.text('Adaptability'), findsOneWidget);
 
-      testWidgets('breedWithHighIntelligence | widgetRender | displaysIntelligenceCorrectly', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+          // Find the row containing Adaptability and verify its rating
+          final adaptabilityFinder = find.ancestor(
+            of: find.text('Adaptability'),
+            matching: find.byType(Padding),
+          );
+          expect(adaptabilityFinder, findsWidgets);
+        },
+      );
 
-        // Act & Assert
-        expect(find.text('Intelligence'), findsOneWidget);
-      });
+      testWidgets(
+        'breedWithHighIntelligence | widgetRender | displaysIntelligenceCorrectly',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
 
-      testWidgets('breedWithLowGrooming | widgetRender | displaysGroomingCorrectly', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+          // Act & Assert
+          expect(find.text('Intelligence'), findsOneWidget);
+        },
+      );
 
-        // Act & Assert
-        expect(find.text('Grooming'), findsOneWidget);
-      });
+      testWidgets(
+        'breedWithLowGrooming | widgetRender | displaysGroomingCorrectly',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
+
+          // Act & Assert
+          expect(find.text('Grooming'), findsOneWidget);
+        },
+      );
     });
 
     group('Localization Scenarios', () {
-      testWidgets('widgetInDifferentLocale | widgetRender | displaysLocalizedText', (tester) async {
-        // Arrange
-        final widget = MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: const Locale('en'),
-          home: Scaffold(
-            body: SingleChildScrollView(
-              child: BreedCharacteristicsWidget(breed: tCatBreedWithCharacteristics),
+      testWidgets(
+        'widgetInDifferentLocale | widgetRender | displaysLocalizedText',
+        (tester) async {
+          // Arrange
+          final widget = MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: const Locale('en'),
+            home: Scaffold(
+              body: SingleChildScrollView(
+                child: BreedCharacteristicsWidget(
+                  breed: tCatBreedWithCharacteristics,
+                ),
+              ),
             ),
-          ),
-        );
-        await tester.pumpWidget(widget);
+          );
+          await tester.pumpWidget(widget);
 
-        // Act & Assert
-        // Verify English characteristic names are displayed
-        expect(find.text('Adaptability'), findsOneWidget);
-        expect(find.text('Affection Level'), findsOneWidget);
-      });
+          // Act & Assert
+          // Verify English characteristic names are displayed
+          expect(find.text('Adaptability'), findsOneWidget);
+          expect(find.text('Affection Level'), findsOneWidget);
+        },
+      );
     });
 
     group('Empty State Scenarios', () {
-      testWidgets('breedWithoutCharacteristics | widgetRender | displaysEmptyStateMessage', (tester) async {
-        // Arrange
-        const emptyBreed = CatBreed(
-          id: '999',
-          name: 'Empty Breed',
-          description: 'No characteristics',
-          temperament: null,
-          origin: null,
-          lifeSpan: null,
-          imageUrl: null,
-          adaptability: null,
-          affectionLevel: null,
-          childFriendly: null,
-          dogFriendly: null,
-          energyLevel: null,
-          grooming: null,
-          healthIssues: null,
-          intelligence: null,
-          sheddingLevel: null,
-          socialNeeds: null,
-          strangerFriendly: null,
-          vocalisation: null,
-          rare: false,
-          wikipediaUrl: null,
-        );
+      testWidgets(
+        'breedWithoutCharacteristics | widgetRender | displaysEmptyStateMessage',
+        (tester) async {
+          // Arrange
+          const emptyBreed = CatBreed(
+            id: '999',
+            name: 'Empty Breed',
+            description: 'No characteristics',
+            temperament: null,
+            origin: null,
+            lifeSpan: null,
+            imageUrl: null,
+            adaptability: null,
+            affectionLevel: null,
+            childFriendly: null,
+            dogFriendly: null,
+            energyLevel: null,
+            grooming: null,
+            healthIssues: null,
+            intelligence: null,
+            sheddingLevel: null,
+            socialNeeds: null,
+            strangerFriendly: null,
+            vocalisation: null,
+            rare: false,
+            wikipediaUrl: null,
+          );
 
-        await tester.pumpWidget(createWidgetUnderTest(emptyBreed));
+          await tester.pumpWidget(createWidgetUnderTest(emptyBreed));
 
-        // Act & Assert
-        // Should still display card even with null characteristics
-        expect(find.byType(Card), findsOneWidget);
-      });
+          // Act & Assert
+          // Should still display card even with null characteristics
+          expect(find.byType(Card), findsOneWidget);
+        },
+      );
     });
 
     group('Layout Verification', () {
-      testWidgets('multipleCharacteristics | widgetRender | arrangesVerticallyInColumn', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+      testWidgets(
+        'multipleCharacteristics | widgetRender | arrangesVerticallyInColumn',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
 
-        // Act & Assert
-        expect(find.byType(Column), findsOneWidget);
-        
-        // Verify multiple characteristic rows exist
-        final paddingWidgets = find.byType(Padding);
-        expect(paddingWidgets.evaluate().length, greaterThan(5));
-      });
+          // Act & Assert
+          expect(find.byType(Column), findsOneWidget);
 
-      testWidgets('characteristicRow | widgetRender | containsNameAndRatingElements', (tester) async {
-        // Arrange
-        await tester.pumpWidget(createWidgetUnderTest(tCatBreedWithCharacteristics));
+          // Verify multiple characteristic rows exist
+          final paddingWidgets = find.byType(Padding);
+          expect(paddingWidgets.evaluate().length, greaterThan(5));
+        },
+      );
 
-        // Act & Assert
-        // Each row should have text and progress indicator
-        expect(find.byType(Text), findsWidgets);
-        expect(find.byType(LinearProgressIndicator), findsWidgets);
-      });
+      testWidgets(
+        'characteristicRow | widgetRender | containsNameAndRatingElements',
+        (tester) async {
+          // Arrange
+          await tester.pumpWidget(
+            createWidgetUnderTest(tCatBreedWithCharacteristics),
+          );
+
+          // Act & Assert
+          // Each row should have text and progress indicator
+          expect(find.byType(Text), findsWidgets);
+          expect(find.byType(LinearProgressIndicator), findsWidgets);
+        },
+      );
     });
   });
 }

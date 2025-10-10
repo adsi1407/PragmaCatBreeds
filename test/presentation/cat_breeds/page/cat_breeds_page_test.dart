@@ -29,16 +29,12 @@ void main() {
     Widget createWidgetUnderTest() {
       return MaterialApp(
         theme: PragmaTheme.lightTheme,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'),
-          Locale('es'),
-        ],
+        localizationsDelegates: const [AppLocalizations.delegate],
+        supportedLocales: const [Locale('en'), Locale('es')],
         home: const CatBreedsPage(),
         routes: {
-          '/cat-breed-detail': (context) => const Scaffold(body: Text('Detail Page')),
+          '/cat-breed-detail': (context) =>
+              const Scaffold(body: Text('Detail Page')),
         },
       );
     }
@@ -92,174 +88,204 @@ void main() {
       ),
     ];
 
-    testWidgets('should display app bar with title', (WidgetTester tester) async {
+    testWidgets('should display app bar with title', (
+      WidgetTester tester,
+    ) async {
       when(() => mockCatBreedsBloc.state).thenReturn(const CatBreedsInitial());
-      
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       expect(find.byType(AppBar), findsOneWidget);
       expect(find.text('Cat Breeds'), findsOneWidget);
     });
 
-    testWidgets('should display loading indicator when state is loading', 
-        (WidgetTester tester) async {
+    testWidgets('should display loading indicator when state is loading', (
+      WidgetTester tester,
+    ) async {
       when(() => mockCatBreedsBloc.state).thenReturn(const CatBreedsLoading());
-      
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('should display error message when state is error', 
-        (WidgetTester tester) async {
+    testWidgets('should display error message when state is error', (
+      WidgetTester tester,
+    ) async {
       const errorMessage = 'Test error';
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsError(errorMessage));
-      
+      when(
+        () => mockCatBreedsBloc.state,
+      ).thenReturn(const CatBreedsError(errorMessage));
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       expect(find.textContaining(errorMessage), findsOneWidget);
       expect(find.textContaining('Try again'), findsOneWidget);
     });
 
-    testWidgets('should display cat breeds list when loaded', 
-        (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
-      
+    testWidgets('should display cat breeds list when loaded', (
+      WidgetTester tester,
+    ) async {
+      when(
+        () => mockCatBreedsBloc.state,
+      ).thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       expect(find.byType(ListView), findsOneWidget);
       expect(find.text('Siamese'), findsOneWidget);
       expect(find.text('Persian'), findsOneWidget);
     });
 
     testWidgets('should display search field', (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
-      
+      when(
+        () => mockCatBreedsBloc.state,
+      ).thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       expect(find.byType(TextField), findsOneWidget);
     });
 
-    testWidgets('should add SearchRequested event when typing in search field', 
-        (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
-      
-      await tester.pumpWidget(createWidgetUnderTest());
-      
-      const searchQuery = 'Siamese';
-      await tester.enterText(find.byType(TextField), searchQuery);
-      
-      // Wait for debounce timer (300ms)
-      await tester.pump(const Duration(milliseconds: 350));
-      
-      verify(() => mockCatBreedsBloc.add(CatBreedsSearchRequested(searchQuery)))
-          .called(1);
-    });
+    testWidgets(
+      'should add SearchRequested event when typing in search field',
+      (WidgetTester tester) async {
+        when(
+          () => mockCatBreedsBloc.state,
+        ).thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
 
-    testWidgets('should display clear search button when search is active', 
-        (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(
-            breeds: tCatBreeds,
-            isSearching: true,
-            searchQuery: 'Siamese',
-          ));
-      
+        await tester.pumpWidget(createWidgetUnderTest());
+
+        const searchQuery = 'Siamese';
+        await tester.enterText(find.byType(TextField), searchQuery);
+
+        // Wait for debounce timer (300ms)
+        await tester.pump(const Duration(milliseconds: 350));
+
+        verify(
+          () => mockCatBreedsBloc.add(CatBreedsSearchRequested(searchQuery)),
+        ).called(1);
+      },
+    );
+
+    testWidgets('should display clear search button when search is active', (
+      WidgetTester tester,
+    ) async {
+      when(() => mockCatBreedsBloc.state).thenReturn(
+        const CatBreedsLoaded(
+          breeds: tCatBreeds,
+          isSearching: true,
+          searchQuery: 'Siamese',
+        ),
+      );
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       // Enter text to make the clear button visible
       await tester.enterText(find.byType(TextField), 'Siamese');
       await tester.pump();
-      
+
       expect(find.byIcon(Icons.clear), findsOneWidget);
     });
 
-    testWidgets('should add SearchCleared event when clear button is tapped', 
-        (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(
-            breeds: tCatBreeds,
-            isSearching: true,
-            searchQuery: 'Siamese',
-          ));
-      
+    testWidgets('should add SearchCleared event when clear button is tapped', (
+      WidgetTester tester,
+    ) async {
+      when(() => mockCatBreedsBloc.state).thenReturn(
+        const CatBreedsLoaded(
+          breeds: tCatBreeds,
+          isSearching: true,
+          searchQuery: 'Siamese',
+        ),
+      );
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       // First enter text to make the clear button visible
       await tester.enterText(find.byType(TextField), 'Siamese');
       await tester.pump();
-      
+
       await tester.tap(find.byIcon(Icons.clear));
-      
-      verify(() => mockCatBreedsBloc.add(const CatBreedsSearchCleared())).called(1);
+
+      verify(
+        () => mockCatBreedsBloc.add(const CatBreedsSearchCleared()),
+      ).called(1);
     });
 
-    testWidgets('should navigate to detail page when cat breed is tapped', 
-        (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
-      
+    testWidgets('should navigate to detail page when cat breed is tapped', (
+      WidgetTester tester,
+    ) async {
+      when(
+        () => mockCatBreedsBloc.state,
+      ).thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       await tester.tap(find.text('Siamese'));
       await tester.pumpAndSettle();
-      
+
       // Verify navigation occurred (this would require a more complex setup
       // with Navigator.observer or route testing)
     });
 
-    testWidgets('should display filtered results when search is active', 
-        (WidgetTester tester) async {
+    testWidgets('should display filtered results when search is active', (
+      WidgetTester tester,
+    ) async {
       final filteredBreeds = [tCatBreeds.first];
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(CatBreedsLoaded(
-            breeds: filteredBreeds,
-            isSearching: true,
-            searchQuery: 'Siamese',
-          ));
-      
+      when(() => mockCatBreedsBloc.state).thenReturn(
+        CatBreedsLoaded(
+          breeds: filteredBreeds,
+          isSearching: true,
+          searchQuery: 'Siamese',
+        ),
+      );
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       expect(find.text('Siamese'), findsOneWidget);
       expect(find.text('Persian'), findsNothing);
     });
 
-    testWidgets('should display empty state when no search results', 
-        (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(
-            breeds: <CatBreed>[],
-            isSearching: true,
-            searchQuery: 'NonExistent',
-          ));
-      
+    testWidgets('should display empty state when no search results', (
+      WidgetTester tester,
+    ) async {
+      when(() => mockCatBreedsBloc.state).thenReturn(
+        const CatBreedsLoaded(
+          breeds: <CatBreed>[],
+          isSearching: true,
+          searchQuery: 'NonExistent',
+        ),
+      );
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       expect(find.textContaining('No results for'), findsOneWidget);
     });
 
-    testWidgets('should add LoadRequested event on init', (WidgetTester tester) async {
+    testWidgets('should add LoadRequested event on init', (
+      WidgetTester tester,
+    ) async {
       when(() => mockCatBreedsBloc.state).thenReturn(const CatBreedsInitial());
-      
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
-      verify(() => mockCatBreedsBloc.add(const CatBreedsLoadRequested())).called(1);
+
+      verify(
+        () => mockCatBreedsBloc.add(const CatBreedsLoadRequested()),
+      ).called(1);
     });
 
-    testWidgets('should be responsive to different screen sizes', 
-        (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
-      
+    testWidgets('should be responsive to different screen sizes', (
+      WidgetTester tester,
+    ) async {
+      when(
+        () => mockCatBreedsBloc.state,
+      ).thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
+
       // Test phone size
       await tester.binding.setSurfaceSize(const Size(400, 800));
       await tester.pumpWidget(createWidgetUnderTest());
       expect(find.byType(ListView), findsOneWidget);
-      
+
       // Test tablet size
       await tester.binding.setSurfaceSize(const Size(800, 600));
       await tester.pumpWidget(createWidgetUnderTest());
@@ -267,14 +293,15 @@ void main() {
     });
 
     testWidgets('should use Pragma theme styling', (WidgetTester tester) async {
-      when(() => mockCatBreedsBloc.state)
-          .thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
-      
+      when(
+        () => mockCatBreedsBloc.state,
+      ).thenReturn(const CatBreedsLoaded(breeds: tCatBreeds));
+
       await tester.pumpWidget(createWidgetUnderTest());
-      
+
       final BuildContext context = tester.element(find.byType(Scaffold));
       final theme = Theme.of(context);
-      
+
       expect(theme.colorScheme.primary, equals(const Color(0xFF6B46C1)));
       expect(theme.useMaterial3, isTrue);
     });

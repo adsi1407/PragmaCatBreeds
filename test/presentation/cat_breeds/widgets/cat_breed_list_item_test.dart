@@ -20,7 +20,7 @@ void main() {
     const tCatBreedWithoutImage = CatBreed(
       id: '2',
       name: 'Persian',
-      origin: 'Iran', 
+      origin: 'Iran',
       temperament: 'Calm, Gentle, Quiet',
       adaptability: 3,
     );
@@ -60,7 +60,9 @@ void main() {
     }
 
     group('Widget Structure Tests', () {
-      testWidgets('breedProvided | widgetRender | displaysCardContainer', (WidgetTester tester) async {
+      testWidgets('breedProvided | widgetRender | displaysCardContainer', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = createWidgetUnderTest(tCatBreedWithImage);
 
@@ -72,7 +74,9 @@ void main() {
         expect(find.byType(InkWell), findsOneWidget);
       });
 
-      testWidgets('breedProvided | widgetRender | displaysRowLayout', (WidgetTester tester) async {
+      testWidgets('breedProvided | widgetRender | displaysRowLayout', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = createWidgetUnderTest(tCatBreedWithImage);
 
@@ -88,33 +92,41 @@ void main() {
     });
 
     group('Image Display Tests', () {
-      testWidgets('breedWithImageUrl | widgetRender | displaysCachedNetworkImage', (WidgetTester tester) async {
-        // Arrange
-        final widget = createWidgetUnderTest(tCatBreedWithImage);
+      testWidgets(
+        'breedWithImageUrl | widgetRender | displaysCachedNetworkImage',
+        (WidgetTester tester) async {
+          // Arrange
+          final widget = createWidgetUnderTest(tCatBreedWithImage);
 
-        // Act
-        await tester.pumpWidget(widget);
+          // Act
+          await tester.pumpWidget(widget);
 
-        // Assert
-        expect(find.byType(CachedNetworkImage), findsOneWidget);
-        // Note: Icons might still be present as placeholders during loading
-      });
+          // Assert
+          expect(find.byType(CachedNetworkImage), findsOneWidget);
+          // Note: Icons might still be present as placeholders during loading
+        },
+      );
 
-      testWidgets('breedWithoutImageUrl | widgetRender | displaysPlaceholderIcon', (WidgetTester tester) async {
-        // Arrange
-        final widget = createWidgetUnderTest(tCatBreedWithoutImage);
+      testWidgets(
+        'breedWithoutImageUrl | widgetRender | displaysPlaceholderIcon',
+        (WidgetTester tester) async {
+          // Arrange
+          final widget = createWidgetUnderTest(tCatBreedWithoutImage);
 
-        // Act
-        await tester.pumpWidget(widget);
+          // Act
+          await tester.pumpWidget(widget);
 
-        // Assert
-        expect(find.byIcon(Icons.pets), findsOneWidget);
-        expect(find.byType(CachedNetworkImage), findsNothing);
-      });
+          // Assert
+          expect(find.byIcon(Icons.pets), findsOneWidget);
+          expect(find.byType(CachedNetworkImage), findsNothing);
+        },
+      );
     });
 
     group('Text Content Tests', () {
-      testWidgets('breedWithName | widgetRender | displaysBreedName', (WidgetTester tester) async {
+      testWidgets('breedWithName | widgetRender | displaysBreedName', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = createWidgetUnderTest(tCatBreedWithImage);
 
@@ -125,44 +137,58 @@ void main() {
         expect(find.text(tCatBreedWithImage.name), findsOneWidget);
       });
 
-      testWidgets('breedWithLongName | widgetRender | displaysCompleteNameProperly', (WidgetTester tester) async {
-        // Arrange
-        final widget = createWidgetUnderTest(tCatBreedWithLongName);
+      testWidgets(
+        'breedWithLongName | widgetRender | displaysCompleteNameProperly',
+        (WidgetTester tester) async {
+          // Arrange
+          final widget = createWidgetUnderTest(tCatBreedWithLongName);
 
-        // Act
-        await tester.pumpWidget(widget);
+          // Act
+          await tester.pumpWidget(widget);
 
-        // Assert
-        expect(find.text(tCatBreedWithLongName.name), findsOneWidget);
-      });
+          // Assert
+          expect(find.text(tCatBreedWithLongName.name), findsOneWidget);
+        },
+      );
 
-      testWidgets('breedWithOrigin | widgetRender | displaysOriginInformation', (WidgetTester tester) async {
-        // Arrange
-        final widget = createWidgetUnderTest(tCatBreedWithImage);
+      testWidgets(
+        'breedWithOrigin | widgetRender | displaysOriginInformation',
+        (WidgetTester tester) async {
+          // Arrange
+          final widget = createWidgetUnderTest(tCatBreedWithImage);
 
-        // Act
-        await tester.pumpWidget(widget);
+          // Act
+          await tester.pumpWidget(widget);
 
-        // Assert
-        expect(find.text(tCatBreedWithImage.origin!), findsOneWidget);
-        expect(find.byIcon(Icons.location_on), findsOneWidget);
-      });
+          // Assert
+          expect(find.text(tCatBreedWithImage.origin!), findsOneWidget);
+          expect(find.byIcon(Icons.location_on), findsOneWidget);
+        },
+      );
 
-      testWidgets('breedWithTemperament | widgetRender | displaysTemperamentInformation', (WidgetTester tester) async {
-        // Arrange
-        final widget = createWidgetUnderTest(tCatBreedWithImage);
+      testWidgets(
+        'breedWithTemperament | widgetRender | displaysTemperamentInformation',
+        (WidgetTester tester) async {
+          // Arrange
+          final widget = createWidgetUnderTest(tCatBreedWithImage);
 
-        // Act
-        await tester.pumpWidget(widget);
+          // Act
+          await tester.pumpWidget(widget);
 
-        // Assert
-        // Should display first 3 temperament words
-        expect(find.textContaining('Friendly, Social, Vocal'), findsOneWidget);
-      });
+          // Assert
+          // Should display first 3 temperament words
+          expect(
+            find.textContaining('Friendly, Social, Vocal'),
+            findsOneWidget,
+          );
+        },
+      );
     });
 
     group('Interaction Tests', () {
-      testWidgets('itemTapped | userTap | triggersOnTapCallback', (WidgetTester tester) async {
+      testWidgets('itemTapped | userTap | triggersOnTapCallback', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = createWidgetUnderTest(tCatBreedWithImage);
 
@@ -175,7 +201,9 @@ void main() {
         expect(wasTapCalled, isTrue);
       });
 
-      testWidgets('itemTapped | cardAreaTap | triggersOnTapCallback', (WidgetTester tester) async {
+      testWidgets('itemTapped | cardAreaTap | triggersOnTapCallback', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = createWidgetUnderTest(tCatBreedWithImage);
 
@@ -190,7 +218,9 @@ void main() {
     });
 
     group('Visual Properties Tests', () {
-      testWidgets('cardRendered | widgetRender | hasCorrectBorderRadius', (WidgetTester tester) async {
+      testWidgets('cardRendered | widgetRender | hasCorrectBorderRadius', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = createWidgetUnderTest(tCatBreedWithImage);
 
@@ -203,7 +233,9 @@ void main() {
         expect(shape.borderRadius, BorderRadius.circular(12));
       });
 
-      testWidgets('imageContainer | widgetRender | hasCorrectDimensions', (WidgetTester tester) async {
+      testWidgets('imageContainer | widgetRender | hasCorrectDimensions', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = createWidgetUnderTest(tCatBreedWithImage);
 
@@ -218,7 +250,9 @@ void main() {
     });
 
     group('Theme Integration Tests', () {
-      testWidgets('lightThemeProvided | widgetRender | appliesCorrectTheme', (WidgetTester tester) async {
+      testWidgets('lightThemeProvided | widgetRender | appliesCorrectTheme', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = MaterialApp(
           theme: PragmaTheme.lightTheme,
@@ -234,11 +268,15 @@ void main() {
         await tester.pumpWidget(widget);
 
         // Assert
-        final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+        final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp),
+        );
         expect(materialApp.theme, PragmaTheme.lightTheme);
       });
 
-      testWidgets('darkThemeProvided | widgetRender | appliesCorrectTheme', (WidgetTester tester) async {
+      testWidgets('darkThemeProvided | widgetRender | appliesCorrectTheme', (
+        WidgetTester tester,
+      ) async {
         // Arrange
         final widget = MaterialApp(
           theme: PragmaTheme.darkTheme,
@@ -254,7 +292,9 @@ void main() {
         await tester.pumpWidget(widget);
 
         // Assert
-        final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+        final materialApp = tester.widget<MaterialApp>(
+          find.byType(MaterialApp),
+        );
         expect(materialApp.theme, PragmaTheme.darkTheme);
       });
     });

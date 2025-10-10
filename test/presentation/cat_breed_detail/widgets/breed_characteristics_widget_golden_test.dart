@@ -76,64 +76,96 @@ void main() {
       );
     }
 
-    testWidgets('breedWithMixedCharacteristics | lightThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreedWithCharacteristics, PragmaTheme.lightTheme);
+    testWidgets(
+      'breedWithMixedCharacteristics | lightThemeRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(
+          tCatBreedWithCharacteristics,
+          PragmaTheme.lightTheme,
+        );
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(BreedCharacteristicsWidget),
-        matchesGoldenFile('goldens/breed_characteristics_widget_mixed_light.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(BreedCharacteristicsWidget),
+          matchesGoldenFile(
+            'goldens/breed_characteristics_widget_mixed_light.png',
+          ),
+        );
+      },
+    );
 
-    testWidgets('breedWithMixedCharacteristics | darkThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreedWithCharacteristics, PragmaTheme.darkTheme);
+    testWidgets(
+      'breedWithMixedCharacteristics | darkThemeRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(
+          tCatBreedWithCharacteristics,
+          PragmaTheme.darkTheme,
+        );
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(BreedCharacteristicsWidget),
-        matchesGoldenFile('goldens/breed_characteristics_widget_mixed_dark.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(BreedCharacteristicsWidget),
+          matchesGoldenFile(
+            'goldens/breed_characteristics_widget_mixed_dark.png',
+          ),
+        );
+      },
+    );
 
-    testWidgets('breedWithMaxCharacteristics | lightThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreedWithMaxCharacteristics, PragmaTheme.lightTheme);
+    testWidgets(
+      'breedWithMaxCharacteristics | lightThemeRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(
+          tCatBreedWithMaxCharacteristics,
+          PragmaTheme.lightTheme,
+        );
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(BreedCharacteristicsWidget),
-        matchesGoldenFile('goldens/breed_characteristics_widget_max_light.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(BreedCharacteristicsWidget),
+          matchesGoldenFile(
+            'goldens/breed_characteristics_widget_max_light.png',
+          ),
+        );
+      },
+    );
 
-    testWidgets('breedWithMinCharacteristics | lightThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreedWithMinCharacteristics, PragmaTheme.lightTheme);
+    testWidgets(
+      'breedWithMinCharacteristics | lightThemeRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(
+          tCatBreedWithMinCharacteristics,
+          PragmaTheme.lightTheme,
+        );
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(BreedCharacteristicsWidget),
-        matchesGoldenFile('goldens/breed_characteristics_widget_min_light.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(BreedCharacteristicsWidget),
+          matchesGoldenFile(
+            'goldens/breed_characteristics_widget_min_light.png',
+          ),
+        );
+      },
+    );
   });
 }

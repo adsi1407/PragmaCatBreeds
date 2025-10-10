@@ -13,14 +13,15 @@ void main() {
   setUpAll(() {
     WidgetTestPluginMocks.setUp();
   });
-  
+
   tearDownAll(() {
     WidgetTestPluginMocks.tearDown();
   });
 
   group('CatBreedListItem Accessibility Tests', () {
-    
-    testWidgets('breedProvided | widgetRender | meetsAccessibilityGuidelines', (WidgetTester tester) async {
+    testWidgets('breedProvided | widgetRender | meetsAccessibilityGuidelines', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const tCatBreed = CatBreed(
         id: '1',
@@ -32,10 +33,7 @@ void main() {
       final widget = MaterialApp(
         theme: PragmaTheme.lightTheme,
         home: Scaffold(
-          body: CatBreedListItem(
-            breed: tCatBreed,
-            onTap: () {},
-          ),
+          body: CatBreedListItem(breed: tCatBreed, onTap: () {}),
         ),
       );
 
@@ -51,7 +49,9 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('breedProvided | widgetRender | hasProperSemanticLabels', (WidgetTester tester) async {
+    testWidgets('breedProvided | widgetRender | hasProperSemanticLabels', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       const tCatBreed = CatBreed(
         id: '1',
@@ -63,10 +63,7 @@ void main() {
       final widget = MaterialApp(
         theme: PragmaTheme.lightTheme,
         home: Scaffold(
-          body: CatBreedListItem(
-            breed: tCatBreed,
-            onTap: () {},
-          ),
+          body: CatBreedListItem(breed: tCatBreed, onTap: () {}),
         ),
       );
 
@@ -78,32 +75,44 @@ void main() {
       expect(find.text('Siamese'), findsOneWidget);
     });
 
-    testWidgets('multipleBreedsProvided | listViewRender | supportsScreenReaderNavigation', (WidgetTester tester) async {
-      // Arrange
-      const breeds = [
-        CatBreed(id: '1', name: 'Siamese', adaptability: 5, imageUrl: 'https://example.com/1.jpg'),
-        CatBreed(id: '2', name: 'Persian', adaptability: 3, imageUrl: 'https://example.com/2.jpg'),
-      ];
-
-      final widget = MaterialApp(
-        theme: PragmaTheme.lightTheme,
-        home: Scaffold(
-          body: ListView(
-            children: breeds.map((breed) => CatBreedListItem(
-              breed: breed,
-              onTap: () {},
-            )).toList(),
+    testWidgets(
+      'multipleBreedsProvided | listViewRender | supportsScreenReaderNavigation',
+      (WidgetTester tester) async {
+        // Arrange
+        const breeds = [
+          CatBreed(
+            id: '1',
+            name: 'Siamese',
+            adaptability: 5,
+            imageUrl: 'https://example.com/1.jpg',
           ),
-        ),
-      );
+          CatBreed(
+            id: '2',
+            name: 'Persian',
+            adaptability: 3,
+            imageUrl: 'https://example.com/2.jpg',
+          ),
+        ];
 
-      // Act
-      await tester.pumpWidget(widget);
+        final widget = MaterialApp(
+          theme: PragmaTheme.lightTheme,
+          home: Scaffold(
+            body: ListView(
+              children: breeds
+                  .map((breed) => CatBreedListItem(breed: breed, onTap: () {}))
+                  .toList(),
+            ),
+          ),
+        );
 
-      // Assert
-      expect(find.byType(CatBreedListItem), findsNWidgets(2));
-      expect(find.text('Siamese'), findsOneWidget);
-      expect(find.text('Persian'), findsOneWidget);
-    });
+        // Act
+        await tester.pumpWidget(widget);
+
+        // Assert
+        expect(find.byType(CatBreedListItem), findsNWidgets(2));
+        expect(find.text('Siamese'), findsOneWidget);
+        expect(find.text('Persian'), findsOneWidget);
+      },
+    );
   });
 }

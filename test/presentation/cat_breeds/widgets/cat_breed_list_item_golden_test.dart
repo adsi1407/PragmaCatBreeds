@@ -13,7 +13,7 @@ void main() {
   setUpAll(() {
     WidgetTestPluginMocks.setUp();
   });
-  
+
   tearDownAll(() {
     WidgetTestPluginMocks.tearDown();
   });
@@ -27,15 +27,14 @@ void main() {
       imageUrl: 'https://example.com/siamese.jpg',
     );
 
-    testWidgets('breedProvided | widgetRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
+    testWidgets('breedProvided | widgetRender | rendersCorrectGoldenFile', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = MaterialApp(
         theme: PragmaTheme.lightTheme,
         home: Scaffold(
-          body: CatBreedListItem(
-            breed: tCatBreed,
-            onTap: () {},
-          ),
+          body: CatBreedListItem(breed: tCatBreed, onTap: () {}),
         ),
       );
 
@@ -49,15 +48,14 @@ void main() {
       );
     });
 
-    testWidgets('breedProvided | darkThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
+    testWidgets('breedProvided | darkThemeRender | rendersCorrectGoldenFile', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = MaterialApp(
         theme: PragmaTheme.darkTheme,
         home: Scaffold(
-          body: CatBreedListItem(
-            breed: tCatBreed,
-            onTap: () {},
-          ),
+          body: CatBreedListItem(breed: tCatBreed, onTap: () {}),
         ),
       );
 
@@ -71,33 +69,33 @@ void main() {
       );
     });
 
-    testWidgets('longNameBreedProvided | widgetRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      const longNameBreed = CatBreed(
-        id: '2',
-        name: 'Very Long Cat Breed Name That Should Be Truncated',
-        adaptability: 3,
-        imageUrl: 'https://example.com/long-name.jpg',
-      );
+    testWidgets(
+      'longNameBreedProvided | widgetRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        const longNameBreed = CatBreed(
+          id: '2',
+          name: 'Very Long Cat Breed Name That Should Be Truncated',
+          adaptability: 3,
+          imageUrl: 'https://example.com/long-name.jpg',
+        );
 
-      final widget = MaterialApp(
-        theme: PragmaTheme.lightTheme,
-        home: Scaffold(
-          body: CatBreedListItem(
-            breed: longNameBreed,
-            onTap: () {},
+        final widget = MaterialApp(
+          theme: PragmaTheme.lightTheme,
+          home: Scaffold(
+            body: CatBreedListItem(breed: longNameBreed, onTap: () {}),
           ),
-        ),
-      );
+        );
 
-      // Act
-      await tester.pumpWidget(widget);
+        // Act
+        await tester.pumpWidget(widget);
 
-      // Assert
-      await expectLater(
-        find.byType(CatBreedListItem),
-        matchesGoldenFile('goldens/cat_breed_list_item_long_name.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(CatBreedListItem),
+          matchesGoldenFile('goldens/cat_breed_list_item_long_name.png'),
+        );
+      },
+    );
   });
 }

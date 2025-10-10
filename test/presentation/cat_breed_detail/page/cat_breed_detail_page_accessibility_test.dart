@@ -42,7 +42,29 @@ void main() {
       );
     }
 
-    testWidgets('pageProvided | fullPageRender | meetsAccessibilityGuidelines', (WidgetTester tester) async {
+    testWidgets(
+      'pageProvided | fullPageRender | meetsAccessibilityGuidelines',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(tCatBreed);
+
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
+
+        // Assert
+        final handle = tester.ensureSemantics();
+        await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
+        // Skip text contrast guideline due to AppBar overlay issues
+        handle.dispose();
+      },
+    );
+
+    testWidgets('pageProvided | pageRender | hasProperFocusManagement', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createWidgetUnderTest(tCatBreed);
 
@@ -52,59 +74,47 @@ void main() {
 
       // Assert
       final handle = tester.ensureSemantics();
-      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
-      await expectLater(tester, meetsGuideline(iOSTapTargetGuideline));
-      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
-      // Skip text contrast guideline due to AppBar overlay issues
-      handle.dispose();
-    });
 
-    testWidgets('pageProvided | pageRender | hasProperFocusManagement', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreed);
-
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
-
-      // Assert
-      final handle = tester.ensureSemantics();
-      
       // Verify that the page has navigation elements
       expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
-      
+
       // Verify that the page has proper semantic labels
       expect(find.byType(Scaffold), findsOneWidget);
-      
+
       handle.dispose();
     });
 
-    testWidgets('breedWithCompleteData | scrollableContent | supportsScreenReaderNavigation', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreed);
+    testWidgets(
+      'breedWithCompleteData | scrollableContent | supportsScreenReaderNavigation',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(tCatBreed);
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      final handle = tester.ensureSemantics();
-      
-      // Verify scrollable content is accessible
-      expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
-      
-      // Verify breed name is properly labeled
-      final appBarTextFinder = find.text(tCatBreed.name);
-      expect(appBarTextFinder, findsAtLeastNWidgets(1));
-      
-      // Verify characteristics section is accessible
-      final characteristicsWidgetFinder = find.text('Adaptability');
-      if (characteristicsWidgetFinder.evaluate().isNotEmpty) {
-        final characteristicsSemanticsNode = tester.getSemantics(characteristicsWidgetFinder.first);
-        expect(characteristicsSemanticsNode.label, isNotNull);
-      }
-      
-      handle.dispose();
-    });
+        // Assert
+        final handle = tester.ensureSemantics();
+
+        // Verify scrollable content is accessible
+        expect(find.byType(SingleChildScrollView), findsAtLeastNWidgets(1));
+
+        // Verify breed name is properly labeled
+        final appBarTextFinder = find.text(tCatBreed.name);
+        expect(appBarTextFinder, findsAtLeastNWidgets(1));
+
+        // Verify characteristics section is accessible
+        final characteristicsWidgetFinder = find.text('Adaptability');
+        if (characteristicsWidgetFinder.evaluate().isNotEmpty) {
+          final characteristicsSemanticsNode = tester.getSemantics(
+            characteristicsWidgetFinder.first,
+          );
+          expect(characteristicsSemanticsNode.label, isNotNull);
+        }
+
+        handle.dispose();
+      },
+    );
   });
 }

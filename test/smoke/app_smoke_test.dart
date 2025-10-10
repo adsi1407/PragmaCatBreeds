@@ -10,7 +10,9 @@ import 'package:pragma_cat_breeds/main.dart';
 
 void main() {
   group('Cat Breeds App Smoke Tests', () {
-    testWidgets('MyApp widget builds without error', (WidgetTester tester) async {
+    testWidgets('MyApp widget builds without error', (
+      WidgetTester tester,
+    ) async {
       // Build our app widget
       await tester.pumpWidget(const MyApp());
 
@@ -18,13 +20,15 @@ void main() {
       expect(find.byType(MaterialApp), findsOneWidget);
     });
 
-    testWidgets('App has MaterialApp with proper configuration', (WidgetTester tester) async {
+    testWidgets('App has MaterialApp with proper configuration', (
+      WidgetTester tester,
+    ) async {
       // Build our app widget
       await tester.pumpWidget(const MyApp());
 
       // Verify the app has a MaterialApp
       final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
-      
+
       // Verify basic configuration exists
       expect(materialApp.theme, isNotNull);
       expect(materialApp.darkTheme, isNotNull);

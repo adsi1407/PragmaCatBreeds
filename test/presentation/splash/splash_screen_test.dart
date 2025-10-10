@@ -12,7 +12,7 @@ import 'package:pragma_cat_breeds/src/presentation/splash/splash_screen.dart';
 import 'package:pragma_cat_breeds/src/theme/pragma_colors.dart';
 import 'package:pragma_cat_breeds/src/theme/pragma_theme.dart';
 
-class MockCatBreedsBloc extends MockBloc<CatBreedsEvent, CatBreedsState> 
+class MockCatBreedsBloc extends MockBloc<CatBreedsEvent, CatBreedsState>
     implements CatBreedsBloc {}
 
 void main() {
@@ -31,13 +31,8 @@ void main() {
     Widget createWidgetUnderTest() {
       return MaterialApp(
         theme: PragmaTheme.lightTheme,
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en'),
-          Locale('es'),
-        ],
+        localizationsDelegates: const [AppLocalizations.delegate],
+        supportedLocales: const [Locale('en'), Locale('es')],
         home: const SplashScreen(),
       );
     }
@@ -48,19 +43,25 @@ void main() {
       expect(find.textContaining('🐱'), findsOneWidget);
     });
 
-    testWidgets('should display welcome loading text', (WidgetTester tester) async {
+    testWidgets('should display welcome loading text', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
       expect(find.textContaining('Loading cat breeds'), findsOneWidget);
     });
 
-    testWidgets('should display Technical Challenge text', (WidgetTester tester) async {
+    testWidgets('should display Technical Challenge text', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
       expect(find.textContaining('Technical Challenge'), findsOneWidget);
     });
 
-    testWidgets('should display loading indicator', (WidgetTester tester) async {
+    testWidgets('should display loading indicator', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
@@ -74,10 +75,15 @@ void main() {
       expect(scaffoldFinder, findsOneWidget);
 
       final scaffold = tester.widget<Scaffold>(scaffoldFinder);
-      expect(scaffold.backgroundColor, equals(PragmaColors.lightColorScheme.surface));
+      expect(
+        scaffold.backgroundColor,
+        equals(PragmaColors.lightColorScheme.surface),
+      );
     });
 
-    testWidgets('should have animation controller', (WidgetTester tester) async {
+    testWidgets('should have animation controller', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
       // Verify the widget is rendered and animations can start
@@ -100,21 +106,16 @@ void main() {
       expect(find.byType(AnimatedBuilder), findsWidgets);
     });
 
-    testWidgets('should navigate to CatBreedsPage after timeout', (WidgetTester tester) async {
+    testWidgets('should navigate to CatBreedsPage after timeout', (
+      WidgetTester tester,
+    ) async {
       await tester.pumpWidget(
         MaterialApp(
           theme: PragmaTheme.lightTheme,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('es'),
-          ],
+          localizationsDelegates: const [AppLocalizations.delegate],
+          supportedLocales: const [Locale('en'), Locale('es')],
           home: const SplashScreen(),
-          routes: {
-            '/cat-breeds': (context) => const CatBreedsPage(),
-          },
+          routes: {'/cat-breeds': (context) => const CatBreedsPage()},
         ),
       );
 
@@ -131,13 +132,17 @@ void main() {
       expect(find.byType(SplashScreen), findsNothing);
     });
 
-    testWidgets('should be responsive to different screen sizes', (WidgetTester tester) async {
+    testWidgets('should be responsive to different screen sizes', (
+      WidgetTester tester,
+    ) async {
       // Test with different screen sizes
       await tester.binding.setSurfaceSize(const Size(400, 800)); // Phone
       await tester.pumpWidget(createWidgetUnderTest());
       expect(find.byType(SplashScreen), findsOneWidget);
 
-      await tester.binding.setSurfaceSize(const Size(800, 600)); // Tablet landscape
+      await tester.binding.setSurfaceSize(
+        const Size(800, 600),
+      ); // Tablet landscape
       await tester.pumpWidget(createWidgetUnderTest());
       expect(find.byType(SplashScreen), findsOneWidget);
 

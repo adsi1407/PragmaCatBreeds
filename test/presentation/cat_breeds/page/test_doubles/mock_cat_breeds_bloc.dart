@@ -4,9 +4,9 @@ import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/events/cat_br
 import 'package:pragma_cat_breeds/src/presentation/cat_breeds/bloc/states/cat_breeds_state.dart';
 
 /// Mock implementation of CatBreedsBloc for testing purposes
-/// 
+///
 /// This mock provides a controllable implementation of CatBreedsBloc
 /// for use in widget tests and integration tests.
 /// It allows setting predefined states and verifying events.
-class MockCatBreedsBloc extends MockBloc<CatBreedsEvent, CatBreedsState> 
+class MockCatBreedsBloc extends MockBloc<CatBreedsEvent, CatBreedsState>
     implements CatBreedsBloc {}

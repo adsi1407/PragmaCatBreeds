@@ -14,7 +14,7 @@ void main() {
   setUpAll(() {
     WidgetTestPluginMocks.setUp();
   });
-  
+
   tearDownAll(() {
     WidgetTestPluginMocks.tearDown();
   });
@@ -73,73 +73,96 @@ void main() {
       );
     }
 
-    testWidgets('breedWithImageProvided | lightThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreed, PragmaTheme.lightTheme);
+    testWidgets(
+      'breedWithImageProvided | lightThemeRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(tCatBreed, PragmaTheme.lightTheme);
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(CatBreedDetailPage),
-        matchesGoldenFile('goldens/cat_breed_detail_page_with_image_light.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(CatBreedDetailPage),
+          matchesGoldenFile(
+            'goldens/cat_breed_detail_page_with_image_light.png',
+          ),
+        );
+      },
+    );
 
-    testWidgets('breedWithImageProvided | darkThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreed, PragmaTheme.darkTheme);
+    testWidgets(
+      'breedWithImageProvided | darkThemeRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(tCatBreed, PragmaTheme.darkTheme);
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(CatBreedDetailPage),
-        matchesGoldenFile('goldens/cat_breed_detail_page_with_image_dark.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(CatBreedDetailPage),
+          matchesGoldenFile(
+            'goldens/cat_breed_detail_page_with_image_dark.png',
+          ),
+        );
+      },
+    );
 
-    testWidgets('breedWithoutImageProvided | lightThemeRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreedWithoutImage, PragmaTheme.lightTheme);
+    testWidgets(
+      'breedWithoutImageProvided | lightThemeRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(
+          tCatBreedWithoutImage,
+          PragmaTheme.lightTheme,
+        );
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(CatBreedDetailPage),
-        matchesGoldenFile('goldens/cat_breed_detail_page_without_image_light.png'),
-      );
-    });
+        // Assert
+        await expectLater(
+          find.byType(CatBreedDetailPage),
+          matchesGoldenFile(
+            'goldens/cat_breed_detail_page_without_image_light.png',
+          ),
+        );
+      },
+    );
 
-    testWidgets('breedWithCompleteDataProvided | scrolledStateRender | rendersCorrectGoldenFile', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreed, PragmaTheme.lightTheme);
+    testWidgets(
+      'breedWithCompleteDataProvided | scrolledStateRender | rendersCorrectGoldenFile',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(tCatBreed, PragmaTheme.lightTheme);
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
-      
-      // Scroll down to show characteristics section - find the main content scroll
-      // Use specific finder to avoid ambiguity with multiple ScrollViews
-      final mainContentScroll = find.descendant(
-        of: find.byType(Expanded),
-        matching: find.byType(SingleChildScrollView),
-      ).first;
-      await tester.drag(mainContentScroll, const Offset(0, -300));
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      await expectLater(
-        find.byType(CatBreedDetailPage),
-        matchesGoldenFile('goldens/cat_breed_detail_page_scrolled_light.png'),
-      );
-    });
+        // Scroll down to show characteristics section - find the main content scroll
+        // Use specific finder to avoid ambiguity with multiple ScrollViews
+        final mainContentScroll = find
+            .descendant(
+              of: find.byType(Expanded),
+              matching: find.byType(SingleChildScrollView),
+            )
+            .first;
+        await tester.drag(mainContentScroll, const Offset(0, -300));
+        await tester.pumpAndSettle();
+
+        // Assert
+        await expectLater(
+          find.byType(CatBreedDetailPage),
+          matchesGoldenFile('goldens/cat_breed_detail_page_scrolled_light.png'),
+        );
+      },
+    );
   });
 }

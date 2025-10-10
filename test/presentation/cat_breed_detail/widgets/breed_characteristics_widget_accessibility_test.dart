@@ -42,7 +42,9 @@ void main() {
       );
     }
 
-    testWidgets('breedProvided | widgetRender | meetsAccessibilityGuidelines', (WidgetTester tester) async {
+    testWidgets('breedProvided | widgetRender | meetsAccessibilityGuidelines', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createWidgetUnderTest(tCatBreed);
 
@@ -59,7 +61,9 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('breedProvided | widgetRender | hasProperSemanticLabels', (WidgetTester tester) async {
+    testWidgets('breedProvided | widgetRender | hasProperSemanticLabels', (
+      WidgetTester tester,
+    ) async {
       // Arrange
       final widget = createWidgetUnderTest(tCatBreed);
 
@@ -69,49 +73,54 @@ void main() {
 
       // Assert
       final handle = tester.ensureSemantics();
-      
+
       // Verify that characteristic labels are accessible
       final adaptabilityFinder = find.text('Adaptability');
       if (adaptabilityFinder.evaluate().isNotEmpty) {
         final semanticsNode = tester.getSemantics(adaptabilityFinder.first);
         expect(semanticsNode.label, isNotNull);
       }
-      
+
       // Verify that progress indicators are accessible
       final progressIndicators = find.byType(LinearProgressIndicator);
       expect(progressIndicators, findsWidgets);
-      
+
       handle.dispose();
     });
 
-    testWidgets('multipleCharacteristics | widgetRender | supportsScreenReaderNavigation', (WidgetTester tester) async {
-      // Arrange
-      final widget = createWidgetUnderTest(tCatBreed);
+    testWidgets(
+      'multipleCharacteristics | widgetRender | supportsScreenReaderNavigation',
+      (WidgetTester tester) async {
+        // Arrange
+        final widget = createWidgetUnderTest(tCatBreed);
 
-      // Act
-      await tester.pumpWidget(widget);
-      await tester.pumpAndSettle();
+        // Act
+        await tester.pumpWidget(widget);
+        await tester.pumpAndSettle();
 
-      // Assert
-      final handle = tester.ensureSemantics();
-      
-      // Verify that the card container is accessible
-      expect(find.byType(Card), findsOneWidget);
-      
-      // Verify that all characteristic rows are accessible
-      final columnWidget = find.byType(Column);
-      expect(columnWidget, findsWidgets);
-      
-      // Verify that rating texts are accessible
-      final ratingTexts = find.textContaining('/5');
-      if (ratingTexts.evaluate().isNotEmpty) {
-        for (final ratingText in ratingTexts.evaluate()) {
-          final semanticsNode = tester.getSemantics(find.byWidget(ratingText.widget));
-          expect(semanticsNode.label, isNotNull);
+        // Assert
+        final handle = tester.ensureSemantics();
+
+        // Verify that the card container is accessible
+        expect(find.byType(Card), findsOneWidget);
+
+        // Verify that all characteristic rows are accessible
+        final columnWidget = find.byType(Column);
+        expect(columnWidget, findsWidgets);
+
+        // Verify that rating texts are accessible
+        final ratingTexts = find.textContaining('/5');
+        if (ratingTexts.evaluate().isNotEmpty) {
+          for (final ratingText in ratingTexts.evaluate()) {
+            final semanticsNode = tester.getSemantics(
+              find.byWidget(ratingText.widget),
+            );
+            expect(semanticsNode.label, isNotNull);
+          }
         }
-      }
-      
-      handle.dispose();
-    });
+
+        handle.dispose();
+      },
+    );
   });
 }
