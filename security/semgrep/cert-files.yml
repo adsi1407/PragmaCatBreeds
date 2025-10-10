@@ -1,0 +1,30 @@
+rules:
+  - id: cert-files
+    languages: [plaintext, yaml, generic]
+    message: |
+      Certificate/keystore filename detected: $FILE
+      
+      These file types should NOT be committed to the repository:
+      - .p12, .pfx: PKCS#12 certificates/keys
+      - .jks, .keystore: Java keystores  
+      - .mobileprovision: iOS provisioning profiles
+      - .pem: PEM-encoded certificates/keys
+      - .key: Private key files
+      
+      Action required:
+      1. Remove these files from the repository
+      2. Add them to .gitignore
+      3. Store secrets in a secure vault (GitHub Secrets, etc.)
+    severity: ERROR
+    patterns:
+      - pattern-regex: '\\.(p12|pfx|jks|keystore|mobileprovision|pem|key)\\b'
+    metadata:
+      category: secrets
+      subcategory: certificates
+      technology: [security, certificates]
+      confidence: HIGH
+      impact: HIGH
+      likelihood: HIGH
+      references:
+        - "https://docs.github.com/en/code-security/secret-scanning"
+        - "https://semgrep.dev/docs/writing-rules/rule-syntax/"

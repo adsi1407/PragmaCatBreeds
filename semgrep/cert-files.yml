@@ -1,9 +1,0 @@
-rules:
-  - id: cert-files
-    languages: [plaintext, yaml]
-    message: "Certificate/keystore filename detected. Do not commit keystores or certificates to the repository."
-    severity: ERROR
-    patterns:
-      - pattern-regex: '\\.(p12|pfx|jks|keystore|mobileprovision|pem|key)\\b'
-    metadata:
-      category: secrets
