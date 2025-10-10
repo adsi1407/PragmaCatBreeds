@@ -31,9 +31,11 @@ This project uses a comprehensive static analysis strategy to maintain code qual
 - `unnecessary_await_in_return` - Performance optimization
 
 #### Readability & Formatting
-- `lines_longer_than_80_chars` - Code readability
 - `eol_at_end_of_file` - File formatting consistency
 - `sort_constructors_first` - Code organization
+
+#### Deprecated API Usage
+- `deprecated_member_use: false` - Allow deprecated APIs during migration periods (warnings only)
 
 #### Type Safety
 - `cast_nullable_to_non_nullable` - Null safety enforcement
@@ -127,6 +129,14 @@ linter:
 Some rules are disabled due to project constraints:
 - `public_member_api_docs: false` - High volume in existing codebase
 - `avoid_print: false` - Allowed in CI scripts and tools
+- `deprecated_member_use: false` - Allow deprecated APIs during migration periods
+- `lines_longer_than_80_chars` - **Disabled** - Modern monitors support longer lines for better readability
+
+### Line Length Policy
+
+**Current approach:** No hard limit enforced by linter
+**Recommendation:** Use your IDE's visual guides (120-140 characters) for readability
+**Rationale:** Modern development environments and monitors can handle longer lines effectively
 
 ## Migration from dart_code_metrics
 

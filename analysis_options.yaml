@@ -42,13 +42,12 @@ linter:
     unnecessary_await_in_return: true
     
     # Readability and formatting
-    lines_longer_than_80_chars: true
     eol_at_end_of_file: true
     sort_constructors_first: true
     sort_unnamed_constructors_first: true
     
-    # Deprecated API usage
-    deprecated_member_use: true
+    # Deprecated API usage (allow warnings, don't enforce)
+    deprecated_member_use: false  # Allow deprecated APIs during migration periods
     
     # Type safety
     cast_nullable_to_non_nullable: true
