@@ -14,6 +14,8 @@ analyzer:
     - build/**
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - "scripts/**"      # Exclude CI and development scripts
+    - "tool/**"         # Exclude CI tools and scripts
 
 linter:
   # The lint rules applied to this project can be customized in the
@@ -29,6 +31,7 @@ linter:
   rules:
     # Documentation - Disabled for better developer experience
     public_member_api_docs: false  # Too verbose for internal projects
+    package_api_docs: false       # Not needed for internal packages
     
     # Code quality and complexity metrics (enhanced from very_good_analysis)
     avoid_classes_with_only_static_members: true
@@ -53,11 +56,31 @@ linter:
     prefer_null_aware_operators: true
     unnecessary_null_checks: true
     
+    # Additional strictness - NEW RULES
+    avoid_bool_literals_in_conditional_expressions: true
+    avoid_double_and_int_checks: true
+    avoid_escaping_inner_quotes: true
+    avoid_field_initializers_in_const_classes: true
+    avoid_implementing_value_types: true
+    avoid_js_rounded_ints: true
+    avoid_multiple_declarations_per_line: true
+    avoid_null_checks_in_equality_operators: true
+    avoid_private_typedef_functions: true
+    avoid_renaming_method_parameters: true
+    avoid_unnecessary_containers: true
+    avoid_void_async: true
+    
     # Type safety and null safety
     cast_nullable_to_non_nullable: true
     omit_local_variable_types: true
     avoid_init_to_null: true
     unnecessary_nullable_for_final_variable_declarations: true
+    
+    # Enhanced type safety - NEW RULES
+    prefer_typing_uninitialized_variables: true
+    type_annotate_public_apis: true
+    unawaited_futures: true
+    use_late_for_private_fields_and_variables: true
     
     # Readability and formatting
     lines_longer_than_80_chars: false  # Disabled - modern monitors support longer lines
@@ -68,15 +91,50 @@ linter:
     prefer_adjacent_string_concatenation: true
     prefer_interpolation_to_compose_strings: true
     
+    # Enhanced readability - NEW RULES
+    prefer_asserts_with_message: true
+    prefer_const_constructors_in_immutables: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_if_elements_to_conditional_expressions: true
+    prefer_int_literals: true
+    prefer_iterable_whereType: true
+    prefer_void_to_null: true
+    unnecessary_lambdas: true
+    unnecessary_parenthesis: true
+    unnecessary_string_interpolations: true
+    use_decorated_box: true
+    use_enums: true
+    use_named_constants: true
+    use_raw_strings: true
+    use_string_buffers: true
+    
     # Code organization and structure
     sort_pub_dependencies: true
     prefer_relative_imports: false  # Prefer package imports for better maintainability
     always_use_package_imports: true
     
+    # Enhanced organization - NEW RULES
+    combinators_ordering: true
+    conditional_uri_does_not_exist: true
+    dangling_library_doc_comments: true
+    deprecated_consistency: true
+    library_annotations: true
+    no_literal_bool_comparisons: true
+    parameter_assignments: true
+    
     # Error handling and control flow
     avoid_catches_without_on_clauses: true
     avoid_empty_else: true
     control_flow_in_finally: true
+    
+    # Enhanced error handling - NEW RULES
+    avoid_print: true             # Use proper logging instead
+    close_sinks: true
+    comment_references: true
+    literal_only_boolean_expressions: true
+    no_adjacent_strings_in_list: true
+    throw_in_finally: true
+    valid_regexps: true
     
     # Collections and iterables
     prefer_is_empty: true
