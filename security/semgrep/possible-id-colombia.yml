@@ -1,6 +1,6 @@
 rules:
   - id: possible-id-colombia
-    languages: [dart, plaintext]
+    languages: [dart, generic]
     message: "Possible Colombian ID number (7-10 digits) found. Verify this is not sensitive PII."
     severity: WARNING
     patterns:

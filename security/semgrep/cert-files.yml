@@ -1,6 +1,6 @@
 rules:
   - id: cert-files
-    languages: [plaintext, yaml, generic]
+    languages: [generic, yaml]
     message: |
       Certificate/keystore filename detected: $FILE
       
