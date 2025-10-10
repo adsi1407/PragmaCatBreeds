@@ -6,117 +6,120 @@ import 'builders/cat_breed_test_data_builder.dart';
 void main() {
   group('CatBreed Entity', () {
     group('constructor |', () {
-      test('withRequiredParameters | validData | createsInstanceSuccessfully', () {
-        // Arrange
-        const id = 'test_id';
-        const name = 'Test Breed';
+      test(
+        'withRequiredParameters | validData | createsInstanceSuccessfully',
+        () {
+          // Arrange
+          const id = 'test_id';
+          const name = 'Test Breed';
 
-        // Act
-        const catBreed = CatBreed(
-          id: id,
-          name: name,
-        );
+          // Act
+          const catBreed = CatBreed(id: id, name: name);
 
-        // Assert
-        expect(catBreed.id, equals(id));
-        expect(catBreed.name, equals(name));
-        expect(catBreed.description, isNull);
-        expect(catBreed.temperament, isNull);
-        expect(catBreed.origin, isNull);
-        expect(catBreed.weightMetric, isNull);
-        expect(catBreed.lifeSpan, isNull);
-        expect(catBreed.imageUrl, isNull);
-        expect(catBreed.adaptability, isNull);
-        expect(catBreed.affectionLevel, isNull);
-        expect(catBreed.childFriendly, isNull);
-        expect(catBreed.dogFriendly, isNull);
-        expect(catBreed.energyLevel, isNull);
-        expect(catBreed.grooming, isNull);
-        expect(catBreed.healthIssues, isNull);
-        expect(catBreed.intelligence, isNull);
-        expect(catBreed.sheddingLevel, isNull);
-        expect(catBreed.socialNeeds, isNull);
-        expect(catBreed.strangerFriendly, isNull);
-        expect(catBreed.vocalisation, isNull);
-        expect(catBreed.rare, isNull);
-        expect(catBreed.wikipediaUrl, isNull);
-      });
+          // Assert
+          expect(catBreed.id, equals(id));
+          expect(catBreed.name, equals(name));
+          expect(catBreed.description, isNull);
+          expect(catBreed.temperament, isNull);
+          expect(catBreed.origin, isNull);
+          expect(catBreed.weightMetric, isNull);
+          expect(catBreed.lifeSpan, isNull);
+          expect(catBreed.imageUrl, isNull);
+          expect(catBreed.adaptability, isNull);
+          expect(catBreed.affectionLevel, isNull);
+          expect(catBreed.childFriendly, isNull);
+          expect(catBreed.dogFriendly, isNull);
+          expect(catBreed.energyLevel, isNull);
+          expect(catBreed.grooming, isNull);
+          expect(catBreed.healthIssues, isNull);
+          expect(catBreed.intelligence, isNull);
+          expect(catBreed.sheddingLevel, isNull);
+          expect(catBreed.socialNeeds, isNull);
+          expect(catBreed.strangerFriendly, isNull);
+          expect(catBreed.vocalisation, isNull);
+          expect(catBreed.rare, isNull);
+          expect(catBreed.wikipediaUrl, isNull);
+        },
+      );
 
-      test('withAllParameters | validData | createsInstanceWithAllProperties', () {
-        // Arrange
-        const id = 'pers';
-        const name = 'Persian';
-        const description = 'A long-haired breed';
-        const temperament = 'Calm, Affectionate';
-        const origin = 'Iran';
-        const weightMetric = '3 - 5';
-        const lifeSpan = '12 - 17';
-        const imageUrl = 'https://test.com/persian.jpg';
-        const adaptability = 5;
-        const affectionLevel = 5;
-        const childFriendly = 2;
-        const dogFriendly = 2;
-        const energyLevel = 1;
-        const grooming = 5;
-        const healthIssues = 3;
-        const intelligence = 3;
-        const sheddingLevel = 4;
-        const socialNeeds = 4;
-        const strangerFriendly = 2;
-        const vocalisation = 1;
-        const rare = false;
-        const wikipediaUrl = 'https://en.wikipedia.org/wiki/Persian_cat';
+      test(
+        'withAllParameters | validData | createsInstanceWithAllProperties',
+        () {
+          // Arrange
+          const id = 'pers';
+          const name = 'Persian';
+          const description = 'A long-haired breed';
+          const temperament = 'Calm, Affectionate';
+          const origin = 'Iran';
+          const weightMetric = '3 - 5';
+          const lifeSpan = '12 - 17';
+          const imageUrl = 'https://test.com/persian.jpg';
+          const adaptability = 5;
+          const affectionLevel = 5;
+          const childFriendly = 2;
+          const dogFriendly = 2;
+          const energyLevel = 1;
+          const grooming = 5;
+          const healthIssues = 3;
+          const intelligence = 3;
+          const sheddingLevel = 4;
+          const socialNeeds = 4;
+          const strangerFriendly = 2;
+          const vocalisation = 1;
+          const rare = false;
+          const wikipediaUrl = 'https://en.wikipedia.org/wiki/Persian_cat';
 
-        // Act
-        const catBreed = CatBreed(
-          id: id,
-          name: name,
-          description: description,
-          temperament: temperament,
-          origin: origin,
-          weightMetric: weightMetric,
-          lifeSpan: lifeSpan,
-          imageUrl: imageUrl,
-          adaptability: adaptability,
-          affectionLevel: affectionLevel,
-          childFriendly: childFriendly,
-          dogFriendly: dogFriendly,
-          energyLevel: energyLevel,
-          grooming: grooming,
-          healthIssues: healthIssues,
-          intelligence: intelligence,
-          sheddingLevel: sheddingLevel,
-          socialNeeds: socialNeeds,
-          strangerFriendly: strangerFriendly,
-          vocalisation: vocalisation,
-          rare: rare,
-          wikipediaUrl: wikipediaUrl,
-        );
+          // Act
+          const catBreed = CatBreed(
+            id: id,
+            name: name,
+            description: description,
+            temperament: temperament,
+            origin: origin,
+            weightMetric: weightMetric,
+            lifeSpan: lifeSpan,
+            imageUrl: imageUrl,
+            adaptability: adaptability,
+            affectionLevel: affectionLevel,
+            childFriendly: childFriendly,
+            dogFriendly: dogFriendly,
+            energyLevel: energyLevel,
+            grooming: grooming,
+            healthIssues: healthIssues,
+            intelligence: intelligence,
+            sheddingLevel: sheddingLevel,
+            socialNeeds: socialNeeds,
+            strangerFriendly: strangerFriendly,
+            vocalisation: vocalisation,
+            rare: rare,
+            wikipediaUrl: wikipediaUrl,
+          );
 
-        // Assert
-        expect(catBreed.id, equals(id));
-        expect(catBreed.name, equals(name));
-        expect(catBreed.description, equals(description));
-        expect(catBreed.temperament, equals(temperament));
-        expect(catBreed.origin, equals(origin));
-        expect(catBreed.weightMetric, equals(weightMetric));
-        expect(catBreed.lifeSpan, equals(lifeSpan));
-        expect(catBreed.imageUrl, equals(imageUrl));
-        expect(catBreed.adaptability, equals(adaptability));
-        expect(catBreed.affectionLevel, equals(affectionLevel));
-        expect(catBreed.childFriendly, equals(childFriendly));
-        expect(catBreed.dogFriendly, equals(dogFriendly));
-        expect(catBreed.energyLevel, equals(energyLevel));
-        expect(catBreed.grooming, equals(grooming));
-        expect(catBreed.healthIssues, equals(healthIssues));
-        expect(catBreed.intelligence, equals(intelligence));
-        expect(catBreed.sheddingLevel, equals(sheddingLevel));
-        expect(catBreed.socialNeeds, equals(socialNeeds));
-        expect(catBreed.strangerFriendly, equals(strangerFriendly));
-        expect(catBreed.vocalisation, equals(vocalisation));
-        expect(catBreed.rare, equals(rare));
-        expect(catBreed.wikipediaUrl, equals(wikipediaUrl));
-      });
+          // Assert
+          expect(catBreed.id, equals(id));
+          expect(catBreed.name, equals(name));
+          expect(catBreed.description, equals(description));
+          expect(catBreed.temperament, equals(temperament));
+          expect(catBreed.origin, equals(origin));
+          expect(catBreed.weightMetric, equals(weightMetric));
+          expect(catBreed.lifeSpan, equals(lifeSpan));
+          expect(catBreed.imageUrl, equals(imageUrl));
+          expect(catBreed.adaptability, equals(adaptability));
+          expect(catBreed.affectionLevel, equals(affectionLevel));
+          expect(catBreed.childFriendly, equals(childFriendly));
+          expect(catBreed.dogFriendly, equals(dogFriendly));
+          expect(catBreed.energyLevel, equals(energyLevel));
+          expect(catBreed.grooming, equals(grooming));
+          expect(catBreed.healthIssues, equals(healthIssues));
+          expect(catBreed.intelligence, equals(intelligence));
+          expect(catBreed.sheddingLevel, equals(sheddingLevel));
+          expect(catBreed.socialNeeds, equals(socialNeeds));
+          expect(catBreed.strangerFriendly, equals(strangerFriendly));
+          expect(catBreed.vocalisation, equals(vocalisation));
+          expect(catBreed.rare, equals(rare));
+          expect(catBreed.wikipediaUrl, equals(wikipediaUrl));
+        },
+      );
     });
 
     group('testDataBuilder |', () {
@@ -146,116 +149,128 @@ void main() {
         expect(catBreed.strangerFriendly, equals(3));
         expect(catBreed.vocalisation, equals(2));
         expect(catBreed.rare, equals(false));
-        expect(catBreed.wikipediaUrl, equals('https://test.wikipedia.org/cat_breed'));
+        expect(
+          catBreed.wikipediaUrl,
+          equals('https://test.wikipedia.org/cat_breed'),
+        );
       });
 
-      test('minimalBuilder | minimalData | createsInstanceWithOnlyRequiredFields', () {
-        // Arrange & Act
-        final catBreed = CatBreedTestDataBuilder.minimal().build();
+      test(
+        'minimalBuilder | minimalData | createsInstanceWithOnlyRequiredFields',
+        () {
+          // Arrange & Act
+          final catBreed = CatBreedTestDataBuilder.minimal().build();
 
-        // Assert
-        expect(catBreed.id, equals('minimal_id'));
-        expect(catBreed.name, equals('Minimal Breed'));
-        expect(catBreed.description, isNull);
-        expect(catBreed.temperament, isNull);
-        expect(catBreed.origin, isNull);
-        expect(catBreed.weightMetric, isNull);
-        expect(catBreed.lifeSpan, isNull);
-        expect(catBreed.imageUrl, isNull);
-        expect(catBreed.adaptability, isNull);
-        expect(catBreed.affectionLevel, isNull);
-        expect(catBreed.childFriendly, isNull);
-        expect(catBreed.dogFriendly, isNull);
-        expect(catBreed.energyLevel, isNull);
-        expect(catBreed.grooming, isNull);
-        expect(catBreed.healthIssues, isNull);
-        expect(catBreed.intelligence, isNull);
-        expect(catBreed.sheddingLevel, isNull);
-        expect(catBreed.socialNeeds, isNull);
-        expect(catBreed.strangerFriendly, isNull);
-        expect(catBreed.vocalisation, isNull);
-        expect(catBreed.rare, isNull);
-        expect(catBreed.wikipediaUrl, isNull);
-      });
+          // Assert
+          expect(catBreed.id, equals('minimal_id'));
+          expect(catBreed.name, equals('Minimal Breed'));
+          expect(catBreed.description, isNull);
+          expect(catBreed.temperament, isNull);
+          expect(catBreed.origin, isNull);
+          expect(catBreed.weightMetric, isNull);
+          expect(catBreed.lifeSpan, isNull);
+          expect(catBreed.imageUrl, isNull);
+          expect(catBreed.adaptability, isNull);
+          expect(catBreed.affectionLevel, isNull);
+          expect(catBreed.childFriendly, isNull);
+          expect(catBreed.dogFriendly, isNull);
+          expect(catBreed.energyLevel, isNull);
+          expect(catBreed.grooming, isNull);
+          expect(catBreed.healthIssues, isNull);
+          expect(catBreed.intelligence, isNull);
+          expect(catBreed.sheddingLevel, isNull);
+          expect(catBreed.socialNeeds, isNull);
+          expect(catBreed.strangerFriendly, isNull);
+          expect(catBreed.vocalisation, isNull);
+          expect(catBreed.rare, isNull);
+          expect(catBreed.wikipediaUrl, isNull);
+        },
+      );
 
-      test('persianBuilder | persianData | createsInstanceWithPersianCharacteristics', () {
-        // Arrange & Act
-        final catBreed = CatBreedTestDataBuilder.persian().build();
+      test(
+        'persianBuilder | persianData | createsInstanceWithPersianCharacteristics',
+        () {
+          // Arrange & Act
+          final catBreed = CatBreedTestDataBuilder.persian().build();
 
-        // Assert
-        expect(catBreed.id, equals('pers'));
-        expect(catBreed.name, equals('Persian'));
-        expect(catBreed.description, contains('Persian cat'));
-        expect(catBreed.temperament, contains('Affectionate'));
-        expect(catBreed.origin, equals('Iran (Persia)'));
-        expect(catBreed.weightMetric, equals('3 - 5'));
-        expect(catBreed.lifeSpan, equals('14 - 15'));
-        expect(catBreed.adaptability, equals(5));
-        expect(catBreed.affectionLevel, equals(5));
-        expect(catBreed.energyLevel, equals(1));
-        expect(catBreed.grooming, equals(5));
-        expect(catBreed.rare, equals(false));
-      });
+          // Assert
+          expect(catBreed.id, equals('pers'));
+          expect(catBreed.name, equals('Persian'));
+          expect(catBreed.description, contains('Persian cat'));
+          expect(catBreed.temperament, contains('Affectionate'));
+          expect(catBreed.origin, equals('Iran (Persia)'));
+          expect(catBreed.weightMetric, equals('3 - 5'));
+          expect(catBreed.lifeSpan, equals('14 - 15'));
+          expect(catBreed.adaptability, equals(5));
+          expect(catBreed.affectionLevel, equals(5));
+          expect(catBreed.energyLevel, equals(1));
+          expect(catBreed.grooming, equals(5));
+          expect(catBreed.rare, equals(false));
+        },
+      );
 
-      test('withCustomizations | builderCustomization | createsInstanceWithCustomProperties', () {
-        // Arrange & Act
-        final catBreed = CatBreedTestDataBuilder()
-            .withId('custom_id')
-            .withName('Custom Breed')
-            .withDescription('Custom description')
-            .withOrigin('Custom Country')
-            .withEnergyLevel(5)
-            .withRare(true)
-            .build();
+      test(
+        'withCustomizations | builderCustomization | createsInstanceWithCustomProperties',
+        () {
+          // Arrange & Act
+          final catBreed = CatBreedTestDataBuilder()
+              .withId('custom_id')
+              .withName('Custom Breed')
+              .withDescription('Custom description')
+              .withOrigin('Custom Country')
+              .withEnergyLevel(5)
+              .withRare(true)
+              .build();
 
-        // Assert
-        expect(catBreed.id, equals('custom_id'));
-        expect(catBreed.name, equals('Custom Breed'));
-        expect(catBreed.description, equals('Custom description'));
-        expect(catBreed.origin, equals('Custom Country'));
-        expect(catBreed.energyLevel, equals(5));
-        expect(catBreed.rare, equals(true));
-        // Other properties should maintain default values
-        expect(catBreed.temperament, equals('Calm, Friendly'));
-        expect(catBreed.adaptability, equals(3));
-      });
+          // Assert
+          expect(catBreed.id, equals('custom_id'));
+          expect(catBreed.name, equals('Custom Breed'));
+          expect(catBreed.description, equals('Custom description'));
+          expect(catBreed.origin, equals('Custom Country'));
+          expect(catBreed.energyLevel, equals(5));
+          expect(catBreed.rare, equals(true));
+          // Other properties should maintain default values
+          expect(catBreed.temperament, equals('Calm, Friendly'));
+          expect(catBreed.adaptability, equals(3));
+        },
+      );
 
-      test('withChainedCustomizations | multiplePropertyChanges | createsInstanceWithAllCustomizations', () {
-        // Arrange & Act
-        final catBreed = CatBreedTestDataBuilder()
-            .withId('chain_id')
-            .withName('Chained Breed')
-            .withAdaptability(1)
-            .withAffectionLevel(2)
-            .withChildFriendly(3)
-            .withDogFriendly(4)
-            .withEnergyLevel(5)
-            .build();
+      test(
+        'withChainedCustomizations | multiplePropertyChanges | createsInstanceWithAllCustomizations',
+        () {
+          // Arrange & Act
+          final catBreed = CatBreedTestDataBuilder()
+              .withId('chain_id')
+              .withName('Chained Breed')
+              .withAdaptability(1)
+              .withAffectionLevel(2)
+              .withChildFriendly(3)
+              .withDogFriendly(4)
+              .withEnergyLevel(5)
+              .build();
 
-        // Assert
-        expect(catBreed.id, equals('chain_id'));
-        expect(catBreed.name, equals('Chained Breed'));
-        expect(catBreed.adaptability, equals(1));
-        expect(catBreed.affectionLevel, equals(2));
-        expect(catBreed.childFriendly, equals(3));
-        expect(catBreed.dogFriendly, equals(4));
-        expect(catBreed.energyLevel, equals(5));
-      });
+          // Assert
+          expect(catBreed.id, equals('chain_id'));
+          expect(catBreed.name, equals('Chained Breed'));
+          expect(catBreed.adaptability, equals(1));
+          expect(catBreed.affectionLevel, equals(2));
+          expect(catBreed.childFriendly, equals(3));
+          expect(catBreed.dogFriendly, equals(4));
+          expect(catBreed.energyLevel, equals(5));
+        },
+      );
     });
 
     group('properties |', () {
       test('immutability | constantInstance | propertiesCannotBeModified', () {
         // Arrange
-        const catBreed = CatBreed(
-          id: 'immutable_id',
-          name: 'Immutable Breed',
-        );
+        const catBreed = CatBreed(id: 'immutable_id', name: 'Immutable Breed');
 
         // Act & Assert
         // Properties are final, so this test verifies compilation-time immutability
         expect(catBreed.id, equals('immutable_id'));
         expect(catBreed.name, equals('Immutable Breed'));
-        
+
         // This would cause a compilation error if properties weren't final:
         // catBreed.id = 'new_id'; // Cannot assign to final variable
       });
@@ -377,7 +392,7 @@ void main() {
           name: 'Rare Test',
           rare: true,
         );
-        
+
         const commonBreed = CatBreed(
           id: 'common_test',
           name: 'Common Test',

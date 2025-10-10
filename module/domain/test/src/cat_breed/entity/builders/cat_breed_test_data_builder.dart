@@ -1,35 +1,35 @@
 import 'package:domain/src/cat_breed/entity/cat_breed.dart';
 
 /// Test data builder for creating CatBreed instances with customizable properties.
-/// 
+///
 /// This builder follows the Test Data Builder pattern to provide a fluent API
 /// for creating test instances with default values that can be overridden as needed.
 class CatBreedTestDataBuilder {
-
   /// Creates a builder for a Persian cat breed (real world example)
   CatBreedTestDataBuilder.persian()
-      : _id = 'pers',
-        _name = 'Persian',
-        _description = 'The Persian cat is a long-haired breed of cat characterized by its round face and short muzzle.',
-        _temperament = 'Affectionate, Loyal, Docile, Peaceful, Tranquil',
-        _origin = 'Iran (Persia)',
-        _weightMetric = '3 - 5',
-        _lifeSpan = '14 - 15',
-        _imageUrl = 'https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg',
-        _adaptability = 5,
-        _affectionLevel = 5,
-        _childFriendly = 2,
-        _dogFriendly = 2,
-        _energyLevel = 1,
-        _grooming = 5,
-        _healthIssues = 3,
-        _intelligence = 3,
-        _sheddingLevel = 4,
-        _socialNeeds = 4,
-        _strangerFriendly = 2,
-        _vocalisation = 1,
-        _rare = false,
-        _wikipediaUrl = 'https://en.wikipedia.org/wiki/Persian_cat';
+    : _id = 'pers',
+      _name = 'Persian',
+      _description =
+          'The Persian cat is a long-haired breed of cat characterized by its round face and short muzzle.',
+      _temperament = 'Affectionate, Loyal, Docile, Peaceful, Tranquil',
+      _origin = 'Iran (Persia)',
+      _weightMetric = '3 - 5',
+      _lifeSpan = '14 - 15',
+      _imageUrl = 'https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg',
+      _adaptability = 5,
+      _affectionLevel = 5,
+      _childFriendly = 2,
+      _dogFriendly = 2,
+      _energyLevel = 1,
+      _grooming = 5,
+      _healthIssues = 3,
+      _intelligence = 3,
+      _sheddingLevel = 4,
+      _socialNeeds = 4,
+      _strangerFriendly = 2,
+      _vocalisation = 1,
+      _rare = false,
+      _wikipediaUrl = 'https://en.wikipedia.org/wiki/Persian_cat';
   String _id = 'test_breed_id';
   String _name = 'Test Breed';
   String? _description = 'A test cat breed description';
@@ -58,28 +58,28 @@ class CatBreedTestDataBuilder {
 
   /// Creates a builder with minimal required properties
   CatBreedTestDataBuilder.minimal()
-      : _id = 'minimal_id',
-        _name = 'Minimal Breed',
-        _description = null,
-        _temperament = null,
-        _origin = null,
-        _weightMetric = null,
-        _lifeSpan = null,
-        _imageUrl = null,
-        _adaptability = null,
-        _affectionLevel = null,
-        _childFriendly = null,
-        _dogFriendly = null,
-        _energyLevel = null,
-        _grooming = null,
-        _healthIssues = null,
-        _intelligence = null,
-        _sheddingLevel = null,
-        _socialNeeds = null,
-        _strangerFriendly = null,
-        _vocalisation = null,
-        _rare = null,
-        _wikipediaUrl = null;
+    : _id = 'minimal_id',
+      _name = 'Minimal Breed',
+      _description = null,
+      _temperament = null,
+      _origin = null,
+      _weightMetric = null,
+      _lifeSpan = null,
+      _imageUrl = null,
+      _adaptability = null,
+      _affectionLevel = null,
+      _childFriendly = null,
+      _dogFriendly = null,
+      _energyLevel = null,
+      _grooming = null,
+      _healthIssues = null,
+      _intelligence = null,
+      _sheddingLevel = null,
+      _socialNeeds = null,
+      _strangerFriendly = null,
+      _vocalisation = null,
+      _rare = null,
+      _wikipediaUrl = null;
 
   // Fluent setters for all properties
   CatBreedTestDataBuilder withId(String id) {

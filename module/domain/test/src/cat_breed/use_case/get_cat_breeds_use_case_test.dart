@@ -17,186 +17,220 @@ void main() {
     });
 
     group('call |', () {
-      test('repositoryReturnsBreeds | successfulCall | returnsListOfBreeds', () async {
-        // Arrange
-        final expectedBreeds = [
-          CatBreedTestDataBuilder()
-              .withId('persian')
-              .withName('Persian')
-              .build(),
-          CatBreedTestDataBuilder()
-              .withId('siamese')
-              .withName('Siamese')
-              .build(),
-          CatBreedTestDataBuilder()
-              .withId('maine_coon')
-              .withName('Maine Coon')
-              .build(),
-        ];
-
-        when(() => mockRepository.getCatBreeds())
-            .thenAnswer((_) async => expectedBreeds);
-
-        // Act
-        final result = await useCase.call();
-
-        // Assert
-        expect(result, equals(expectedBreeds));
-        expect(result.length, equals(3));
-        expect(result[0].id, equals('persian'));
-        expect(result[1].id, equals('siamese'));
-        expect(result[2].id, equals('maine_coon'));
-        verify(() => mockRepository.getCatBreeds()).called(1);
-      });
-
-      test('repositoryReturnsEmptyList | successfulCall | returnsEmptyList', () async {
-        // Arrange
-        const expectedBreeds = <CatBreed>[];
-
-        when(() => mockRepository.getCatBreeds())
-            .thenAnswer((_) async => expectedBreeds);
-
-        // Act
-        final result = await useCase.call();
-
-        // Assert
-        expect(result, equals(expectedBreeds));
-        expect(result, isEmpty);
-        verify(() => mockRepository.getCatBreeds()).called(1);
-      });
-
-      test('repositoryReturnsSingleBreed | successfulCall | returnsSingleBreedList', () async {
-        // Arrange
-        final expectedBreed = CatBreedTestDataBuilder.persian().build();
-        final expectedBreeds = [expectedBreed];
-
-        when(() => mockRepository.getCatBreeds())
-            .thenAnswer((_) async => expectedBreeds);
-
-        // Act
-        final result = await useCase.call();
-
-        // Assert
-        expect(result, equals(expectedBreeds));
-        expect(result.length, equals(1));
-        expect(result.first.id, equals('pers'));
-        expect(result.first.name, equals('Persian'));
-        verify(() => mockRepository.getCatBreeds()).called(1);
-      });
-
-      test('repositoryReturnsLargeList | successfulCall | returnsAllBreeds', () async {
-        // Arrange
-        final expectedBreeds = List.generate(100, (index) => 
+      test(
+        'repositoryReturnsBreeds | successfulCall | returnsListOfBreeds',
+        () async {
+          // Arrange
+          final expectedBreeds = [
             CatBreedTestDataBuilder()
+                .withId('persian')
+                .withName('Persian')
+                .build(),
+            CatBreedTestDataBuilder()
+                .withId('siamese')
+                .withName('Siamese')
+                .build(),
+            CatBreedTestDataBuilder()
+                .withId('maine_coon')
+                .withName('Maine Coon')
+                .build(),
+          ];
+
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenAnswer((_) async => expectedBreeds);
+
+          // Act
+          final result = await useCase.call();
+
+          // Assert
+          expect(result, equals(expectedBreeds));
+          expect(result.length, equals(3));
+          expect(result[0].id, equals('persian'));
+          expect(result[1].id, equals('siamese'));
+          expect(result[2].id, equals('maine_coon'));
+          verify(() => mockRepository.getCatBreeds()).called(1);
+        },
+      );
+
+      test(
+        'repositoryReturnsEmptyList | successfulCall | returnsEmptyList',
+        () async {
+          // Arrange
+          const expectedBreeds = <CatBreed>[];
+
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenAnswer((_) async => expectedBreeds);
+
+          // Act
+          final result = await useCase.call();
+
+          // Assert
+          expect(result, equals(expectedBreeds));
+          expect(result, isEmpty);
+          verify(() => mockRepository.getCatBreeds()).called(1);
+        },
+      );
+
+      test(
+        'repositoryReturnsSingleBreed | successfulCall | returnsSingleBreedList',
+        () async {
+          // Arrange
+          final expectedBreed = CatBreedTestDataBuilder.persian().build();
+          final expectedBreeds = [expectedBreed];
+
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenAnswer((_) async => expectedBreeds);
+
+          // Act
+          final result = await useCase.call();
+
+          // Assert
+          expect(result, equals(expectedBreeds));
+          expect(result.length, equals(1));
+          expect(result.first.id, equals('pers'));
+          expect(result.first.name, equals('Persian'));
+          verify(() => mockRepository.getCatBreeds()).called(1);
+        },
+      );
+
+      test(
+        'repositoryReturnsLargeList | successfulCall | returnsAllBreeds',
+        () async {
+          // Arrange
+          final expectedBreeds = List.generate(
+            100,
+            (index) => CatBreedTestDataBuilder()
                 .withId('breed_$index')
                 .withName('Breed $index')
-                .build());
+                .build(),
+          );
 
-        when(() => mockRepository.getCatBreeds())
-            .thenAnswer((_) async => expectedBreeds);
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenAnswer((_) async => expectedBreeds);
 
-        // Act
-        final result = await useCase.call();
+          // Act
+          final result = await useCase.call();
 
-        // Assert
-        expect(result, equals(expectedBreeds));
-        expect(result.length, equals(100));
-        expect(result.first.id, equals('breed_0'));
-        expect(result.last.id, equals('breed_99'));
-        verify(() => mockRepository.getCatBreeds()).called(1);
-      });
+          // Assert
+          expect(result, equals(expectedBreeds));
+          expect(result.length, equals(100));
+          expect(result.first.id, equals('breed_0'));
+          expect(result.last.id, equals('breed_99'));
+          verify(() => mockRepository.getCatBreeds()).called(1);
+        },
+      );
 
-      test('repositoryThrowsException | errorOccurs | propagatesException', () async {
-        // Arrange
-        final expectedException = Exception('Network error');
+      test(
+        'repositoryThrowsException | errorOccurs | propagatesException',
+        () async {
+          // Arrange
+          final expectedException = Exception('Network error');
 
-        when(() => mockRepository.getCatBreeds())
-            .thenThrow(expectedException);
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenThrow(expectedException);
 
-        // Act & Assert
-        expect(
-          () async => await useCase.call(),
-          throwsA(equals(expectedException)),
-        );
-        verify(() => mockRepository.getCatBreeds()).called(1);
-      });
+          // Act & Assert
+          expect(
+            () async => await useCase.call(),
+            throwsA(equals(expectedException)),
+          );
+          verify(() => mockRepository.getCatBreeds()).called(1);
+        },
+      );
 
-      test('repositoryThrowsSpecificException | errorOccurs | propagatesSpecificException', () async {
-        // Arrange
-        const expectedException = FormatException('Invalid data format');
+      test(
+        'repositoryThrowsSpecificException | errorOccurs | propagatesSpecificException',
+        () async {
+          // Arrange
+          const expectedException = FormatException('Invalid data format');
 
-        when(() => mockRepository.getCatBreeds())
-            .thenThrow(expectedException);
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenThrow(expectedException);
 
-        // Act & Assert
-        expect(
-          () async => await useCase.call(),
-          throwsA(isA<FormatException>()),
-        );
-        verify(() => mockRepository.getCatBreeds()).called(1);
-      });
+          // Act & Assert
+          expect(
+            () async => await useCase.call(),
+            throwsA(isA<FormatException>()),
+          );
+          verify(() => mockRepository.getCatBreeds()).called(1);
+        },
+      );
 
-      test('multipleConsecutiveCalls | successfulCalls | callsRepositoryEachTime', () async {
-        // Arrange
-        final firstCallBreeds = [
-          CatBreedTestDataBuilder()
-              .withId('first')
-              .withName('First Breed')
-              .build(),
-        ];
-        
-        final secondCallBreeds = [
-          CatBreedTestDataBuilder()
-              .withId('second')
-              .withName('Second Breed')
-              .build(),
-        ];
+      test(
+        'multipleConsecutiveCalls | successfulCalls | callsRepositoryEachTime',
+        () async {
+          // Arrange
+          final firstCallBreeds = [
+            CatBreedTestDataBuilder()
+                .withId('first')
+                .withName('First Breed')
+                .build(),
+          ];
 
-        // Configure separate calls with different return values
-        when(() => mockRepository.getCatBreeds())
-            .thenAnswer((_) async => firstCallBreeds);
+          final secondCallBreeds = [
+            CatBreedTestDataBuilder()
+                .withId('second')
+                .withName('Second Breed')
+                .build(),
+          ];
 
-        // Act
-        final firstResult = await useCase.call();
-        
-        // Reconfigure for second call
-        when(() => mockRepository.getCatBreeds())
-            .thenAnswer((_) async => secondCallBreeds);
-            
-        final secondResult = await useCase.call();
+          // Configure separate calls with different return values
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenAnswer((_) async => firstCallBreeds);
 
-        // Assert
-        expect(firstResult.length, equals(1));
-        expect(secondResult.length, equals(1));
-        expect(firstResult[0].id, equals('first'));
-        expect(secondResult[0].id, equals('second'));
-        verify(() => mockRepository.getCatBreeds()).called(2);
-      });
+          // Act
+          final firstResult = await useCase.call();
 
-      test('repositoryCallsWithDelay | asyncOperation | handlesAsyncCorrectly', () async {
-        // Arrange
-        final expectedBreeds = [
-          CatBreedTestDataBuilder()
-              .withId('delayed')
-              .withName('Delayed Breed')
-              .build(),
-        ];
+          // Reconfigure for second call
+          when(
+            () => mockRepository.getCatBreeds(),
+          ).thenAnswer((_) async => secondCallBreeds);
 
-        when(() => mockRepository.getCatBreeds()).thenAnswer((_) async {
-          await Future<void>.delayed(const Duration(milliseconds: 100));
-          return expectedBreeds;
-        });
+          final secondResult = await useCase.call();
 
-        // Act
-        final stopwatch = Stopwatch()..start();
-        final result = await useCase.call();
-        stopwatch.stop();
+          // Assert
+          expect(firstResult.length, equals(1));
+          expect(secondResult.length, equals(1));
+          expect(firstResult[0].id, equals('first'));
+          expect(secondResult[0].id, equals('second'));
+          verify(() => mockRepository.getCatBreeds()).called(2);
+        },
+      );
 
-        // Assert
-        expect(result, equals(expectedBreeds));
-        expect(stopwatch.elapsedMilliseconds, greaterThanOrEqualTo(100));
-        verify(() => mockRepository.getCatBreeds()).called(1);
-      });
+      test(
+        'repositoryCallsWithDelay | asyncOperation | handlesAsyncCorrectly',
+        () async {
+          // Arrange
+          final expectedBreeds = [
+            CatBreedTestDataBuilder()
+                .withId('delayed')
+                .withName('Delayed Breed')
+                .build(),
+          ];
+
+          when(() => mockRepository.getCatBreeds()).thenAnswer((_) async {
+            await Future<void>.delayed(const Duration(milliseconds: 100));
+            return expectedBreeds;
+          });
+
+          // Act
+          final stopwatch = Stopwatch()..start();
+          final result = await useCase.call();
+          stopwatch.stop();
+
+          // Assert
+          expect(result, equals(expectedBreeds));
+          expect(stopwatch.elapsedMilliseconds, greaterThanOrEqualTo(100));
+          verify(() => mockRepository.getCatBreeds()).called(1);
+        },
+      );
     });
 
     group('constructor |', () {
