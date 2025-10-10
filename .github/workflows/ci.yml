@@ -198,7 +198,7 @@ jobs:
         run: |
           # Run analyzer and save output to file with UTF-8 encoding.
           # We allow non-zero exit so we can process results and fail only on 'error' severity.
-          flutter analyze 2>&1 | Out-File -FilePath analyze_output.txt -Encoding utf8 || true
+          flutter analyze 2>&1 | tee analyze_output.txt || true
 
       - name: Fail CI only on analyzer errors (tool/ci/analyze_check.dart)
         run: |
