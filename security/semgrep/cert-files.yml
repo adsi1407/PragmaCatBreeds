@@ -1,6 +1,6 @@
 rules:
   - id: cert-files
-    languages: [generic, yaml]
+    languages: [generic]
     message: |
       Certificate/keystore filename detected: $FILE
       
@@ -17,7 +17,16 @@ rules:
       3. Store secrets in a secure vault (GitHub Secrets, etc.)
     severity: ERROR
     patterns:
-      - pattern-regex: '\\.(p12|pfx|jks|keystore|mobileprovision|pem|key)\\b'
+      - pattern: $X
+    paths:
+      include:
+        - "*.p12"
+        - "*.pfx"
+        - "*.jks"
+        - "*.keystore"
+        - "*.mobileprovision"
+        - "*.pem"
+        - "*.key"
     metadata:
       category: secrets
       subcategory: certificates
