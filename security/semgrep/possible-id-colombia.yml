@@ -5,6 +5,17 @@
     severity: WARNING
     patterns:
       - pattern-regex: '\b\d{7,10}\b'
+    paths:
+      exclude:
+        - "*.pbxproj"
+        - "*.gradle.kts"
+        - "*.gradle"
+        - "android/gradle.properties"
+        - "android/settings.gradle.kts"
+        - "ios/Runner.xcodeproj/**"
+        - "macos/Runner.xcodeproj/**"
+        - "**/build.gradle.kts"
+        - "**/gradle-wrapper.properties"
     metadata:
       category: privacy
       recommended: true

@@ -21,8 +21,34 @@ jobs:
       - name: Run semgrep
         run: |
           echo "🔍 Running Semgrep with verbose logging..."
-          semgrep --config ./security/semgrep/ --verbose --json --output semgrep-report.json
+          semgrep --config ./security/semgrep/ --verbose --json --output semgrep-report.json --error-exit-code=1
           echo "✅ Semgrep completed successfully"
+      - name: Check semgrep results
+        if: always()
+        run: |
+          echo "📊 Analyzing Semgrep results..."
+          if [ -f semgrep-report.json ]; then
+            ERROR_COUNT=$(jq '[.results[] | select(.extra.severity == "ERROR")] | length' semgrep-report.json)
+            WARNING_COUNT=$(jq '[.results[] | select(.extra.severity == "WARNING")] | length' semgrep-report.json)
+            
+            echo "🔍 Security scan results:"
+            echo "  • ERRORS: $ERROR_COUNT (pipeline blocking)"
+            echo "  • WARNINGS: $WARNING_COUNT (informational)"
+            
+            if [ "$ERROR_COUNT" -gt 0 ]; then
+              echo "❌ Security scan failed: $ERROR_COUNT critical security issues found"
+              echo "Fix all ERROR-level issues before merging"
+              exit 1
+            else
+              echo "✅ Security scan passed: No critical security issues found"
+              if [ "$WARNING_COUNT" -gt 0 ]; then
+                echo "⚠️  Please review $WARNING_COUNT warning(s) in the report"
+              fi
+            fi
+          else
+            echo "❌ Semgrep report not found"
+            exit 1
+          fi
       - name: Upload semgrep report
         if: always()
         uses: actions/upload-artifact@v4

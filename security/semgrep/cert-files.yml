@@ -2,9 +2,9 @@ rules:
   - id: cert-files
     languages: [generic]
     message: |
-      Certificate/keystore filename detected: $FILE
+      Certificate/keystore file detected in repository.
       
-      These file types should NOT be committed to the repository:
+      These file types should NOT be committed:
       - .p12, .pfx: PKCS#12 certificates/keys
       - .jks, .keystore: Java keystores  
       - .mobileprovision: iOS provisioning profiles
@@ -13,11 +13,10 @@ rules:
       
       Action required:
       1. Remove these files from the repository
-      2. Add them to .gitignore
+      2. Add them to .gitignore  
       3. Store secrets in a secure vault (GitHub Secrets, etc.)
     severity: ERROR
-    patterns:
-      - pattern: $X
+    pattern: $...CONTENT
     paths:
       include:
         - "*.p12"
