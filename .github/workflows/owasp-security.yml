@@ -1,0 +1,226 @@
+name: OWASP Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly Monday at 2 AM
+
+jobs:
+  dependency-check:
+    name: OWASP Dependency Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - name: Get dependencies
+        run: |
+          flutter pub get
+          cd module/domain && flutter pub get
+          cd ../infrastructure && flutter pub get
+
+      - name: Run OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        env:
+          JAVA_HOME: /opt/jdk
+        with:
+          project: 'PragmaCatBreeds'
+          path: '.'
+          format: 'ALL'
+          args: >
+            --enableRetired
+            --enableExperimental
+            --scan pubspec.yaml
+            --scan pubspec.lock
+            --scan module/domain/pubspec.yaml
+            --scan module/domain/pubspec.lock
+            --scan module/infrastructure/pubspec.yaml
+            --scan module/infrastructure/pubspec.lock
+
+      - name: Upload Dependency Check Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-check-report
+          path: reports/
+
+      - name: Comment PR with Dependency Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let summary = '## 🛡️ OWASP Dependency Check Results\n\n';
+            
+            try {
+              if (fs.existsSync('reports/dependency-check-report.json')) {
+                const report = JSON.parse(fs.readFileSync('reports/dependency-check-report.json', 'utf8'));
+                const vulnerabilities = report.dependencies?.filter(dep => dep.vulnerabilities?.length > 0) || [];
+                
+                if (vulnerabilities.length === 0) {
+                  summary += '✅ **No vulnerabilities found in dependencies**\n';
+                } else {
+                  summary += `⚠️ **Found ${vulnerabilities.length} dependencies with vulnerabilities**\n\n`;
+                  vulnerabilities.slice(0, 5).forEach(dep => {
+                    summary += `- **${dep.fileName}**\n`;
+                    dep.vulnerabilities.slice(0, 2).forEach(vuln => {
+                      summary += `  - ${vuln.name}: ${vuln.severity}\n`;
+                    });
+                  });
+                  if (vulnerabilities.length > 5) {
+                    summary += `\n... and ${vulnerabilities.length - 5} more. Check the full report in artifacts.\n`;
+                  }
+                }
+              } else {
+                summary += '📊 Dependency check completed. Check artifacts for detailed results.\n';
+              }
+            } catch (error) {
+              summary += '⚠️ Could not parse dependency check results. Check artifacts for details.\n';
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+  mobile-security:
+    name: OWASP MobSF Analysis
+    runs-on: ubuntu-latest
+    needs: dependency-check
+    if: github.event_name != 'schedule'  # Skip on scheduled runs to save resources
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - name: Get dependencies
+        run: |
+          flutter pub get
+          cd module/domain && flutter pub get
+          cd ../infrastructure && flutter pub get
+
+      - name: Build APK for Security Analysis
+        run: |
+          flutter build apk --debug --dart-define=DEVELOPMENT=true --dart-define=CAT_API_KEY=test_key
+          ls -la build/app/outputs/flutter-apk/
+
+      - name: Run MobSF Analysis
+        uses: docker://opensecurity/mobsf:latest
+        with:
+          args: |
+            python3 /home/mobsf/Mobile-Security-Framework-MobSF/manage.py runserver 0.0.0.0:8000 &
+            sleep 30
+            # Upload APK to MobSF for analysis
+            SCAN_ID=$(curl -s -F "file=@build/app/outputs/flutter-apk/app-debug.apk" \
+              http://localhost:8000/api/v1/upload | jq -r '.scan_id')
+            
+            # Start analysis
+            curl -s -X POST \
+              -F "scan_id=$SCAN_ID" \
+              http://localhost:8000/api/v1/scan
+            
+            # Wait for analysis completion and get results
+            sleep 60
+            curl -s -X POST \
+              -F "scan_id=$SCAN_ID" \
+              http://localhost:8000/api/v1/report_json > mobsf_report.json
+
+      - name: Upload MobSF Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobsf-security-report
+          path: mobsf_report.json
+
+      - name: Comment PR with MobSF Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let summary = '## 📱 OWASP MobSF Security Analysis\n\n';
+            
+            try {
+              if (fs.existsSync('mobsf_report.json')) {
+                const report = JSON.parse(fs.readFileSync('mobsf_report.json', 'utf8'));
+                const securityScore = report.security_score || 'N/A';
+                const highIssues = Object.values(report.findings || {}).filter(finding => 
+                  finding.severity === 'high' || finding.severity === 'warning'
+                ).length;
+                
+                summary += `🔒 **Security Score**: ${securityScore}/100\n`;
+                summary += `⚠️ **High/Warning Issues**: ${highIssues}\n\n`;
+                
+                if (highIssues > 0) {
+                  summary += '**Top Issues Found:**\n';
+                  Object.entries(report.findings || {}).slice(0, 3).forEach(([key, finding]) => {
+                    if (finding.severity === 'high' || finding.severity === 'warning') {
+                      summary += `- **${finding.title}**: ${finding.description}\n`;
+                    }
+                  });
+                } else {
+                  summary += '✅ **No high-severity security issues found**\n';
+                }
+              } else {
+                summary += '📊 MobSF analysis completed. Check artifacts for detailed results.\n';
+              }
+            } catch (error) {
+              summary += '⚠️ Could not parse MobSF results. Check artifacts for details.\n';
+            }
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+  security-summary:
+    name: Security Summary
+    runs-on: ubuntu-latest
+    needs: [dependency-check, mobile-security]
+    if: always()
+    steps:
+      - name: Create Security Summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const dependencyStatus = '${{ needs.dependency-check.result }}';
+            const mobsfStatus = '${{ needs.mobile-security.result }}';
+            
+            let summary = '## 🛡️ Security Pipeline Summary\n\n';
+            summary += `- **OWASP Dependency Check**: ${dependencyStatus === 'success' ? '✅ Passed' : '❌ Failed'}\n`;
+            summary += `- **OWASP MobSF Analysis**: ${mobsfStatus === 'success' ? '✅ Passed' : '❌ Failed'}\n\n`;
+            
+            if (dependencyStatus === 'success' && mobsfStatus === 'success') {
+              summary += '🎉 **All security checks passed!**\n';
+            } else {
+              summary += '⚠️ **Some security checks failed. Please review the detailed reports.**\n';
+            }
+            
+            summary += '\n📊 **Detailed reports available in job artifacts.**\n';
+            
+            if (context.eventName === 'pull_request') {
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: summary
+              });
+            }
