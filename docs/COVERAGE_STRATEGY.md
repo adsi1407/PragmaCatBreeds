@@ -23,7 +23,7 @@ Este proyecto implementa una **estrategia de cobertura granular y realista** don
 ## 📁 **Archivos de Cobertura**
 
 ```bash
-tool/ci/
+scripts/ci/validation/
 ├── check_bloc_coverage.dart          # BLoC-specific coverage
 ├── check_widgets_coverage.dart       # Widget-specific coverage
 ├── check_pages_coverage.dart         # Page-specific coverage

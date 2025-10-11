@@ -153,10 +153,10 @@ The project includes two types of scripts for different use cases:
 
 ```bash
 # Check coverage threshold (used in CI)
-dart run tool/ci/check_coverage.dart coverage.lcov 90
+dart run scripts/ci/validation/check_coverage.dart coverage.lcov 90
 
 # Analyze code issues (used in CI)
-dart run tool/ci/analyze_check.dart analyze_output.json
+dart run scripts/ci/validation/analyze_check.dart analyze_output.json
 ```
 
 Both script types use **consistent coverage thresholds**:
@@ -242,7 +242,7 @@ For detailed implementation, see [ARCHITECTURE.md](ARCHITECTURE.md#international
 ## CI / Pipeline
 -------------
 - GitHub Actions pipeline included to run tests, analyze code and check coverage per module.
-- Coverage thresholds are enforced for modules (domain, infrastructure, presentation) via custom scripts in `tool/ci/`.
+- Coverage thresholds are enforced for modules (domain, infrastructure, presentation) via custom scripts in `scripts/ci/validation/`.
 
 ## Releases
 --------

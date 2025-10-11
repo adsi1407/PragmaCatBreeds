@@ -56,7 +56,7 @@ This project uses a comprehensive static analysis strategy to maintain code qual
 
 2. **Error Filtering**
    ```bash
-   dart run tool/ci/analyze_check.dart analyze_output.txt
+   dart run scripts/ci/validation/analyze_check.dart analyze_output.txt
    ```
    - Only **errors** fail the CI
    - **Warnings** and **info** are logged but don't block deployment

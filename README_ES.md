@@ -154,10 +154,10 @@ El proyecto incluye dos tipos de scripts para diferentes casos de uso:
 
 ```bash
 # Verificar umbral de cobertura (usado en CI)
-dart run tool/ci/check_coverage.dart coverage.lcov 90
+dart run scripts/ci/validation/check_coverage.dart coverage.lcov 90
 
 # Analizar problemas de código (usado en CI)
-dart run tool/ci/analyze_check.dart analyze_output.json
+dart run scripts/ci/validation/analyze_check.dart analyze_output.json
 ```
 
 Ambos tipos de scripts usan **umbrales de cobertura consistentes**:
@@ -243,7 +243,7 @@ Para implementación detallada, ver [ARCHITECTURE.md](ARCHITECTURE.md#internatio
 ## Pipeline de CI
 -------------
 - GitHub Actions configurado para ejecutar pruebas, análisis y comprobar cobertura por módulo.
-- Scripts custom en `tool/ci/` para validar cobertura y análisis.
+- Scripts custom en `scripts/ci/validation/` para validar cobertura y análisis.
 
 ## Releases
 --------

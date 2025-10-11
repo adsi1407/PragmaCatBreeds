@@ -95,7 +95,7 @@ jobs:
         # the generated lcov file resolve correctly.
         working-directory: module
         run: |
-          dart run ../tool/ci/check_coverage.dart coverage-domain.lcov ${{ env.COVERAGE_DOMAIN_MIN }}
+          dart run ../scripts/ci/validation/check_coverage.dart coverage-domain.lcov ${{ env.COVERAGE_DOMAIN_MIN }}
 
       - name: Upload domain coverage
         uses: actions/upload-artifact@v4
@@ -115,7 +115,7 @@ jobs:
         # resolved consistently and the generated lcov file is found.
         working-directory: module
         run: |
-          dart run ../tool/ci/check_coverage.dart coverage-infra.lcov ${{ env.COVERAGE_INFRA_MIN }}
+          dart run ../scripts/ci/validation/check_coverage.dart coverage-infra.lcov ${{ env.COVERAGE_INFRA_MIN }}
 
       - name: Upload infrastructure coverage
         uses: actions/upload-artifact@v4
@@ -131,7 +131,7 @@ jobs:
 
       - name: Check presentation bloc coverage
         run: |
-          dart run tool/ci/check_bloc_coverage.dart coverage-presentation-bloc.lcov ${{ env.COVERAGE_PRESENTATION_BLOC_MIN }}
+          dart run scripts/ci/validation/check_bloc_coverage.dart coverage-presentation-bloc.lcov ${{ env.COVERAGE_PRESENTATION_BLOC_MIN }}
 
       - name: Upload presentation bloc coverage
         uses: actions/upload-artifact@v4
@@ -147,7 +147,7 @@ jobs:
 
       - name: Check presentation widget coverage
         run: |
-          dart run tool/ci/check_widgets_coverage.dart coverage-presentation-widgets.lcov ${{ env.COVERAGE_PRESENTATION_WIDGETS_MIN }}
+          dart run scripts/ci/validation/check_widgets_coverage.dart coverage-presentation-widgets.lcov ${{ env.COVERAGE_PRESENTATION_WIDGETS_MIN }}
 
       - name: Upload presentation widget coverage
         uses: actions/upload-artifact@v4
@@ -163,7 +163,7 @@ jobs:
 
       - name: Check presentation page coverage
         run: |
-          dart run tool/ci/check_pages_coverage.dart coverage-presentation-pages.lcov ${{ env.COVERAGE_PRESENTATION_PAGES_MIN }}
+          dart run scripts/ci/validation/check_pages_coverage.dart coverage-presentation-pages.lcov ${{ env.COVERAGE_PRESENTATION_PAGES_MIN }}
 
       - name: Upload presentation page coverage
         uses: actions/upload-artifact@v4
@@ -200,9 +200,9 @@ jobs:
           # We allow non-zero exit so we can process results and fail only on 'error' severity.
           flutter analyze 2>&1 | tee analyze_output.txt || true
 
-      - name: Fail CI only on analyzer errors (tool/ci/analyze_check.dart)
+      - name: Fail CI only on analyzer errors (scripts/ci/validation/analyze_check.dart)
         run: |
-          dart run tool/ci/analyze_check.dart analyze_output.txt
+          dart run scripts/ci/validation/analyze_check.dart analyze_output.txt
 
       - name: Summary
         run: echo "CI finished"

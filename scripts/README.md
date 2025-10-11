@@ -1,53 +1,74 @@
 # Project Scripts
 
-This directory contains organized development scripts for the Flutter Cat Breeds project. Scripts are organized by purpose to improve maintainability and discoverability.
+Scripts organized by **usage pattern** for the Flutter Cat Breeds project. This structure separates development-focused scripts from CI/CD automation scripts for better workflow alignment.
 
 ## 📁 Directory Structure
 
-### 🧹 [`cleanup/`](cleanup/)
-Scripts for cleaning temporary and unnecessary files from the project.
-- **Purpose**: Remove logs, temporary files, backup files, OS artifacts
-- **Note**: Does NOT remove build artifacts (use `flutter clean`)
-- **Platforms**: Windows (PowerShell, Batch), Linux/macOS (Bash)
+### 🔨 [`dev/`](dev/) - Development Scripts
+Scripts designed for **local development workflows** and developer productivity.
+- **Purpose**: Developer tools, interactive scripts, detailed feedback
+- **Usage**: Local development, debugging, optimization
+- **Subdirectories**: [`cleanup/`](dev/cleanup/), [`environment/`](dev/environment/), [`performance/`](dev/performance/), [`api/`](dev/api/)
 
-### 🧪 [`testing/`](testing/)
-Scripts for running tests and generating coverage reports.
-- **Purpose**: Test execution, coverage generation for development workflow
-- **Platforms**: Cross-platform with platform-specific optimizations
-
-### 🔧 [`sonar/`](sonar/)
-Scripts for SonarCloud integration and specialized analysis.
-- **Purpose**: SonarCloud setup, configuration, and optimized coverage generation
-- **Platforms**: Multiple platforms supported
-
-### ⚙️ [`environment/`](environment/)
-Scripts for development environment setup and configuration.
-- **Purpose**: Initial environment setup, dependency installation
-- **Platforms**: Linux/macOS/WSL focused
-
-### ⚡ [`performance/`](performance/)
-Scripts for performance testing and benchmarking.
-- **Purpose**: Performance analysis and optimization testing
-
-### 🔗 [`api/`](api/)
-API-related scripts and utilities.
-- **Purpose**: API testing, documentation generation
+### � [`ci/`](ci/) - CI/CD Scripts  
+Scripts designed for **automated CI/CD workflows** and continuous integration.
+- **Purpose**: Automation, quality gates, validation
+- **Usage**: GitHub Actions, CI pipelines, automated testing
+- **Subdirectories**: [`sonar/`](ci/sonar/), [`testing/`](ci/testing/), [`validation/`](ci/validation/)
 
 ## 🚀 Quick Start
 
-Choose the appropriate script for your platform and needs:
-
+### Development Workflow
 ```bash
-# Cleanup (choose your platform)
-.\scripts\cleanup\clean_project_working.ps1 -DryRun  # PowerShell (recommended)
-scripts\cleanup\clean_project_simple.bat --dry-run   # Batch
-./scripts/cleanup/clean_project.sh --dry-run         # Bash
+# Cleanup project (development)
+.\scripts\dev\cleanup\clean_project_working.ps1 -DryRun  # PowerShell (recommended)
+scripts\dev\cleanup\clean_project_simple.bat --dry-run   # Batch
+./scripts/dev/cleanup/clean_project.sh --dry-run         # Bash
 
-# Testing
-.\scripts\testing\test_coverage.ps1                  # PowerShell
-./scripts/testing/test_coverage.sh                   # Bash
+# Setup environment
+./scripts/dev/environment/setup_development.sh           # Development setup
 
-# SonarCloud
+# Performance testing
+./scripts/dev/performance/benchmark_app.sh               # Local benchmarking
+
+# API testing
+./scripts/dev/api/test_endpoints.sh                      # API validation
+```
+
+### CI/CD Usage
+```bash
+# SonarCloud integration
+./scripts/ci/sonar/setup_sonarcloud.sh                   # CI setup
+
+# Coverage validation (automated)
+dart run scripts/ci/validation/check_coverage.dart coverage.lcov 90
+
+# Test execution (CI-optimized)
+./scripts/ci/testing/test_coverage.sh                    # CI testing
+```
+
+## 🎯 Usage Pattern Differences
+
+### Development Scripts (`dev/`)
+- **Interactive feedback**: Detailed output and progress indicators
+- **Developer experience**: Helpful messages and error explanations  
+- **Flexibility**: Multiple options and configurations
+- **Local optimization**: Optimized for local development workflows
+
+### CI/CD Scripts (`ci/`)
+- **Automation focus**: Minimal output, clear exit codes
+- **Reliability**: Consistent behavior across environments
+- **Precision**: Exact success/failure indicators
+- **Integration**: Designed for GitHub Actions and CI systems
+
+## 🏗️ Architecture Integration
+
+These scripts respect the Clean Architecture principles:
+- **Domain scripts**: Focus on business logic testing (90% coverage threshold)
+- **Infrastructure scripts**: Handle external integrations (60% coverage threshold)  
+- **Presentation scripts**: UI/UX testing and validation (50% BLoC, 40% widgets coverage)
+
+For more details, see [ARCHITECTURE.md](../ARCHITECTURE.md).
 .\scripts\sonar\setup_sonarcloud.ps1                 # PowerShell
 ./scripts/sonar/setup_sonarcloud.sh                  # Bash
 ./scripts/sonar/sonar_coverage.sh                    # Bash
@@ -56,32 +77,29 @@ scripts\cleanup\clean_project_simple.bat --dry-run   # Batch
 ./scripts/environment/setup.sh                       # Bash
 ```
 
-## 📋 Script Categories
-
-### File Management
-- **cleanup/**: Remove unnecessary files safely
-- **tool/ci/**: Dart utilities for CI/CD pipelines
-
-### Quality & Analysis
-- **testing/**: Coverage reports and test execution
-- **sonar/**: SonarCloud integration and specialized analysis
-- **tool/ci/**: Coverage validation utilities
-
-### Development Setup
-- **environment/**: Environment configuration and dependency installation
-
-### Performance & Monitoring
-- **performance/**: Performance testing and benchmarking
-
 ## �️ Maintenance
 
-Each subdirectory contains its own README with specific usage instructions and platform requirements. When adding new scripts:
+When adding new scripts:
 
-1. Choose the appropriate category
-2. Follow naming conventions (verb_noun.extension)
-3. Include help/usage information
-4. Update the relevant subdirectory README
-5. Test on target platforms
+1. **Choose appropriate category**: `dev/` for development tools, `ci/` for automation
+2. **Follow naming conventions**: verb_noun.extension (e.g., `clean_project.ps1`, `check_coverage.dart`)
+3. **Include help/usage information**: Clear documentation and help flags
+4. **Update relevant README**: Document in subdirectory README and main README if significant
+5. **Test on target platforms**: Verify cross-platform compatibility where applicable
+
+### Script Guidelines
+
+#### Development Scripts (`dev/`)
+- Provide rich feedback and progress indicators
+- Include detailed help and error messages
+- Support interactive flags (dry-run, verbose, etc.)
+- Optimize for developer productivity
+
+#### CI Scripts (`ci/`)
+- Focus on reliable automation
+- Provide clear exit codes for CI systems  
+- Minimize output unless debugging
+- Ensure consistent behavior across environments
 
 ## 🏗️ Architecture Integration
 
@@ -92,62 +110,60 @@ These scripts respect the Clean Architecture principles:
 
 For more details, see [ARCHITECTURE.md](../ARCHITECTURE.md).
 
+## � Related Documentation
+
+- **[Development Scripts](dev/)**: Interactive tools for local development
+- **[CI/CD Scripts](ci/)**: Automation tools for continuous integration  
+- **[Architecture Guide](../ARCHITECTURE.md)**: Clean Architecture implementation details
+- **[Security Documentation](../security/)**: Security scanning and validation processes
+
 ## 🚀 Usage Examples
 
-### Basic Usage
+### Development Workflow Examples
 ```bash
-# Linux/macOS/WSL
-./scripts/clean_project.sh
+# Cleanup project (choose your platform)
+.\scripts\dev\cleanup\clean_project_working.ps1 -DryRun  # PowerShell (recommended)
+scripts\dev\cleanup\clean_project_simple.bat --dry-run   # Batch
+./scripts/dev/cleanup/clean_project.sh --dry-run         # Bash
 
-# Windows PowerShell (Recommended)
-.\scripts\clean_project_working.ps1
+# Environment setup
+./scripts/dev/environment/setup_development.sh           # Development setup
 
-# Windows Command Prompt
-scripts\clean_project_simple.bat
+# Performance testing  
+./scripts/dev/performance/benchmark_app.sh               # Local benchmarking
+```
+
+### CI/CD Automation Examples
+```bash
+# Coverage validation
+dart run scripts/ci/validation/check_coverage.dart coverage.lcov 90
+
+# SonarCloud integration
+./scripts/ci/sonar/setup_sonarcloud.sh                   # CI setup
+
+# Test execution (CI-optimized)
+./scripts/ci/testing/test_coverage.sh                    # CI testing
 ```
 
 ### Advanced Options
 
-#### Dry Run (See what would be deleted)
+#### Development Script Options
 ```bash
-# Bash
-./scripts/clean_project.sh --dry-run
+# Bash (dev cleanup)
+./scripts/dev/cleanup/clean_project.sh --dry-run --verbose --interactive
 
-# PowerShell
-.\scripts\clean_project.ps1 -DryRun
-
-# Batch
-scripts\clean_project_simple.bat --dry-run
+# PowerShell (dev cleanup)
+.\scripts\dev\cleanup\clean_project_working.ps1 -DryRun -Verbose -Interactive
 ```
 
-#### Verbose Output
+#### CI Script Options  
 ```bash
-# Bash
-./scripts/clean_project.sh --verbose
+# Coverage validation with specific thresholds
+dart run scripts/ci/validation/check_coverage.dart coverage.lcov 90
+dart run scripts/ci/validation/check_bloc_coverage.dart coverage.lcov 50
 
-# PowerShell
-.\scripts\clean_project_working.ps1 -Verbose
-
-# Batch
-scripts\clean_project_simple.bat --verbose
-```
-
-#### Interactive Mode (Ask before each category)
-```bash
-# Bash
-./scripts/clean_project.sh --interactive
-
-# PowerShell
-.\scripts\clean_project.ps1 -Interactive
-```
-
-#### Combined Options
-```bash
-# Bash
-./scripts/clean_project.sh --dry-run --verbose --interactive
-
-# PowerShell
-.\scripts\clean_project.ps1 -DryRun -Verbose -Interactive
+# Automated testing with CI optimization
+./scripts/ci/testing/test_coverage.sh --ci-mode
 ```
 
 ## 🧹 What Gets Cleaned
