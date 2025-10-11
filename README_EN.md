@@ -138,7 +138,7 @@ The project includes two types of scripts for different use cases:
 
 ```bash
 # Setup development environment
-./scripts/setup.sh
+./scripts/install/setup.sh
 
 # Generate coverage reports with HTML output
 ./scripts/testing/test_coverage.sh      # Linux/macOS

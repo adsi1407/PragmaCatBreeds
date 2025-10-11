@@ -15,9 +15,9 @@ Scripts for running tests and generating coverage reports.
 - **Purpose**: Test execution, coverage generation, SonarCloud integration
 - **Platforms**: Cross-platform with platform-specific optimizations
 
-### ⚙️ [`setup/`](setup/)
+### ⚙️ [`install/`](install/)
 Scripts for project setup and environment configuration.
-- **Purpose**: SonarCloud setup, project initialization
+- **Purpose**: Environment setup, dependency installation, tool configuration
 - **Platforms**: Multiple platforms supported
 
 ### ⚡ [`performance/`](performance/)
@@ -43,8 +43,8 @@ scripts\cleanup\clean_project_simple.bat --dry-run   # Batch
 ./scripts/testing/test_coverage.sh                   # Bash
 
 # Setup
-.\scripts\setup\setup_sonarcloud.ps1                 # PowerShell
-./scripts/setup/setup_sonarcloud.sh                  # Bash
+.\scripts\install\setup_sonarcloud.ps1                 # PowerShell
+./scripts/install/setup_sonarcloud.sh                  # Bash
 ```
 
 ## 📋 Script Categories
@@ -58,7 +58,7 @@ scripts\cleanup\clean_project_simple.bat --dry-run   # Batch
 - **tool/ci/**: Coverage validation utilities
 
 ### Development Setup
-- **setup/**: Environment configuration and tool setup
+- **install/**: Environment configuration and tool setup
 
 ### Performance & Monitoring
 - **performance/**: Performance testing and benchmarking

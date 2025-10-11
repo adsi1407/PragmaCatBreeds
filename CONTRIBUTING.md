@@ -61,7 +61,7 @@ The project provides two categories of scripts:
 
 **Usage:**
 ```bash
-./scripts/setup.sh                 # Setup environment
+./scripts/install/setup.sh                 # Setup environment
 ./scripts/test_coverage.sh         # Generate visual coverage reports
 ```
 
