@@ -44,7 +44,34 @@ class CatBreedTranslator {
 - Centralized business rules for parsing
 - Easy to modify conversion logic
 
-### 3. Exception Transparency ✅
+### 3. Anti-Corruption Layer ✅
+**Implementation**: Resilient validation to protect domain from corrupted external data
+```dart
+List<CatBreed> fromDtoList(List<CatBreedDto> dtos) {
+  return dtos
+      .where(_isValidDto)  // Filter invalid data
+      .map(fromDto)        // Convert only valid data
+      .toList();
+}
+
+bool _isValidDto(CatBreedDto dto) {
+  return dto.id != null && 
+         dto.name != null && 
+         dto.id!.isNotEmpty && 
+         dto.name!.isNotEmpty;
+}
+```
+
+**Benefits**:
+- Domain protection from external data corruption
+- Fail-safe behavior (continue with valid data vs complete failure)
+- Better user experience (show available data instead of errors)
+- Clear separation between infrastructure validation and domain logic
+- System resilience against third-party API inconsistencies
+
+**See**: [Anti-Corruption Layer Documentation](ANTI_CORRUPTION_LAYER.md) for detailed architectural analysis
+
+### 4. Exception Transparency ✅
 **Implementation**: Natural exception propagation without wrapping
 ```dart
 Future<List<CatBreed>> getCatBreeds() async {
@@ -59,7 +86,7 @@ Future<List<CatBreed>> getCatBreeds() async {
 - Better debugging experience
 - Simpler error handling
 
-### 4. Folder Organization ✅
+### 5. Folder Organization ✅
 **Current Structure**:
 ```
 src/cat_breed/
@@ -81,7 +108,7 @@ src/cat_breed/
 - Easy to navigate and understand
 - Clear separation between API and cache concerns
 
-### 5. Class Extraction ✅
+### 6. Class Extraction ✅
 **Implementation**: Separate files for distinct responsibilities
 ```dart
 // cache_entry.dart - Standalone cache entry management
@@ -188,6 +215,7 @@ The infrastructure layer fully complies with:
 - ✅ **Repository Pattern**: Clean data access abstraction
 - ✅ **Proxy Pattern**: Transparent caching layer
 - ✅ **Translator Pattern**: Centralized data transformation
+- ✅ **Anti-Corruption Layer**: Protection from external data corruption ([Details](ANTI_CORRUPTION_LAYER.md))
 - ✅ **Dependency Injection**: Loose coupling and testability
 - ✅ **Micro-Package Pattern**: Modular, auto-generated dependencies
 

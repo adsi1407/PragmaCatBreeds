@@ -12,6 +12,7 @@ For detailed technical information, please refer to:
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Technical architecture details
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Development guidelines and tools  
 - **[test/TEST_ORGANIZATION.md](test/TEST_ORGANIZATION.md)** - Testing organization principles and best practices
+- **[module/infrastructure/ANTI_CORRUPTION_LAYER.md](module/infrastructure/ANTI_CORRUPTION_LAYER.md)** - 🛡️ Anti-Corruption Layer pattern implementation for external data protection
 - **[docs/COVERAGE_STRATEGY.md](docs/COVERAGE_STRATEGY.md)** - 📊 Test coverage strategy and granular measurement approach
 - **[docs/STATIC_ANALYSIS.md](docs/STATIC_ANALYSIS.md)** - 🔍 Static analysis strategy with flutter analyze and quality rules
 - **[docs/TECHNICAL_DEBT_MONITORING.md](docs/TECHNICAL_DEBT_MONITORING.md)** - 🎯 Technical debt monitoring with SonarCloud integration
