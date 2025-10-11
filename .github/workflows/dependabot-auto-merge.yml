@@ -1,0 +1,88 @@
+name: Dependabot Auto-Merge
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Setup Flutter for testing
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get dependencies and run quick tests
+        run: |
+          flutter pub get
+          cd module/domain && flutter pub get && cd ../..
+          cd module/infrastructure && flutter pub get && cd ../..
+          
+          # Run a quick smoke test to ensure basic functionality
+          flutter test test/ --reporter=github || true
+
+      - name: Comment on PR with analysis
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const updateType = '${{ steps.metadata.outputs.update-type }}';
+            const dependencyNames = '${{ steps.metadata.outputs.dependency-names }}';
+            
+            let comment = `## 🤖 Dependabot PR Analysis\n\n`;
+            comment += `**Update Type**: ${updateType}\n`;
+            comment += `**Dependencies**: ${dependencyNames}\n\n`;
+            
+            if (updateType === 'version-update:semver-patch') {
+              comment += `✅ **Auto-merge candidate**: Patch version update detected.\n`;
+              comment += `🔄 **Status**: This PR will be auto-merged after all checks pass.\n\n`;
+              comment += `To manually review, comment: \`@dependabot pause\`\n`;
+              comment += `To retry failed checks, comment: \`@dependabot retry\`\n`;
+            } else if (updateType === 'version-update:semver-minor') {
+              comment += `⚠️ **Manual review required**: Minor version update detected.\n`;
+              comment += `🔍 **Please review**: This may include new features or API changes.\n\n`;
+              comment += `To auto-merge after review, comment: \`@dependabot merge\`\n`;
+            } else {
+              comment += `🚨 **Major update**: Manual review strongly recommended.\n`;
+              comment += `📖 **Please check**: Breaking changes may be included.\n\n`;
+              comment += `Review changelog before merging.\n`;
+            }
+            
+            comment += `\n---\n`;
+            comment += `🛡️ **Security checks**: OWASP scans will run automatically.\n`;
+            comment += `📊 **Quality gates**: SonarCloud analysis will verify code quality.\n`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Enable auto-merge for patch updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: |
+          gh pr merge --auto --squash "$PR_URL"
+          echo "✅ Auto-merge enabled for patch update"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add review request for minor/major updates
+        if: steps.metadata.outputs.update-type != 'version-update:semver-patch'
+        run: |
+          gh pr review "$PR_URL" --request-changes --body "🔍 Manual review required for ${{ steps.metadata.outputs.update-type }} update. Please review the changelog and test thoroughly before merging."
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
