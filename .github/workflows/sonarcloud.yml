@@ -38,9 +38,8 @@ jobs:
         # Create coverage directory
         mkdir -p coverage
         
-        # Run main app tests with coverage (excluding golden tests)
-        echo "🧪 Running main app tests (excluding golden tests)..."
-        flutter test --coverage --exclude-tags=golden
+        # Run main app tests with coverage (matching CI strategy - NO general test execution)
+        # Note: We run specific test categories only, no general flutter test execution
         
         # Run domain module tests
         echo "🧪 Running domain module tests..."
@@ -64,6 +63,13 @@ jobs:
         echo "🧪 Running presentation pages tests..."
         flutter test --coverage test/presentation/**/page --exclude-tags=golden,accessibility,bloc --coverage-path=coverage/presentation-pages.lcov || true
         
+        # Optional: Run other test categories without coverage
+        echo "🧪 Running additional test categories..."
+        flutter test --tags=accessibility || true
+        flutter test test/smoke/ || true  
+        flutter test test/theme/ || true
+        flutter test --tags=integration || true
+        
         # Verify coverage files exist
         echo "📊 Coverage files generated:"
         ls -la coverage/ || true
@@ -79,8 +85,10 @@ jobs:
         if command -v lcov &> /dev/null; then
           echo "📊 Processing coverage with lcov..."
           
-          # Combine all coverage files
-          lcov --add-tracefile coverage/lcov.info \
+          # Combine all coverage files (presentation-specific + modules)
+          lcov --add-tracefile coverage/presentation-bloc.lcov \
+               --add-tracefile coverage/presentation-widgets.lcov \
+               --add-tracefile coverage/presentation-pages.lcov \
                --add-tracefile module/domain/coverage/lcov.info \
                --add-tracefile module/infrastructure/coverage/lcov.info \
                --output-file coverage/combined.lcov || true
