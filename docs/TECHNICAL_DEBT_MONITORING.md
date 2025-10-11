@@ -22,8 +22,8 @@ This project uses **SonarCloud** for automatic and professional technical debt m
 - `docs/SONARCLOUD_SETUP.md`: Detailed setup guide
 
 ### Setup scripts:
-- `scripts/install/setup_sonarcloud.sh`: Setup for Unix/Linux/macOS
-- `scripts/install/setup_sonarcloud.ps1`: Setup for Windows
+- `scripts/sonar/setup_sonarcloud.sh`: Setup for Unix/Linux/macOS
+- `scripts/sonar/setup_sonarcloud.ps1`: Setup for Windows
 
 ## Quality Gates
 
@@ -128,7 +128,7 @@ SonarCloud will automatically configure thresholds that will fail the pipeline w
 ### 1. Quick Setup
 ```bash
 # Unix/Linux/macOS
-./scripts/install/setup_sonarcloud.sh
+./scripts/sonar/setup_sonarcloud.sh
 
 # Windows
 .\scripts\install\setup_sonarcloud.ps1

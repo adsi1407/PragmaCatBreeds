@@ -15,8 +15,8 @@ We have successfully migrated from custom scripts to **SonarCloud**, an enterpri
 - ✅ `docs/TECHNICAL_DEBT_MONITORING.md` - System overview
 
 #### Setup Scripts
-- ✅ `scripts/install/setup_sonarcloud.sh` - Setup for Unix/Linux/macOS
-- ✅ `scripts/install/setup_sonarcloud.ps1` - Setup for Windows
+- ✅ `scripts/sonar/setup_sonarcloud.sh` - Setup for Unix/Linux/macOS
+- ✅ `scripts/sonar/setup_sonarcloud.ps1` - Setup for Windows
 
 ### 🔧 SonarCloud Configuration
 

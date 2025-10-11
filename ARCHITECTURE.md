@@ -980,7 +980,7 @@ The project includes two categories of scripts for different purposes:
 **Example Usage:**
 ```bash
 # Setup development environment
-./scripts/install/setup.sh
+./scripts/environment/setup.sh
 
 # Generate coverage with visual reports
 ./scripts/test_coverage.sh

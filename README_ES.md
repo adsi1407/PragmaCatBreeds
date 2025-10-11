@@ -139,7 +139,7 @@ El proyecto incluye dos tipos de scripts para diferentes casos de uso:
 
 ```bash
 # Configurar entorno de desarrollo
-./scripts/install/setup.sh
+./scripts/environment/setup.sh
 
 # Generar reportes de cobertura con salida HTML
 ./scripts/testing/test_coverage.sh      # Linux/macOS

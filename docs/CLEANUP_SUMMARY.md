@@ -26,8 +26,8 @@
 - ✅ `docs/SONARCLOUD_IMPLEMENTATION_SUMMARY.md` - Implementation summary
 
 ### Setup Scripts
-- ✅ `scripts/install/setup_sonarcloud.sh` - Unix/Linux/macOS setup
-- ✅ `scripts/install/setup_sonarcloud.ps1` - Windows setup
+- ✅ `scripts/sonar/setup_sonarcloud.sh` - Unix/Linux/macOS setup
+- ✅ `scripts/sonar/setup_sonarcloud.ps1` - Windows setup
 
 ### Other CI Tools (Unchanged)
 - ✅ `tool/ci/analyze_check.dart` - Flutter analyze runner
