@@ -198,3 +198,131 @@ This repository includes `melos.yaml` and local Melos helpers for developer conv
 If you want CI to invoke Melos scripts (so local and CI behavior are identical), update the workflow to call `dart run melos run <script>` as appropriate.
 
 If you want, I can add a script to combine lcov files or upload them to a coverage service.
+
+---
+
+# 👀 Code Review Guidelines
+
+This section is specifically for **code reviewers** to ensure consistent and thorough review processes.
+
+## 🎯 Review Checklist
+
+### **1. 🏗️ Architecture & Design**
+- [ ] **Clean Architecture compliance**: Domain/Infrastructure/Presentation separation maintained
+- [ ] **SOLID principles**: Single responsibility, dependency inversion respected
+- [ ] **Dependency injection**: Dependencies properly injected, not hardcoded
+- [ ] **Design patterns**: BLoC/Repository/UseCase patterns used appropriately
+
+### **2. 🔍 Code Quality**
+- [ ] **Readability**: Code is self-documenting with clear naming
+- [ ] **Complexity**: Functions are focused and have single responsibility
+- [ ] **Documentation**: Complex logic is adequately documented
+- [ ] **Formatting**: Code follows project formatting standards
+
+### **3. 🧪 Testing Requirements**
+- [ ] **Coverage thresholds maintained**:
+  - Domain Module: ≥90%
+  - Infrastructure Module: ≥60%
+  - Presentation BLoC: ≥50%
+  - Presentation Widgets: ≥40%
+- [ ] **Test quality**: Edge cases and error scenarios covered
+- [ ] **Test organization**: Follows Clean Architecture principles
+- [ ] **Mocks/Fakes**: External dependencies properly mocked
+
+### **4. 🚀 Performance & Resource Management**
+- [ ] **Memory management**: Resources properly disposed (dispose() calls)
+- [ ] **Build performance**: Changes don't significantly impact build time
+- [ ] **Runtime performance**: No obvious performance bottlenecks
+- [ ] **Bundle size**: Unnecessary dependencies not introduced
+
+### **5. 🔒 Security Considerations**
+- [ ] **Input validation**: User input properly validated
+- [ ] **Error handling**: Errors don't expose sensitive information
+- [ ] **Credentials**: No hardcoded API keys or sensitive data
+- [ ] **Network security**: HTTPS used for external communications
+
+### **6. 📱 UI/UX (when applicable)**
+- [ ] **Responsive design**: Works across different screen sizes
+- [ ] **Accessibility**: Semantic labels and navigation support
+- [ ] **Design system**: Follows established UI patterns
+- [ ] **Performance**: UI remains smooth and responsive
+
+## 🚦 Approval Criteria
+
+### ✅ **Approve when:**
+- All automated checks pass ✅
+- Coverage thresholds met ✅
+- Architecture principles followed ✅
+- Code quality standards met ✅
+- Security considerations addressed ✅
+
+### ❌ **Request changes when:**
+- Tests fail or coverage below thresholds ❌
+- Architecture violations present ❌
+- Security vulnerabilities identified ❌
+- Code quality significantly below standards ❌
+
+### 💬 **Comment (non-blocking) for:**
+- Minor optimization opportunities
+- Suggestions for future refactoring
+- Educational feedback
+- Recognition of good practices
+
+## 🛠️ Reviewer Tools
+
+### **Local Verification Commands:**
+```bash
+# Clean environment and test
+./scripts/dev/cleanup/clean_project_working.ps1
+flutter pub get
+
+# Run comprehensive tests
+flutter test --coverage
+dart run scripts/ci/validation/check_coverage.dart coverage/lcov.info 85
+
+# Check static analysis
+flutter analyze
+dart run scripts/ci/validation/analyze_check.dart analyze_output.txt
+
+# Module-specific testing
+cd module/domain && flutter test --coverage
+cd module/infrastructure && flutter test --coverage
+```
+
+### **Coverage Validation:**
+```bash
+# Check specific module coverage
+dart run scripts/ci/validation/check_coverage.dart module/domain/coverage/lcov.info 90
+dart run scripts/ci/validation/check_bloc_coverage.dart coverage/lcov.info 50
+dart run scripts/ci/validation/check_widgets_coverage.dart coverage/lcov.info 40
+```
+
+## 📋 Review Process
+
+1. **Initial Review**: Check PR description and template completion
+2. **Automated Checks**: Verify CI passes before detailed review
+3. **Code Review**: Apply checklist systematically
+4. **Testing**: Run critical tests locally if needed
+5. **Feedback**: Provide clear, actionable feedback
+6. **Re-review**: Verify requested changes implemented
+7. **Approval**: Approve when all criteria met
+
+## 💡 Review Best Practices
+
+### **Effective Feedback:**
+- **Be specific**: "Consider using const constructor here for performance"
+- **Be constructive**: Suggest solutions, not just problems
+- **Share knowledge**: Link to relevant documentation or examples
+- **Recognize quality**: Acknowledge well-written code
+
+### **Example Comments:**
+```
+✅ "Excellent separation of concerns in this repository implementation!"
+
+✅ "Consider using StreamBuilder instead of polling for better performance:
+   https://api.flutter.dev/flutter/widgets/StreamBuilder-class.html"
+
+✅ "This test coverage is comprehensive - great edge case handling!"
+```
+
+---
