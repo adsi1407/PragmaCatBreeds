@@ -9,6 +9,8 @@ This repository contains documentation in two languages:
 
 For detailed technical information, please refer to:
 
+- **[scripts/](scripts/)** - 🔧 Development and CI/CD scripts organized by usage pattern (dev/ vs ci/)
+- **[docs/CODE_REVIEW_GUIDE.md](docs/CODE_REVIEW_GUIDE.md)** - 👀 Comprehensive code review guidelines with PR type-specific checklists
 - **[ARCHITECTURE.md](ARCHITECTURE.md)** - Technical architecture details
 - **[CONTRIBUTING.md](CONTRIBUTING.md)** - Development guidelines and tools  
 - **[test/TEST_ORGANIZATION.md](test/TEST_ORGANIZATION.md)** - Testing organization principles and best practices
