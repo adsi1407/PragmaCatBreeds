@@ -1,33 +1,33 @@
 # Technical Debt Monitoring
 
 ## Overview
-Este proyecto utiliza **SonarCloud** para el monitoreo automático y profesional de deuda técnica. SonarCloud es una herramienta líder en la industria que proporciona análisis continuo de calidad de código y gestión de deuda técnica.
+This project uses **SonarCloud** for automatic and professional technical debt monitoring. SonarCloud is an industry-leading tool that provides continuous code quality analysis and technical debt management.
 
-## Por qué SonarCloud
+## Why SonarCloud
 
-### ✅ Ventajas sobre scripts personalizados:
-- **Zero maintenance**: No requiere mantenimiento de scripts custom
-- **Métricas estándar**: Utiliza métricas reconocidas en la industria
-- **Visualización profesional**: Dashboards y reportes avanzados
-- **Trending histórico**: Seguimiento automático de evolución
-- **Integración nativa**: Works out-of-the-box con GitHub
-- **Security analysis**: Incluye análisis de vulnerabilidades
-- **Alerting automático**: Notificaciones inteligentes
+### ✅ Advantages over custom scripts:
+- **Zero maintenance**: No maintenance of custom scripts required
+- **Standard metrics**: Uses industry-recognized metrics
+- **Professional visualization**: Advanced dashboards and reports
+- **Historical trending**: Automatic evolution tracking
+- **Native integration**: Works out-of-the-box with GitHub
+- **Security analysis**: Includes vulnerability analysis
+- **Automatic alerting**: Intelligent notifications
 
-## Configuración
+## Configuration
 
-### Archivos de configuración:
-- `sonar-project.properties`: Configuración del proyecto
-- `.github/workflows/sonarcloud.yml`: Workflow de CI/CD
-- `docs/SONARCLOUD_SETUP.md`: Guía detallada de setup
+### Configuration files:
+- `sonar-project.properties`: Project configuration
+- `.github/workflows/sonarcloud.yml`: CI/CD workflow
+- `docs/SONARCLOUD_SETUP.md`: Detailed setup guide
 
-### Scripts de setup:
-- `scripts/setup_sonarcloud.sh`: Setup para Unix/Linux/macOS
-- `scripts/setup_sonarcloud.ps1`: Setup para Windows
+### Setup scripts:
+- `scripts/setup_sonarcloud.sh`: Setup for Unix/Linux/macOS
+- `scripts/setup_sonarcloud.ps1`: Setup for Windows
 
 ## Quality Gates
 
-SonarCloud configurará automáticamente umbrales que fallarán el pipeline cuando:
+SonarCloud will automatically configure thresholds that will fail the pipeline when:
 
 ### Technical Debt Ratio
 - **Threshold**: ≤ 5%
