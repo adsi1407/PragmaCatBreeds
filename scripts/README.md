@@ -12,13 +12,18 @@ Scripts for cleaning temporary and unnecessary files from the project.
 
 ### 🧪 [`testing/`](testing/)
 Scripts for running tests and generating coverage reports.
-- **Purpose**: Test execution, coverage generation, SonarCloud integration
+- **Purpose**: Test execution, coverage generation for development workflow
 - **Platforms**: Cross-platform with platform-specific optimizations
 
-### ⚙️ [`install/`](install/)
-Scripts for project setup and environment configuration.
-- **Purpose**: Environment setup, dependency installation, tool configuration
+### 🔧 [`sonar/`](sonar/)
+Scripts for SonarCloud integration and specialized analysis.
+- **Purpose**: SonarCloud setup, configuration, and optimized coverage generation
 - **Platforms**: Multiple platforms supported
+
+### ⚙️ [`environment/`](environment/)
+Scripts for development environment setup and configuration.
+- **Purpose**: Initial environment setup, dependency installation
+- **Platforms**: Linux/macOS/WSL focused
 
 ### ⚡ [`performance/`](performance/)
 Scripts for performance testing and benchmarking.
@@ -42,9 +47,13 @@ scripts\cleanup\clean_project_simple.bat --dry-run   # Batch
 .\scripts\testing\test_coverage.ps1                  # PowerShell
 ./scripts/testing/test_coverage.sh                   # Bash
 
-# Setup
-.\scripts\install\setup_sonarcloud.ps1                 # PowerShell
-./scripts/install/setup_sonarcloud.sh                  # Bash
+# SonarCloud
+.\scripts\sonar\setup_sonarcloud.ps1                 # PowerShell
+./scripts/sonar/setup_sonarcloud.sh                  # Bash
+./scripts/sonar/sonar_coverage.sh                    # Bash
+
+# Environment Setup
+./scripts/environment/setup.sh                       # Bash
 ```
 
 ## 📋 Script Categories
@@ -53,12 +62,13 @@ scripts\cleanup\clean_project_simple.bat --dry-run   # Batch
 - **cleanup/**: Remove unnecessary files safely
 - **tool/ci/**: Dart utilities for CI/CD pipelines
 
-### Testing & Quality
+### Quality & Analysis
 - **testing/**: Coverage reports and test execution
+- **sonar/**: SonarCloud integration and specialized analysis
 - **tool/ci/**: Coverage validation utilities
 
 ### Development Setup
-- **install/**: Environment configuration and tool setup
+- **environment/**: Environment configuration and dependency installation
 
 ### Performance & Monitoring
 - **performance/**: Performance testing and benchmarking

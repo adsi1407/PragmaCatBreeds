@@ -1,24 +1,25 @@
 # Testing Scripts
 
-Scripts for running tests and generating coverage reports across the Flutter Cat Breeds project's modular architecture.
+Scripts for running tests and generating coverage reports for development workflow and general CI integration.
 
 ## 📁 Available Scripts
 
 ### `test_coverage.sh` (Linux/macOS/WSL)
-Comprehensive test coverage script for all modules.
+Comprehensive test coverage script for development workflow.
 
 ### `test_coverage.bat` (Windows)
 Windows batch version of coverage testing.
 
-### `sonar_coverage.sh` (Linux/macOS)
-SonarCloud-compatible coverage generation.
+### `run_tests_windows.ps1` (Windows PowerShell)
+Windows-specific test execution script.
 
 ## 🎯 Features
 
 - **Modular coverage**: Separate coverage for Domain, Infrastructure, and Presentation layers
-- **SonarCloud integration**: Compatible with SonarCloud analysis
+- **Development workflow**: Optimized for local development and debugging
 - **Multi-platform support**: Scripts for different operating systems
 - **Clean Architecture respect**: Follows the project's architectural boundaries
+- **CI compatibility**: Compatible with general CI/CD pipelines
 
 ## 🚀 Usage
 
@@ -29,12 +30,9 @@ SonarCloud-compatible coverage generation.
 
 # Windows
 scripts\testing\test_coverage.bat
-```
 
-### SonarCloud Coverage
-```bash
-# Generate coverage for SonarCloud
-./scripts/testing/sonar_coverage.sh
+# Windows PowerShell
+.\scripts\testing\run_tests_windows.ps1
 ```
 
 ## 📊 Coverage Thresholds
@@ -43,13 +41,14 @@ The scripts support the project's coverage requirements:
 - **Domain Module**: 90% coverage target
 - **Infrastructure Module**: 60% coverage target  
 - **Presentation BLoC**: 50% coverage target
+- **Presentation Widgets**: 40% coverage target
 
 ## 🔧 Integration
 
 These scripts work with:
-- **GitHub Actions**: CI/CD pipeline integration
-- **SonarCloud**: Quality gate analysis
+- **GitHub Actions**: General CI/CD pipeline integration
 - **Local development**: Developer workflow
 - **Coverage tools**: Integration with `tool/ci/` Dart utilities
+- **IDEs**: Compatible with most Flutter development environments
 
-For coverage validation utilities, see [../tool/ci/](../../tool/ci/).
+For SonarCloud-specific coverage and analysis, see [../sonar/](../sonar/).
