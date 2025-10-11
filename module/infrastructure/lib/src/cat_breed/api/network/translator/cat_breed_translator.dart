@@ -2,7 +2,22 @@ import 'package:domain/domain.dart';
 import 'package:infrastructure/src/cat_breed/api/network/dto/cat_breed_dto.dart';
 import 'package:infrastructure/src/cat_breed/api/network/dto/cat_breed_image_dto.dart';
 
-/// Translator class to convert between DTOs and domain entities.
+/// Anti-Corruption Layer translator for CatBreed data transformation.
+///
+/// This class implements the Anti-Corruption Layer (ACL) pattern to protect
+/// the domain from corrupted or inconsistent data from external APIs.
+/// 
+/// **Architectural Decisions:**
+/// - Resilient design: Filters invalid data instead of failing completely
+/// - Fail-safe approach: Continues processing valid data when encountering corruption
+/// - Domain protection: Ensures only valid entities reach the domain layer
+/// - Clear validation: Explicit validation rules for external data quality
+///
+/// **Data Quality Strategy:**
+/// - External APIs (like TheCatAPI) may return inconsistent data
+/// - Required fields (id, name) are validated before domain conversion
+/// - Invalid records are filtered out to maintain system stability
+/// - This improves user experience by showing available data vs complete failure
 ///
 /// This class handles the transformation of data transfer objects
 /// from the API layer to domain entities used by the business logic.
@@ -111,24 +126,29 @@ class CatBreedTranslator {
 
   /// Converts a list of [CatBreedDto] to a list of [CatBreed] domain entities.
   ///
+  /// Acts as an Anti-Corruption Layer, filtering out invalid data from external APIs
+  /// to protect the domain from corrupted data while maintaining system resilience.
+  ///
   /// [dtos] - The list of data transfer objects from the API
   ///
   /// Returns a list of [CatBreed] domain entities.
   /// Filters out any DTOs that cannot be converted (missing required fields).
   List<CatBreed> fromDtoList(List<CatBreedDto> dtos) {
-    final breeds = <CatBreed>[];
+    return dtos
+        .where(_isValidDto)
+        .map(fromDto)
+        .toList();
+  }
 
-    for (final dto in dtos) {
-      try {
-        breeds.add(fromDto(dto));
-      } on Exception {
-        // Log warning but continue processing other breeds
-        // In a real app, you might want to use a proper logging framework
-        continue;
-      }
-    }
-
-    return breeds;
+  /// Validates if a DTO has the minimum required fields for domain conversion.
+  /// 
+  /// This validation is part of the Anti-Corruption Layer pattern,
+  /// ensuring external data meets domain requirements before conversion.
+  bool _isValidDto(CatBreedDto dto) {
+    return dto.id != null && 
+           dto.name != null && 
+           dto.id!.isNotEmpty && 
+           dto.name!.isNotEmpty;
   }
 
   /// Builds image URL from reference image ID.
