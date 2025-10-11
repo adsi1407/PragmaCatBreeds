@@ -22,8 +22,8 @@ This project uses **SonarCloud** for automatic and professional technical debt m
 - `docs/SONARCLOUD_SETUP.md`: Detailed setup guide
 
 ### Setup scripts:
-- `scripts/setup_sonarcloud.sh`: Setup for Unix/Linux/macOS
-- `scripts/setup_sonarcloud.ps1`: Setup for Windows
+- `scripts/setup/setup_sonarcloud.sh`: Setup for Unix/Linux/macOS
+- `scripts/setup/setup_sonarcloud.ps1`: Setup for Windows
 
 ## Quality Gates
 

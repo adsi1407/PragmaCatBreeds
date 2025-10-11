@@ -142,8 +142,8 @@ El proyecto incluye dos tipos de scripts para diferentes casos de uso:
 ./scripts/setup.sh
 
 # Generar reportes de cobertura con salida HTML
-./scripts/test_coverage.sh      # Linux/macOS
-./scripts/test_coverage.bat     # Windows
+./scripts/testing/test_coverage.sh      # Linux/macOS
+./scripts/testing/test_coverage.bat     # Windows
 
 # Ejecutar pruebas de rendimiento
 ./scripts/performance_test.sh
