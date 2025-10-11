@@ -21,6 +21,7 @@ For detailed technical information, please refer to:
 - **[docs/API_KEY_SECURITY.md](docs/API_KEY_SECURITY.md)** - 🔐 API key security strategy and environment configuration
 - **[docs/SONARCLOUD_SETUP.md](docs/SONARCLOUD_SETUP.md)** - 🚀 SonarCloud setup guide for quality monitoring
 - **[docs/](docs/)** - Additional technical documentation
+- **[scripts/](scripts/)** - 🔧 Development and CI/CD scripts organized by usage pattern (dev/ vs ci/)
 - **[CHANGELOG.md](CHANGELOG.md)** - Project change history
 
 ## Challenge Specification
