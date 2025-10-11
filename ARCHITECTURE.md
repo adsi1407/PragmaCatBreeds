@@ -188,11 +188,17 @@ class CatBreedTranslator {
   CatBreedDto fromJson(Map<String, dynamic> json);
   List<CatBreedDto> fromJsonList(List<dynamic> jsonList);
   
-  // Handles DTO to domain entity conversion
+  // Handles DTO to domain entity conversion with Anti-Corruption Layer
   CatBreed fromDto(CatBreedDto dto);
-  List<CatBreed> fromDtoList(List<CatBreedDto> dtos);
+  List<CatBreed> fromDtoList(List<CatBreedDto> dtos); // ACL: Filters invalid data
+  
+  // ACL validation to protect domain from corrupted external data
+  bool _isValidDto(CatBreedDto dto);
 }
 ```
+
+**Anti-Corruption Layer Implementation:**
+The `CatBreedTranslator` implements the Anti-Corruption Layer pattern by validating and filtering external data before it reaches the domain layer. This protects the business logic from inconsistent or corrupted data from third-party APIs, ensuring system resilience and maintaining data quality standards.
 
 **Caching Strategy:**
 - **TTL**: 5-minute cache expiration
@@ -422,6 +428,22 @@ CatBreedApi catBreedApi(Dio dio, CatBreedTranslator translator) =>
 - Repository proxy for caching
 - Transparent cache management
 - Performance optimization
+
+### 6. Anti-Corruption Layer (ACL)
+- Protects domain from corrupted external data
+- Resilient data validation and filtering
+- Maintains system stability against API inconsistencies
+- Implements fail-safe behavior for external integrations
+
+**Implementation**: The `CatBreedTranslator` acts as an Anti-Corruption Layer by filtering invalid DTOs from external APIs before they reach the domain layer. This ensures that only valid data (with required id and name fields) is converted to domain entities, protecting the business logic from external data quality issues.
+
+**Benefits**:
+- **Domain Protection**: Shields core business logic from external API inconsistencies
+- **Resilient Design**: Continues operation with valid data when corruption is detected
+- **Better UX**: Shows available data instead of complete system failure
+- **Clear Boundaries**: Explicit validation rules for external data quality
+
+For detailed implementation: [Anti-Corruption Layer Documentation](module/infrastructure/ANTI_CORRUPTION_LAYER.md)
 
 ## Dependency Injection
 
