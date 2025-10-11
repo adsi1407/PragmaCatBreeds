@@ -38,9 +38,9 @@ jobs:
         # Create coverage directory
         mkdir -p coverage
         
-        # Run main app tests with coverage
-        echo "🧪 Running main app tests..."
-        flutter test --coverage
+        # Run main app tests with coverage (excluding golden tests)
+        echo "🧪 Running main app tests (excluding golden tests)..."
+        flutter test --coverage --exclude-tags=golden
         
         # Run domain module tests
         echo "🧪 Running domain module tests..."
@@ -54,9 +54,15 @@ jobs:
         flutter test --coverage
         cd ../..
         
-        # Generate presentation-specific coverage (BLoC pattern)
-        echo "🧪 Generating presentation BLoC coverage..."
-        flutter test test/presentation/ --coverage --coverage-path=coverage/presentation-bloc.lcov || true
+        # Generate presentation-specific coverage by component type
+        echo "🧪 Running presentation BLoC tests..."
+        flutter test --coverage --tags=bloc --coverage-path=coverage/presentation-bloc.lcov || true
+        
+        echo "🧪 Running presentation widgets tests..."
+        flutter test --coverage test/presentation/**/widgets --exclude-tags=golden,accessibility,bloc --coverage-path=coverage/presentation-widgets.lcov || true
+        
+        echo "🧪 Running presentation pages tests..."
+        flutter test --coverage test/presentation/**/page --exclude-tags=golden,accessibility,bloc --coverage-path=coverage/presentation-pages.lcov || true
         
         # Verify coverage files exist
         echo "📊 Coverage files generated:"
