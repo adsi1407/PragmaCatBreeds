@@ -18,7 +18,6 @@ jobs:
       - name: Setup Flutter for testing
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.3'
           channel: 'stable'
 
       - name: Checkout repository
