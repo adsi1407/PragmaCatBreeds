@@ -25,96 +25,119 @@ SonarCloud configurará automáticamente Quality Gates que fallarán el pipeline
 - **Reliability Rating** sea peor que A
 - **Security Rating** sea peor que A
 - **Coverage** sea menor al porcentaje configurado
-- **Duplicated Lines** excedan el límite
+# SonarCloud Integration Guide
 
-## Métricas Monitoreadas
+## Overview
+This guide explains how SonarCloud is integrated into the Pragma Cat Breeds project and how the CI pipeline produces coverage and module-aware analysis.
+
+## Initial setup
+
+### 1. Configure SonarCloud
+1. Go to https://sonarcloud.io
+2. Sign in with your GitHub account
+3. Import the repository `adsi1407/PragmaCatBreeds`
+4. Set the organization to `adsi1407`
+
+### 2. Add GitHub Secrets
+In your repository settings → Secrets and variables → Actions add:
+```
+SONAR_TOKEN: <your-sonar-token>
+```
+
+### 3. Quality Gates
+SonarCloud will enforce Quality Gates that may fail the CI when:
+- Maintainability, Reliability or Security ratings drop below acceptable thresholds
+- Coverage is below configured thresholds
+- Duplicated lines exceed the configured limit
+
+## Metrics monitored
 
 ### Technical Debt Ratio
-- **Qué mide**: Tiempo estimado para arreglar issues vs tiempo de desarrollo
-- **Umbral recomendado**: ≤ 5%
+- What it measures: estimated time to fix issues vs development time
+- Recommended threshold: ≤ 5%
 
 ### Maintainability Rating
-- **A**: ≤ 5% technical debt ratio
-- **B**: 6-10% technical debt ratio
-- **C**: 11-20% technical debt ratio
-- **D**: 21-50% technical debt ratio
-- **E**: > 50% technical debt ratio
+- A: ≤ 5% technical debt ratio
+- B: 6-10% technical debt ratio
+- C: 11-20% technical debt ratio
+- D: 21-50% technical debt ratio
+- E: > 50% technical debt ratio
 
 ### Code Smells
-- Issues que afectan la mantenibilidad
-- Categorizados por severidad: Blocker, Critical, Major, Minor, Info
+- Issues affecting maintainability
+- Categorized by severity: Blocker, Critical, Major, Minor, Info
 
-### Duplicación
-- **Umbral recomendado**: ≤ 3% líneas duplicadas
+### Duplication
+- Recommended threshold: ≤ 3% duplicated lines
 
-## Integración CI/CD
+## CI/CD integration
 
 ### Pull Request Decoration
-SonarCloud automáticamente:
-- Analiza el código en cada PR
-- Agrega comentarios con issues encontrados
-- Bloquea merge si Quality Gate falla
-- Muestra métricas de cobertura
+SonarCloud will:
+- Analyze PR changes
+- Comment issues on the PR
+- Block merges if Quality Gate fails
+- Display coverage metrics in the PR
 
 ### Branch Analysis
-- **Main branch**: Análisis completo con trending histórico
-- **Feature branches**: Análisis diferencial vs main
+- Main branch: full analysis with historical trending
+- Feature branches: differential analysis vs main
 
-### Nota sobre el módulo `presentation`
-En esta configuración `presentation` se analiza como parte del árbol de `lib/` (no es un módulo Sonar independiente). El pipeline genera LCOVs por categorías (BLoC, widgets, pages) y los combina en `coverage/combined.lcov` antes del escaneo de Sonar. Esto evita reestructurar el repo y mantiene la cobertura coherente en el proyecto principal.
+### Note about the `presentation` layer
+In this repository `presentation` is analyzed as part of the root `lib/` sources (it is not a separate Sonar module). The CI pipeline generates LCOVs by category (BLoC, widgets, pages) and combines them into `coverage/combined.lcov` which Sonar consumes during analysis. This avoids reorganizing the repository and keeps coverage reporting centralized.
 
-Si en el futuro deseas tratar `presentation` como módulo Sonar separado, hay dos opciones:
+If you later decide you need `presentation` as an independent Sonar module, two approaches are available:
 
-- Opción rápida (menos estable): usar `presentation.sonar.projectBaseDir=lib/src/presentation` en `sonar-project.properties` y ajustar rutas relativas para tests y cobertura.
-- Opción robusta (recomendada si quieres módulo sin refactor): crear temporalmente una carpeta `presentation/` en el runner antes del Sonar scan y copiar `lib/src/presentation` → `presentation/lib` y `test/presentation` → `presentation/test`. Esto es reversible y no modifica el repo.
+- Quick (less robust): set `presentation.sonar.projectBaseDir=lib/src/presentation` in `sonar-project.properties` and adjust test and coverage paths relative to that baseDir.
+- Robust (recommended): create a temporary `presentation/` folder in the CI runner before the Sonar scan and copy `lib/src/presentation` → `presentation/lib` and `test/presentation` → `presentation/test`. This preserves the repo structure while allowing Sonar to see a module layout it expects.
 
-En la configuración actual seguimos la aproximación más segura: cobertura combinada y análisis global del `lib/`.
+Current pipeline choice: we analyze `presentation` as part of `lib/` and use combined coverage.
 
-## Configuración Avanzada
+## Advanced configuration
 
 ### Custom Quality Gates
-Puedes crear Quality Gates personalizados para:
+You can define custom gates for stricter checks, for example:
 ```yaml
 Conditions:
 - Maintainability Rating is worse than A
-- Reliability Rating is worse than A  
+- Reliability Rating is worse than A
 - Security Rating is worse than A
 - Coverage on New Code is less than 80%
 - Duplicated Lines (%) on New Code is greater than 3%
 - Technical Debt Ratio on New Code is greater than 5%
 ```
 
-### Exclusiones
-Ya configuradas en `sonar-project.properties`:
-- Archivos generados (*.g.dart, *.freezed.dart)
-- Archivos de configuración
-- Código de plataforma (android/, ios/, etc.)
-- Tests (para métricas de cobertura)
+### Exclusions
+Configured in `sonar-project.properties`:
+- Generated files (*.g.dart, *.freezed.dart)
+- Config files
+- Platform folders (android/, ios/, etc.)
+- Test files (coverage handled separately)
 
-## Dashboards y Reportes
+## Dashboards and reports
 
 ### Project Dashboard
-- Overview de salud del código
-- Trending histórico
-- Breakdown por tipo de issue
+- Overview of code health
+- Historical trends
+- Breakdown by issue type
 
 ### Security Hotspots
-- Identificación automática de vulnerabilidades
-- Priorización por impacto
+- Automatic detection of potential vulnerabilities
+- Prioritization by impact
 
 ### Maintainability
-- Desglose de code smells
-- Estimación de esfuerzo para fixes
-- Métricas de complejidad ciclomática
+- Breakdown of code smells
+- Estimated effort for fixes
+- Cyclomatic complexity metrics
 
-## Comandos Útiles
+## Useful commands
 
-### Análisis Local
+### Local analysis
 ```bash
-# Instalar SonarScanner
+# Install SonarScanner
 npm install -g sonarqube-scanner
 
-# Ejecutar análisis local
+# Run local analysis
 sonar-scanner \
   -Dsonar.projectKey=adsi1407_PragmaCatBreeds \
   -Dsonar.organization=adsi1407 \
@@ -123,34 +146,30 @@ sonar-scanner \
   -Dsonar.login=your_token
 ```
 
-### Generar Coverage
+### Generate coverage
 ```bash
 flutter test --coverage
 genhtml coverage/lcov.info -o coverage/html
 ```
 
-## Beneficios vs Scripts Personalizados
+## Benefits vs custom scripts
 
-### ✅ Ventajas de SonarCloud
-- **Zero maintenance**: No necesitas mantener scripts
-- **Métricas estándar**: Usa métricas reconocidas industrialmente
-- **Visualización**: Dashboards profesionales
-- **Trending**: Histórico automático
-- **Integración**: Works out-of-the-box con GitHub
-- **Alerting**: Notificaciones automáticas
-- **Security**: Incluye análisis de vulnerabilidades
+### ✅ Advantages of SonarCloud
+- Zero maintenance on the analysis platform
+- Standardized metrics
+- Professional dashboards
+- Historical trending
+- Native GitHub integration
+- Automatic notifications and security checks
 
-### 🔧 Configuración Mínima
-- 1 archivo de configuración
-- 1 workflow de GitHub Actions
-- Setup one-time en SonarCloud
+### Minimal configuration
+- One config file (`sonar-project.properties`)
+- One GitHub Actions workflow
 
-## Siguientes Pasos
+## Next steps
 
-1. **Configurar SonarCloud**: Importar el repositorio
-2. **Agregar SONAR_TOKEN**: En GitHub secrets
-3. **Ejecutar primer análisis**: Push a main para trigger
-4. **Configurar Quality Gates**: Ajustar umbrales según necesidades
-5. **Entrenar al equipo**: En interpretación de métricas
+1. Add `SONAR_TOKEN` to GitHub secrets
+2. Push a branch or PR to trigger the SonarCloud workflow
+3. Review module/coverage results in SonarCloud and adjust gates as needed
 
-¿Te parece mejor esta aproximación?
+Do you want to keep the current approach (presentation in `lib/`) or switch to a module-based setup?
