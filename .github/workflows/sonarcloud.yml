@@ -141,6 +141,24 @@ jobs:
           head -n 20 module/infrastructure/coverage/lcov.info || true
         fi
 
+    - name: Normalize LCOV paths for Sonar
+      run: |
+        echo "== Normalizing coverage/filtered.lcov paths =="
+        if [ -f coverage/filtered.lcov ]; then
+          echo "coverage/filtered.lcov exists, checking for absolute paths..."
+          if [ -n "$GITHUB_WORKSPACE" ]; then
+            # Replace absolute GITHUB_WORKSPACE prefix with empty string to make paths repo-relative
+            sed -i "s|$GITHUB_WORKSPACE/||g" coverage/filtered.lcov || true
+            echo "Rewrote possible absolute paths using GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+          else
+            echo "GITHUB_WORKSPACE not set; skipping rewrite"
+          fi
+          echo "-- first 20 lines after normalization --"
+          head -n 20 coverage/filtered.lcov || true
+        else
+          echo "coverage/filtered.lcov not found; Sonar may receive no coverage data"
+        fi
+
     # No temporary presentation module creation - presentation analyzed as part of `lib/`
 
     - name: SonarCloud Scan with Module Support
@@ -152,8 +170,8 @@ jobs:
         args: >
           -Dsonar.organization=adsi1407
           -Dsonar.projectKey=adsi1407_PragmaCatBreeds
-          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-          -Dsonar.dart.coverage.reportPaths=coverage/filtered.lcov,module/domain/coverage/lcov.info,module/infrastructure/coverage/lcov.info
+          -Dsonar.token=${{ secrets.SONAR_TOKEN }}
+          -Dsonar.dart.coverage.reportPaths=coverage/filtered.lcov
           -Dsonar.verbose=true
 
     - name: Comment PR with SonarCloud Results
