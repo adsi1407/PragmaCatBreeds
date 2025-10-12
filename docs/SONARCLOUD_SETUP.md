@@ -60,6 +60,16 @@ SonarCloud automáticamente:
 - **Main branch**: Análisis completo con trending histórico
 - **Feature branches**: Análisis diferencial vs main
 
+### Nota sobre el módulo `presentation`
+En esta configuración `presentation` se analiza como parte del árbol de `lib/` (no es un módulo Sonar independiente). El pipeline genera LCOVs por categorías (BLoC, widgets, pages) y los combina en `coverage/combined.lcov` antes del escaneo de Sonar. Esto evita reestructurar el repo y mantiene la cobertura coherente en el proyecto principal.
+
+Si en el futuro deseas tratar `presentation` como módulo Sonar separado, hay dos opciones:
+
+- Opción rápida (menos estable): usar `presentation.sonar.projectBaseDir=lib/src/presentation` en `sonar-project.properties` y ajustar rutas relativas para tests y cobertura.
+- Opción robusta (recomendada si quieres módulo sin refactor): crear temporalmente una carpeta `presentation/` en el runner antes del Sonar scan y copiar `lib/src/presentation` → `presentation/lib` y `test/presentation` → `presentation/test`. Esto es reversible y no modifica el repo.
+
+En la configuración actual seguimos la aproximación más segura: cobertura combinada y análisis global del `lib/`.
+
 ## Configuración Avanzada
 
 ### Custom Quality Gates
