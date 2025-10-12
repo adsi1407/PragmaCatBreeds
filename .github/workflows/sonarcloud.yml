@@ -200,7 +200,7 @@ jobs:
           -Dsonar.organization=adsi1407
           -Dsonar.projectKey=adsi1407_PragmaCatBreeds
           -Dsonar.token=${{ secrets.SONAR_TOKEN }}
-          -Dsonar.dart.coverage.reportPaths=coverage/filtered.lcov
+          -Dsonar.dart.coverage.reportPaths=module/domain/coverage/lcov.info,module/infrastructure/coverage/lcov.info,coverage/filtered.lcov
           -Dsonar.verbose=true
 
     - name: Comment PR with SonarCloud Results
