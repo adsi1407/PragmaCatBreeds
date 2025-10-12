@@ -141,52 +141,7 @@ jobs:
           head -n 20 module/infrastructure/coverage/lcov.info || true
         fi
 
-    - name: Normalize LCOV paths for Sonar
-      run: |
-        echo "== Normalizing coverage/filtered.lcov paths =="
-        if [ -f coverage/filtered.lcov ]; then
-          echo "coverage/filtered.lcov exists, checking for absolute paths..."
-          if [ -n "$GITHUB_WORKSPACE" ]; then
-            # Replace absolute GITHUB_WORKSPACE prefix with empty string to make paths repo-relative
-            sed -i "s|$GITHUB_WORKSPACE/||g" coverage/filtered.lcov || true
-            echo "Rewrote possible absolute paths using GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-          else
-            echo "GITHUB_WORKSPACE not set; skipping rewrite"
-          fi
-          echo "-- first 20 lines after normalization --"
-          head -n 20 coverage/filtered.lcov || true
-        else
-          echo "coverage/filtered.lcov not found; Sonar may receive no coverage data"
-        fi
-        
-        echo "== Mapping SF entries to module paths when necessary =="
-        if [ -f coverage/filtered.lcov ]; then
-          TMP_FILE="coverage/filtered.lcov.tmp"
-          : > "$TMP_FILE"
-          while IFS= read -r line || [ -n "$line" ]; do
-            if [[ "$line" == SF:* ]]; then
-              path="${line#SF:}"
-              # prefer repo-root path
-              if [ -f "$GITHUB_WORKSPACE/$path" ]; then
-                echo "SF:$path" >> "$TMP_FILE"
-              elif [ -f "$GITHUB_WORKSPACE/module/domain/$path" ]; then
-                echo "SF:module/domain/$path" >> "$TMP_FILE"
-              elif [ -f "$GITHUB_WORKSPACE/module/infrastructure/$path" ]; then
-                echo "SF:module/infrastructure/$path" >> "$TMP_FILE"
-              else
-                # leave unchanged if we can't resolve
-                echo "$line" >> "$TMP_FILE"
-              fi
-            else
-              echo "$line" >> "$TMP_FILE"
-            fi
-          done < coverage/filtered.lcov
-          mv "$TMP_FILE" coverage/filtered.lcov
-          echo "Mapping complete. First 20 lines after mapping:"
-          head -n 20 coverage/filtered.lcov || true
-        else
-          echo "coverage/filtered.lcov not found; skipping mapping"
-        fi
+    # Normalize LCOV step removed: module LCOVs + filtered.lcov are provided directly to Sonar
 
     # No temporary presentation module creation - presentation analyzed as part of `lib/`
 
