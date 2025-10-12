@@ -109,6 +109,22 @@ jobs:
         echo "📁 Final coverage structure:"
         find . -name "*.lcov*" -o -name "lcov.info" | head -10
 
+    - name: Prepare temporary presentation module for Sonar
+      run: |
+        echo "📦 Creating temporary presentation/ module for Sonar analysis"
+        rm -rf presentation || true
+        mkdir -p presentation/lib
+        # Copy sources (if any) into temporary module
+        if [ -d "lib/src/presentation" ]; then
+          cp -R lib/src/presentation/* presentation/lib/ || true
+        fi
+        # Copy presentation tests if present
+        if [ -d "test/presentation" ]; then
+          mkdir -p presentation/test
+          cp -R test/presentation/* presentation/test/ || true
+        fi
+        ls -la presentation || true
+
     - name: SonarCloud Scan with Module Support
       uses: SonarSource/sonarcloud-github-action@master
       env:
