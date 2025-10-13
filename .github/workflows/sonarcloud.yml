@@ -109,37 +109,7 @@ jobs:
         echo "📁 Final coverage structure:"
         find . -name "*.lcov*" -o -name "lcov.info" | head -10
 
-    - name: Debug coverage artifacts
-      run: |
-        echo "== Coverage files in workspace =="
-        du -h coverage || true
-        du -h module/domain/coverage || true
-        du -h module/infrastructure/coverage || true
-
-        echo "== Head of combined/filtered LCOV (if present) =="
-        if [ -f coverage/combined.lcov ]; then
-          echo "--- coverage/combined.lcov (first 50 lines) ---"
-          head -n 50 coverage/combined.lcov || true
-        else
-          echo "coverage/combined.lcov not found"
-        fi
-
-        if [ -f coverage/filtered.lcov ]; then
-          echo "--- coverage/filtered.lcov (first 50 lines) ---"
-          head -n 50 coverage/filtered.lcov || true
-        else
-          echo "coverage/filtered.lcov not found"
-        fi
-
-        echo "== Content of module lcovs (first 20 lines) =="
-        if [ -f module/domain/coverage/lcov.info ]; then
-          echo "--- module/domain/coverage/lcov.info ---"
-          head -n 20 module/domain/coverage/lcov.info || true
-        fi
-        if [ -f module/infrastructure/coverage/lcov.info ]; then
-          echo "--- module/infrastructure/coverage/lcov.info ---"
-          head -n 20 module/infrastructure/coverage/lcov.info || true
-        fi
+    # Debug step removed: coverage artifacts are now passed directly to Sonar
 
     # Normalize LCOV step removed: module LCOVs + filtered.lcov are provided directly to Sonar
 
