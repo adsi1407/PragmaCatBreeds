@@ -28,7 +28,7 @@ jobs:
         dart-version: [stable]
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Cache pub packages
         uses: actions/cache@v4
@@ -221,7 +221,7 @@ jobs:
       startsWith(github.ref, 'refs/heads/release/')
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -253,7 +253,7 @@ jobs:
     if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download release artifacts
         uses: actions/download-artifact@v4
