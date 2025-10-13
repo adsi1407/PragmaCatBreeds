@@ -123,6 +123,29 @@ All workflows provide automated comments with:
 - Use `/retry` in PR comments to retrigger failed workflows
 - Skip security scans with `[skip security]` in commit message (not recommended)
 
+### Dependabot interaction guide (quick)
+
+- When a Dependabot PR is opened:
+	1. Check the PR author — it should be `dependabot[bot]`.
+	2. Read the auto-generated comment to see update type (patch/minor/major) and quick analysis.
+	3. For patch updates, the workflow may auto-merge once checks pass. For minor/major, assign reviewers.
+
+- If a Dependabot PR fails CI:
+	1. Open the Actions run for that PR and inspect the failing job logs (click the failing step to see details).
+	2. Check test failures vs flakiness: run the tests locally (or in a local container) reproducing the same command the job uses.
+	3. If failures are flakes (network issues, transient external service), comment `@dependabot retry` on the PR to re-run checks.
+	4. If failures are real (breaking changes in dependency):
+		 - Pin a compatible version or update calling code to the new API.
+		 - If the dependency introduces breaking change, request manual review and test thoroughly before merging.
+	5. If the PR cannot be fixed immediately, comment `@dependabot pause` to prevent auto-merge and assign someone to follow up.
+
+- For security updates that fail CI: treat them as high priority — fix tests or apply a temporary workaround, then re-run checks and prioritize merging.
+
+Examples of useful PR comments:
+- `@dependabot retry` — re-run checks on this PR
+- `@dependabot pause` — pause auto-merge until a reviewer confirms
+- `@dependabot merge` — request auto-merge after manual approval (for minor updates)
+
 ## 📈 **Monitoring**
 
 ### **Dashboards**
